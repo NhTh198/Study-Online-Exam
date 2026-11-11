@@ -1,0 +1,234 @@
+@model Study.ViewModels.AdminSubjectViewModel
+
+@{
+    ViewData["Title"] = "Sửa môn học";
+}
+
+<style>
+    .subject-form-page {
+        width: 100%;
+        min-height: calc(100vh - 150px);
+        padding: 40px 5%;
+        background: #f8fafc;
+        box-sizing: border-box;
+    }
+
+    .form-card {
+        max-width: 800px;
+        margin: 0 auto;
+        background: white;
+        border-radius: 16px;
+        padding: 35px;
+        box-shadow: 0 4px 20px rgba(15, 23, 42, 0.07);
+    }
+
+    .form-title {
+        margin-bottom: 30px;
+    }
+
+        .form-title h1 {
+            margin: 0;
+            font-size: 28px;
+            color: #0f172a;
+        }
+
+        .form-title p {
+            margin-top: 8px;
+            color: #64748b;
+        }
+
+    .form-group {
+        margin-bottom: 20px;
+    }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #334155;
+        }
+
+    .form-control {
+        width: 100%;
+        padding: 12px 14px;
+        border: 1px solid #cbd5e1;
+        border-radius: 9px;
+        font-size: 15px;
+        box-sizing: border-box;
+        outline: none;
+    }
+
+        .form-control:focus {
+            border-color: #2563eb;
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+
+    textarea.form-control {
+        resize: vertical;
+        min-height: 120px;
+    }
+
+    .text-danger {
+        display: block;
+        margin-top: 6px;
+        color: #dc2626;
+        font-size: 14px;
+    }
+
+    .validation-summary {
+        margin-bottom: 20px;
+        padding: 12px 15px;
+        border-radius: 9px;
+        background: #fee2e2;
+        color: #991b1b;
+    }
+
+    .form-actions {
+        display: flex;
+        gap: 10px;
+        margin-top: 30px;
+    }
+
+    .btn-save {
+        border: none;
+        padding: 12px 22px;
+        border-radius: 9px;
+        background: #2563eb;
+        color: white;
+        font-weight: 600;
+        cursor: pointer;
+    }
+
+        .btn-save:hover {
+            background: #1d4ed8;
+        }
+
+    .btn-cancel {
+        display: inline-flex;
+        align-items: center;
+        padding: 12px 22px;
+        border-radius: 9px;
+        background: #e2e8f0;
+        color: #334155;
+        text-decoration: none;
+        font-weight: 600;
+    }
+
+        .btn-cancel:hover {
+            background: #cbd5e1;
+        }
+
+    @@media (max-width: 600px) {
+        .subject-form-page {
+            padding: 25px 15px;
+        }
+
+        .form-card {
+            padding: 25px 20px;
+        }
+
+        .form-actions {
+            flex-direction: column;
+        }
+
+        .btn-save,
+        .btn-cancel {
+            justify-content: center;
+        }
+    }
+</style>
+
+<div class="subject-form-page">
+
+    <div class="form-card">
+
+        <div class="form-title">
+            <h1>Sửa môn học</h1>
+            <p>Cập nhật thông tin môn học.</p>
+        </div>
+
+        <form asp-controller="AdminSubject"
+              asp-action="EditSubject"
+              method="post">
+
+            @Html.AntiForgeryToken()
+
+            <input type="hidden"
+                   asp-for="Id" />
+
+            <div asp-validation-summary="ModelOnly"
+                 class="validation-summary"></div>
+
+
+            <div class="form-group">
+
+                <label asp-for="Name">
+                    Tên môn học
+                </label>
+
+                <input asp-for="Name"
+                       class="form-control" />
+
+                <span asp-validation-for="Name"
+                      class="text-danger"></span>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label asp-for="Code">
+                    Mã môn học
+                </label>
+
+                <input asp-for="Code"
+                       class="form-control"
+                       style="text-transform: uppercase;" />
+
+                <span asp-validation-for="Code"
+                      class="text-danger"></span>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label asp-for="Description">
+                    Mô tả
+                </label>
+
+                <textarea asp-for="Description"
+                          class="form-control"></textarea>
+
+                <span asp-validation-for="Description"
+                      class="text-danger"></span>
+
+            </div>
+
+
+            <div class="form-actions">
+
+                <button type="submit"
+                        class="btn-save">
+                    Lưu thay đổi
+                </button>
+
+                <a asp-controller="AdminSubject"
+                   asp-action="Subjects"
+                   class="btn-cancel">
+                    Hủy
+                </a>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
