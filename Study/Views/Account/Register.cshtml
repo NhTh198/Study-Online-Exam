@@ -1,0 +1,208 @@
+﻿
+@model Study.ViewModels.RegisterViewModel
+
+@{
+    ViewData["Title"] = "Đăng ký";
+}
+
+<style>
+    .register-page {
+        min-height: 75vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 40px 20px;
+    }
+
+    .register-card {
+        width: 100%;
+        max-width: 480px;
+        background: white;
+        padding: 35px;
+        border-radius: 16px;
+        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.10);
+    }
+
+    .register-title {
+        text-align: center;
+        color: #1565c0;
+        margin-bottom: 8px;
+    }
+
+    .register-subtitle {
+        text-align: center;
+        color: #777;
+        margin-bottom: 25px;
+    }
+
+    .form-group {
+        margin-bottom: 18px;
+    }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 7px;
+            font-weight: 600;
+            color: #333;
+        }
+
+    .form-control {
+        width: 100%;
+        padding: 12px 14px;
+        border: 1px solid #ccc;
+        border-radius: 8px;
+        font-size: 15px;
+        box-sizing: border-box;
+    }
+
+        .form-control:focus {
+            outline: none;
+            border-color: #1976d2;
+            box-shadow: 0 0 0 3px rgba(25, 118, 210, 0.10);
+        }
+
+    .text-danger {
+        color: #d32f2f;
+        font-size: 14px;
+        margin-top: 5px;
+        display: block;
+    }
+
+    .validation-summary {
+        color: #d32f2f;
+        margin-bottom: 15px;
+    }
+
+    .btn-register {
+        width: 100%;
+        border: none;
+        background: #1976d2;
+        color: white;
+        padding: 13px;
+        border-radius: 8px;
+        font-size: 16px;
+        font-weight: 600;
+        cursor: pointer;
+    }
+
+        .btn-register:hover {
+            background: #1565c0;
+        }
+
+    .login-link {
+        text-align: center;
+        margin-top: 20px;
+        color: #666;
+    }
+
+        .login-link a {
+            color: #1976d2;
+            font-weight: 600;
+            text-decoration: none;
+        }
+</style>
+
+<div class="register-page">
+
+    <div class="register-card">
+
+        <h1 class="register-title">
+            🎓 Đăng ký tài khoản
+        </h1>
+
+        <p class="register-subtitle">
+            Tạo tài khoản Student để bắt đầu học tập
+        </p>
+
+        <form asp-controller="Account"
+              asp-action="Register"
+              method="post">
+
+            @Html.AntiForgeryToken()
+
+            <div asp-validation-summary="ModelOnly"
+                 class="validation-summary">
+            </div>
+
+            <div class="form-group">
+
+                <label asp-for="FullName"></label>
+
+                <input asp-for="FullName"
+                       class="form-control"
+                       placeholder="Nhập họ và tên" />
+
+                <span asp-validation-for="FullName"
+                      class="text-danger">
+                </span>
+
+            </div>
+
+            <div class="form-group">
+
+                <label asp-for="Email"></label>
+
+                <input asp-for="Email"
+                       class="form-control"
+                       placeholder="example@gmail.com"
+                       type="email" />
+
+                <span asp-validation-for="Email"
+                      class="text-danger">
+                </span>
+
+            </div>
+
+            <div class="form-group">
+
+                <label asp-for="Password"></label>
+
+                <input asp-for="Password"
+                       class="form-control"
+                       placeholder="Ít nhất 6 ký tự" />
+
+                <span asp-validation-for="Password"
+                      class="text-danger">
+                </span>
+
+            </div>
+
+            <div class="form-group">
+
+                <label asp-for="ConfirmPassword"></label>
+
+                <input asp-for="ConfirmPassword"
+                       class="form-control"
+                       placeholder="Nhập lại mật khẩu" />
+
+                <span asp-validation-for="ConfirmPassword"
+                      class="text-danger">
+                </span>
+
+            </div>
+
+            <button type="submit"
+                    class="btn-register">
+                🚀 Đăng ký
+            </button>
+
+        </form>
+
+        <div class="login-link">
+
+            Đã có tài khoản?
+
+            <a asp-controller="Account"
+               asp-action="Login">
+                Đăng nhập
+            </a>
+
+        </div>
+
+    </div>
+
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

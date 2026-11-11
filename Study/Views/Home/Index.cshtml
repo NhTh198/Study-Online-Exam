@@ -1,0 +1,379 @@
+﻿
+@{
+    ViewData["Title"] = "Trang chủ";
+}
+
+<style>
+
+    /* =====================================================
+           HOME
+           ===================================================== */
+
+    .study-home {
+        width: 100%;
+        overflow: hidden;
+    }
+
+
+    /* =====================================================
+           HERO
+           ===================================================== */
+
+    .study-hero {
+        width: 100%;
+        min-height: 520px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        padding: 80px 5%;
+        background: linear-gradient( 135deg, #eff6ff 0%, #ffffff 50%, #dbeafe 100% );
+    }
+
+
+    .hero-content {
+        width: 100%;
+        max-width: 1100px;
+        margin: 0 auto;
+    }
+
+
+    .hero-badge {
+        display: inline-block;
+        padding: 8px 18px;
+        margin-bottom: 25px;
+        border-radius: 999px;
+        background: #dbeafe;
+        color: #1d4ed8;
+        font-size: 14px;
+        font-weight: 600;
+        letter-spacing: .5px;
+    }
+
+
+    .hero-title {
+        margin: 0;
+        font-size: clamp(34px, 5vw, 58px);
+        line-height: 1.15;
+        font-weight: 800;
+        color: #1d4ed8;
+        letter-spacing: -1px;
+    }
+
+
+    .hero-subtitle {
+        margin: 24px 0 0;
+        font-size: clamp(17px, 2vw, 22px);
+        color: #64748b;
+    }
+
+
+    /* =====================================================
+           GIỚI THIỆU
+           ===================================================== */
+
+    .study-about {
+        width: 100%;
+        padding: 90px 5%;
+        background: #ffffff;
+        text-align: center;
+    }
+
+
+    .about-content {
+        width: 100%;
+        max-width: 1000px;
+        margin: 0 auto;
+    }
+
+
+    .section-title {
+        margin: 0;
+        font-size: clamp(28px, 3vw, 36px);
+        font-weight: 750;
+        color: #0f172a;
+    }
+
+
+        .section-title::after {
+            content: "";
+            display: block;
+            width: 55px;
+            height: 4px;
+            margin: 16px auto 0;
+            border-radius: 10px;
+            background: #2563eb;
+        }
+
+
+    .about-text {
+        width: 100%;
+        max-width: 780px;
+        margin: 28px auto 0;
+        font-size: clamp(16px, 1.5vw, 19px);
+        line-height: 1.8;
+        color: #64748b;
+    }
+
+
+    /* =====================================================
+           CTA
+           ===================================================== */
+
+    .study-cta {
+        width: 100%;
+        padding: 85px 5%;
+        background: #eff6ff;
+        text-align: center;
+    }
+
+
+    .cta-title {
+        margin: 0 0 28px;
+        font-size: clamp(28px, 3vw, 36px);
+        font-weight: 750;
+        color: #1e3a8a;
+    }
+
+
+    .cta-button {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-width: 190px;
+        padding: 14px 28px;
+        border-radius: 8px;
+        background: #2563eb;
+        border: 1px solid #2563eb;
+        color: #ffffff;
+        text-decoration: none;
+        font-size: 16px;
+        font-weight: 600;
+        transition: .2s ease;
+    }
+
+
+        .cta-button:hover {
+            background: #1d4ed8;
+            border-color: #1d4ed8;
+            color: #ffffff;
+            transform: translateY(-2px);
+        }
+
+
+    /* =====================================================
+           TABLET
+           ===================================================== */
+
+    @@media (max-width: 900px) {
+
+        .study-hero {
+            min-height: 460px;
+            padding: 70px 5%;
+        }
+
+
+        .study-about {
+            padding: 75px 5%;
+        }
+
+
+        .study-cta {
+            padding: 70px 5%;
+        }
+    }
+
+
+    /* =====================================================
+           MOBILE
+           ===================================================== */
+
+    @@media (max-width: 600px) {
+
+        .study-hero {
+            min-height: 420px;
+            padding: 60px 20px;
+        }
+
+
+        .hero-badge {
+            font-size: 12px;
+            padding: 7px 14px;
+            margin-bottom: 20px;
+        }
+
+
+        .hero-title {
+            font-size: 32px;
+        }
+
+
+        .hero-subtitle {
+            margin-top: 18px;
+            font-size: 17px;
+        }
+
+
+        .study-about {
+            padding: 65px 20px;
+        }
+
+
+        .section-title {
+            font-size: 28px;
+        }
+
+
+        .about-text {
+            font-size: 16px;
+            line-height: 1.75;
+        }
+
+
+        .study-cta {
+            padding: 65px 20px;
+        }
+
+
+        .cta-title {
+            font-size: 28px;
+        }
+
+
+        .cta-button {
+            width: 100%;
+            max-width: 260px;
+        }
+    }
+
+
+    /* =====================================================
+           SMALL PHONE
+           ===================================================== */
+
+    @@media (max-width: 380px) {
+
+        .study-hero {
+            padding-left: 16px;
+            padding-right: 16px;
+        }
+
+
+        .hero-title {
+            font-size: 28px;
+        }
+
+
+        .hero-subtitle {
+            font-size: 16px;
+        }
+
+
+        .study-about,
+        .study-cta {
+            padding-left: 16px;
+            padding-right: 16px;
+        }
+    }
+
+</style>
+
+
+<div class="study-home">
+
+
+    <!-- =================================================
+         HERO
+         ================================================= -->
+
+    <section class="study-hero">
+
+        <div class="hero-content">
+
+
+            <div class="hero-badge">
+
+                STUDY ONLINE EXAMINATION SYSTEM
+
+            </div>
+
+
+            <h1 class="hero-title">
+
+                HỆ THỐNG THI TRỰC TUYẾN
+
+            </h1>
+
+
+            <p class="hero-subtitle">
+
+                Học tập • Kiểm tra • Kết quả
+
+            </p>
+
+
+        </div>
+
+    </section>
+
+
+    <!-- =================================================
+         GIỚI THIỆU
+         ================================================= -->
+
+    <section class="study-about">
+
+        <div class="about-content">
+
+
+            <h2 class="section-title">
+
+                GIỚI THIỆU
+
+            </h2>
+
+
+            <p class="about-text">
+
+                Study là hệ thống hỗ trợ tổ chức và tham gia
+                các kỳ thi trực tuyến một cách thuận tiện,
+                nhanh chóng và hiệu quả. Hệ thống giúp
+                giảng viên quản lý kỳ thi, sinh viên tham gia
+                làm bài trực tuyến và theo dõi kết quả sau
+                khi hoàn thành.
+
+            </p>
+
+
+        </div>
+
+    </section>
+
+
+    <!-- =================================================
+         CTA
+         ================================================= -->
+
+    <section class="study-cta">
+
+
+        <h2 class="cta-title">
+
+            SẴN SÀNG BẮT ĐẦU?
+
+        </h2>
+
+
+        <a asp-controller="Account"
+           asp-action="Login"
+           class="cta-button">
+
+            ĐĂNG NHẬP NGAY
+
+        </a>
+
+
+    </section>
+
+
+</div>

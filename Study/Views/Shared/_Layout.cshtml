@@ -1,0 +1,74 @@
+@{
+    var fullName = Context.Session.GetString("FullName");
+    var role = Context.Session.GetString("Role");
+    var isAdmin = role == "Admin";
+}
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Study</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/Study.styles.css" asp-append-version="true" />
+    <style>
+        body{font-family:"Segoe UI",Arial,sans-serif;background:#f8fafc;color:#0f172a;margin:0}
+        .study-navbar{background:#fff;border-bottom:1px solid #e2e8f0;box-shadow:0 2px 8px rgba(15,23,42,.05)}
+        .navbar-container{width:100%;padding:0 4%;display:flex;align-items:center}
+        .study-logo{color:#2563eb!important;font-size:25px;font-weight:800;letter-spacing:1px;text-decoration:none}
+        .navbar-nav .nav-link{color:#334155;font-size:15px;font-weight:600;padding:12px 14px!important}
+        .navbar-nav .nav-link:hover{color:#2563eb}
+        .study-right{display:flex;align-items:center;gap:12px}
+        .user-info{display:flex;align-items:center;gap:10px;padding:6px 10px;border-radius:8px;background:#f8fafc;border:1px solid #e2e8f0}
+        .user-avatar{width:34px;height:34px;border-radius:50%;background:#dbeafe;color:#2563eb;display:flex;align-items:center;justify-content:center}
+        .user-details{display:flex;flex-direction:column;line-height:1.2}.user-name{font-size:13px;font-weight:700}.user-role{font-size:11px;color:#64748b;margin-top:3px}
+        .logout-button,.login-button{display:inline-flex;align-items:center;justify-content:center;padding:9px 15px;border-radius:7px;text-decoration:none;font-size:13px;font-weight:700;white-space:nowrap}
+        .logout-button{background:#fee2e2;border:1px solid #fecaca;color:#b91c1c}.login-button{background:#2563eb;border:1px solid #2563eb;color:#fff}
+        .study-main{width:100%;min-height:400px}
+        .study-footer{background:#0f172a;color:#cbd5e1;padding:34px 5% 20px;margin-top:30px}
+        .footer-container{max-width:1300px;margin:0 auto}.footer-row{display:flex;justify-content:space-between;gap:25px;flex-wrap:wrap}.footer-brand h3{color:#fff;font-weight:800}.footer-brand p{max-width:550px;margin:8px 0 0;color:#94a3b8}.footer-links{display:flex;gap:18px;flex-wrap:wrap;align-items:center}.footer-links a{color:#cbd5e1;text-decoration:none}.footer-links a:hover{color:#fff}.footer-bottom{border-top:1px solid #334155;margin-top:25px;padding-top:15px;text-align:center;color:#94a3b8;font-size:13px}
+        @@media(max-width:767px){.navbar-container{padding:8px 4%}.study-right{padding:10px 0}.footer-row{display:block}.footer-links{margin-top:18px}}
+    </style>
+</head>
+<body>
+<header>
+<nav class="navbar navbar-expand-md study-navbar">
+ <div class="navbar-container">
+  <a class="study-logo" asp-controller="Home" asp-action="Index">STUDY</a>
+  <button class="navbar-toggler ms-auto" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavbar" aria-controls="mainNavbar" aria-expanded="false" aria-label="Mở menu"><span class="navbar-toggler-icon"></span></button>
+  <div class="collapse navbar-collapse" id="mainNavbar">
+   <ul class="navbar-nav me-auto ms-md-4 mb-2 mb-md-0">
+    <li class="nav-item"><a class="nav-link" asp-controller="Home" asp-action="Index">Trang chủ</a></li>
+    @if(isAdmin){
+     <li class="nav-item"><a class="nav-link" asp-controller="Admin" asp-action="Subject">Quản lý môn học</a></li>
+     <li class="nav-item"><a class="nav-link" asp-controller="Admin" asp-action="Lecturers">Phân công môn học</a></li>
+    }
+   </ul>
+   <div class="study-right">
+    @if(!string.IsNullOrWhiteSpace(fullName)){
+     <div class="user-info"><div class="user-avatar">👤</div><div class="user-details"><div class="user-name">@fullName</div><div class="user-role">@role</div></div></div>
+     <form asp-controller="Account" asp-action="Logout" method="post" class="m-0">
+      @Html.AntiForgeryToken()
+      <button type="submit" class="logout-button">Đăng xuất</button>
+     </form>
+    }else{
+     <a asp-controller="Account" asp-action="Login" class="login-button">Đăng nhập</a>
+    }
+   </div>
+  </div>
+ </div>
+</nav>
+</header>
+<main role="main" class="study-main">@RenderBody()</main>
+<footer class="study-footer"><div class="footer-container">
+ <div class="footer-row"><div class="footer-brand"><h3>STUDY</h3><p>Phạm vi phiên bản: Trang chủ, quản lý môn học và phân công môn học cho giảng viên.</p></div>
+ <div class="footer-links"><a asp-controller="Home" asp-action="Index">Trang chủ</a>@if(isAdmin){<a asp-controller="Admin" asp-action="Subject">Quản lý môn học</a><a asp-controller="Admin" asp-action="Lecturers">Phân công môn học</a>}</div></div>
+ <div class="footer-bottom">© 2026 STUDY. All rights reserved.</div>
+</div></footer>
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+<script src="~/js/site.js" asp-append-version="true"></script>
+@await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>
