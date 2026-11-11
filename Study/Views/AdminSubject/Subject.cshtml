@@ -1,0 +1,400 @@
+@model List<Study.Models.Subject>
+
+@{
+    ViewData["Title"] = "Quản lý môn học";
+}
+
+<style>
+    .subject-page {
+        width: 100%;
+        min-height: calc(100vh - 150px);
+        padding: 40px 5%;
+        background: #f8fafc;
+        box-sizing: border-box;
+    }
+
+    .subject-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 20px;
+        margin-bottom: 25px;
+    }
+
+    .subject-title h1 {
+        margin: 0;
+        color: #0f172a;
+        font-size: 30px;
+    }
+
+    .subject-title p {
+        margin: 8px 0 0;
+        color: #64748b;
+    }
+
+    .btn-add {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 12px 20px;
+        border-radius: 10px;
+        background: #2563eb;
+        color: white;
+        text-decoration: none;
+        font-weight: 600;
+        border: none;
+        cursor: pointer;
+    }
+
+        .btn-add:hover {
+            background: #1d4ed8;
+            color: white;
+        }
+
+    .alert {
+        padding: 14px 18px;
+        border-radius: 10px;
+        margin-bottom: 20px;
+        font-weight: 500;
+    }
+
+    .alert-success {
+        background: #dcfce7;
+        color: #166534;
+    }
+
+    .alert-error {
+        background: #fee2e2;
+        color: #991b1b;
+    }
+
+    .subject-card {
+        background: white;
+        border-radius: 16px;
+        box-shadow: 0 4px 15px rgba(15, 23, 42, 0.06);
+        overflow: hidden;
+    }
+
+    .subject-table-wrapper {
+        width: 100%;
+        overflow-x: auto;
+    }
+
+    .subject-table {
+        width: 100%;
+        border-collapse: collapse;
+        min-width: 850px;
+    }
+
+        .subject-table th {
+            background: #eff6ff;
+            color: #1e3a8a;
+            font-size: 14px;
+            text-align: left;
+            padding: 16px;
+            white-space: nowrap;
+        }
+
+        .subject-table td {
+            padding: 16px;
+            border-top: 1px solid #e2e8f0;
+            color: #334155;
+            vertical-align: middle;
+        }
+
+        .subject-table tr:hover {
+            background: #f8fafc;
+        }
+
+    .subject-code {
+        display: inline-block;
+        padding: 6px 10px;
+        border-radius: 7px;
+        background: #dbeafe;
+        color: #1d4ed8;
+        font-weight: 700;
+        font-size: 13px;
+    }
+
+    .subject-name {
+        font-weight: 600;
+        color: #0f172a;
+    }
+
+    .status {
+        display: inline-block;
+        padding: 6px 11px;
+        border-radius: 20px;
+        font-size: 13px;
+        font-weight: 600;
+    }
+
+    .status-active {
+        background: #dcfce7;
+        color: #166534;
+    }
+
+    .status-locked {
+        background: #fee2e2;
+        color: #991b1b;
+    }
+
+    .actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 7px;
+    }
+
+    .action-btn {
+        border: none;
+        border-radius: 7px;
+        padding: 8px 11px;
+        font-size: 13px;
+        font-weight: 600;
+        cursor: pointer;
+        text-decoration: none;
+        display: inline-block;
+    }
+
+    .btn-edit {
+        background: #dbeafe;
+        color: #1d4ed8;
+    }
+
+        .btn-edit:hover {
+            background: #bfdbfe;
+        }
+
+    .btn-lock {
+        background: #fef3c7;
+        color: #92400e;
+    }
+
+    .btn-unlock {
+        background: #dcfce7;
+        color: #166534;
+    }
+
+    .btn-delete {
+        background: #fee2e2;
+        color: #b91c1c;
+    }
+
+        .btn-delete:hover {
+            background: #fecaca;
+        }
+
+    .empty-state {
+        padding: 60px 20px;
+        text-align: center;
+        color: #64748b;
+    }
+
+        .empty-state .icon {
+            font-size: 45px;
+            margin-bottom: 10px;
+        }
+
+    @@media (max-width: 768px) {
+        .subject-page {
+            padding: 25px 15px;
+        }
+
+        .subject-header {
+            flex-direction: column;
+            align-items: stretch;
+        }
+
+        .subject-title h1 {
+            font-size: 25px;
+        }
+
+        .btn-add {
+            justify-content: center;
+        }
+    }
+</style>
+
+<div class="subject-page">
+
+    <div class="subject-header">
+
+        <div class="subject-title">
+            <h1>Quản lý môn học</h1>
+            <p>Admin thêm, chỉnh sửa và quản lý các môn học trong hệ thống.</p>
+        </div>
+
+        <a asp-controller="AdminSubject"
+           asp-action="CreateSubject"
+           class="btn-add">
+            + Thêm môn học
+        </a>
+
+    </div>
+
+
+    @if (TempData["Success"] != null)
+    {
+        <div class="alert alert-success">
+            @TempData["Success"]
+        </div>
+    }
+
+    @if (TempData["Error"] != null)
+    {
+        <div class="alert alert-error">
+            @TempData["Error"]
+        </div>
+    }
+
+
+    <div class="subject-card">
+
+        @if (Model == null || !Model.Any())
+        {
+            <div class="empty-state">
+
+                <div class="icon">📚</div>
+
+                <h3>Chưa có môn học</h3>
+
+                <p>
+                    Hãy thêm môn học đầu tiên cho hệ thống.
+                </p>
+
+            </div>
+        }
+        else
+        {
+            <div class="subject-table-wrapper">
+
+                <table class="subject-table">
+
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Mã môn</th>
+                            <th>Tên môn học</th>
+                            <th>Mô tả</th>
+                            <th>Trạng thái</th>
+                            <th>Thao tác</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+
+                        @foreach (var subject in Model)
+                        {
+                            <tr>
+
+                                <td>
+                                    @subject.Id
+                                </td>
+
+                                <td>
+                                    <span class="subject-code">
+                                        @subject.Code
+                                    </span>
+                                </td>
+
+                                <td>
+                                    <span class="subject-name">
+                                        @subject.Name
+                                    </span>
+                                </td>
+
+                                <td>
+                                    @(string.IsNullOrWhiteSpace(subject.Description)
+                                                                ? "—"
+                                                                : subject.Description)
+                        </td>
+
+                                <td>
+
+                            @if (subject.IsActive)
+                                    {
+                                        <span class="status status-active">
+                                            Đang hoạt động
+                                        </span>
+                                    }
+                                    else
+                                    {
+                                        <span class="status status-locked">
+                                            Đã khóa
+                                        </span>
+                                    }
+
+                                </td>
+
+                                <td>
+
+                                    <div class="actions">
+
+                                        <a asp-controller="AdminSubject"
+                                           asp-action="EditSubject"
+                                           asp-route-id="@subject.Id"
+                                           class="action-btn btn-edit">
+                                            Sửa
+                                        </a>
+
+
+                                        <form asp-controller="AdminSubject"
+                                              asp-action="ToggleSubjectActive"
+                                              asp-route-id="@subject.Id"
+                                              method="post"
+                                              style="display:inline;">
+
+                                            @Html.AntiForgeryToken()
+
+                                            @if (subject.IsActive)
+                                            {
+                                                <button type="submit"
+                                                        class="action-btn btn-lock"
+                                                        onclick="return confirm('Bạn có chắc muốn khóa môn học này?');">
+                                                    Khóa
+                                                </button>
+                                            }
+                                            else
+                                            {
+                                                <button type="submit"
+                                                        class="action-btn btn-unlock">
+                                                    Mở khóa
+                                                </button>
+                                            }
+
+                                        </form>
+
+
+                                        <form asp-controller="AdminSubject"
+                                              asp-action="DeleteSubject"
+                                              asp-route-id="@subject.Id"
+                                              method="post"
+                                              style="display:inline;">
+
+                                            @Html.AntiForgeryToken()
+
+                                            <button type="submit"
+                                                    class="action-btn btn-delete"
+                                                    onclick="return confirm('Bạn có chắc muốn xóa môn học này?');">
+                                                Xóa
+                                            </button>
+
+                                        </form>
+
+                                    </div>
+
+                                </td>
+
+                            </tr>
+                        }
+
+                    </tbody>
+
+                </table>
+
+            </div>
+        }
+
+    </div>
+
+</div>
