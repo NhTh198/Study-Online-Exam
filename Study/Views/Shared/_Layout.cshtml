@@ -1,0 +1,994 @@
+﻿
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+
+    <meta charset="utf-8" />
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0" />
+
+    <title>@ViewData["Title"] - Study</title>
+
+    <!-- Bootstrap -->
+    <link rel="stylesheet"
+          href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+
+    <!-- Site CSS -->
+    <link rel="stylesheet"
+          href="~/css/site.css"
+          asp-append-version="true" />
+
+    <link rel="stylesheet"
+          href="~/Study.styles.css"
+          asp-append-version="true" />
+
+
+    <style>
+
+        /* =====================================================
+                           GLOBAL
+                           ===================================================== */
+
+        html,
+        body {
+            width: 100%;
+            min-height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: "Segoe UI", Arial, sans-serif;
+            background: #f8fafc;
+            color: #0f172a;
+        }
+
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+        }
+
+
+        /* =====================================================
+                           HEADER
+                           ===================================================== */
+
+        .study-navbar {
+            width: 100%;
+            min-height: 70px;
+            background: #ffffff;
+            border-bottom: 1px solid #e2e8f0;
+            box-shadow: 0 2px 8px rgba(15, 23, 42, 0.05);
+            position: relative;
+            z-index: 1000;
+        }
+
+            .study-navbar .navbar-container {
+                width: 100%;
+                padding: 0 4%;
+                display: flex;
+                align-items: center;
+            }
+
+
+        /* =====================================================
+                           LOGO
+                           ===================================================== */
+
+        .study-logo {
+            color: #2563eb !important;
+            font-size: 25px;
+            font-weight: 800;
+            letter-spacing: 1px;
+            text-decoration: none;
+            flex-shrink: 0;
+        }
+
+            .study-logo:hover {
+                color: #1d4ed8 !important;
+            }
+
+
+        /* =====================================================
+                           NAVIGATION
+                           ===================================================== */
+
+        .study-navbar .nav-link {
+            color: #334155;
+            font-size: 15px;
+            font-weight: 500;
+            padding: 10px 14px !important;
+            transition: color 0.2s ease;
+            white-space: nowrap;
+        }
+
+            .study-navbar .nav-link:hover {
+                color: #2563eb;
+            }
+
+            .study-navbar .nav-link.active {
+                color: #2563eb;
+                font-weight: 600;
+            }
+
+
+        /* =====================================================
+                           RIGHT MENU
+                           ===================================================== */
+
+        .study-right {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-shrink: 0;
+        }
+
+
+        /* =====================================================
+                           NOTIFICATION
+                           ===================================================== */
+
+        .notification-link {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            color: #334155;
+            text-decoration: none;
+            font-size: 19px;
+            flex-shrink: 0;
+            transition: background 0.2s ease, color 0.2s ease;
+        }
+
+            .notification-link:hover {
+                background: #eff6ff;
+                color: #2563eb;
+            }
+
+
+        /* =====================================================
+                           USER INFO
+                           ===================================================== */
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 6px 10px;
+            border-radius: 8px;
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            white-space: nowrap;
+        }
+
+        .user-avatar {
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+            background: #dbeafe;
+            color: #2563eb;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            font-weight: 700;
+        }
+
+        .user-details {
+            display: flex;
+            flex-direction: column;
+            line-height: 1.2;
+        }
+
+        .user-name {
+            color: #0f172a;
+            font-size: 13px;
+            font-weight: 700;
+        }
+
+        .user-role {
+            color: #64748b;
+            font-size: 11px;
+            margin-top: 3px;
+        }
+
+
+        /* =====================================================
+                           LOGOUT
+                           ===================================================== */
+
+        .logout-button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 8px 14px;
+            border-radius: 7px;
+            background: #fee2e2;
+            border: 1px solid #fecaca;
+            color: #b91c1c !important;
+            font-size: 13px;
+            font-weight: 600;
+            text-decoration: none;
+            white-space: nowrap;
+            transition: background 0.2s ease, transform 0.2s ease;
+        }
+
+            .logout-button:hover {
+                background: #fecaca;
+                color: #991b1b !important;
+                transform: translateY(-1px);
+            }
+
+
+        /* =====================================================
+                           LOGIN
+                           ===================================================== */
+
+        .login-button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 120px;
+            padding: 9px 20px;
+            border-radius: 7px;
+            background: #2563eb;
+            border: 1px solid #2563eb;
+            color: #ffffff !important;
+            font-size: 14px;
+            font-weight: 600;
+            text-decoration: none;
+            white-space: nowrap;
+            flex-shrink: 0;
+            transition: background 0.2s ease, transform 0.2s ease;
+        }
+
+            .login-button:hover {
+                background: #1d4ed8;
+                border-color: #1d4ed8;
+                color: #ffffff !important;
+                transform: translateY(-1px);
+            }
+
+
+        /* =====================================================
+                           MAIN
+                           ===================================================== */
+
+        .study-main {
+            width: 100%;
+            min-height: 400px;
+        }
+
+
+        /* =====================================================
+                           FOOTER
+                           ===================================================== */
+
+        .study-footer {
+            width: 100%;
+            background: #0f172a;
+            color: #cbd5e1;
+            padding: 60px 5% 25px;
+            margin: 0;
+        }
+
+        .footer-container {
+            width: 100%;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+
+        /* Footer grid */
+
+        .footer-grid {
+            width: 100%;
+            display: grid;
+            grid-template-columns: 1.7fr 1fr 1fr 1fr;
+            gap: 60px;
+            padding-bottom: 45px;
+        }
+
+
+        /* Brand */
+
+        .footer-brand h3 {
+            margin: 0 0 15px;
+            color: #ffffff;
+            font-size: 27px;
+            font-weight: 800;
+            letter-spacing: 1px;
+        }
+
+        .footer-brand p {
+            max-width: 360px;
+            margin: 0;
+            color: #94a3b8;
+            font-size: 14px;
+            line-height: 1.8;
+        }
+
+
+        /* Footer columns */
+
+        .footer-column h4 {
+            margin: 0 0 18px;
+            color: #ffffff;
+            font-size: 16px;
+            font-weight: 650;
+        }
+
+        .footer-column a {
+            display: block;
+            width: fit-content;
+            margin-bottom: 12px;
+            color: #94a3b8;
+            font-size: 14px;
+            text-decoration: none;
+            transition: color 0.2s ease, transform 0.2s ease;
+        }
+
+            .footer-column a:hover {
+                color: #ffffff;
+                transform: translateX(3px);
+            }
+
+
+        /* Copyright */
+
+        .footer-bottom {
+            width: 100%;
+            border-top: 1px solid #1e293b;
+            padding-top: 22px;
+            text-align: center;
+            color: #64748b;
+            font-size: 13px;
+            line-height: 1.6;
+        }
+
+
+        /* =====================================================
+                           TABLET
+                           ===================================================== */
+
+        @@media (max-width: 900px) {
+
+            .study-navbar .navbar-container {
+                padding: 0 25px;
+            }
+
+            .study-footer {
+                padding: 50px 5% 25px;
+            }
+
+            .footer-grid {
+                grid-template-columns: 1.5fr 1fr 1fr 1fr;
+                gap: 30px;
+            }
+
+            .footer-brand p {
+                max-width: 100%;
+            }
+
+            .user-details {
+                display: none;
+            }
+
+            .user-info {
+                padding: 5px;
+            }
+        }
+
+
+        /* =====================================================
+                           MOBILE
+                           ===================================================== */
+
+        @@media (max-width: 575.98px) {
+            /* ================= HEADER ================= */
+
+            .study-navbar {
+                min-height: 64px;
+            }
+
+                .study-navbar .navbar-container {
+                    padding: 0 10px;
+                    display: flex;
+                    flex-wrap: nowrap;
+                    width: 100%;
+                }
+            /* Logo */
+
+            .study-logo {
+                font-size: 19px;
+                flex-shrink: 0;
+                margin-right: 3px;
+            }
+            /* Ẩn hamburger */
+
+            .study-navbar .navbar-toggler {
+                display: none !important;
+            }
+            /* Navigation luôn hiện */
+
+            .study-navbar .navbar-collapse {
+                display: flex !important;
+                flex-basis: auto;
+                flex-grow: 1;
+                justify-content: flex-end;
+                width: auto;
+            }
+            /* Menu */
+
+            .study-navbar .navbar-nav {
+                width: auto;
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                margin: 0 !important;
+                gap: 0;
+            }
+            /* Navigation button */
+
+            .study-navbar .nav-link {
+                font-size: 10px;
+                padding: 7px 3px !important;
+                white-space: nowrap;
+            }
+            /* Right menu */
+
+            .study-right {
+                margin-left: 3px;
+                padding-top: 0;
+                border-top: none;
+                display: flex !important;
+                align-items: center;
+                gap: 3px !important;
+                flex-shrink: 0;
+            }
+            /* Notification */
+
+            .notification-link {
+                width: 28px;
+                height: 28px;
+                font-size: 14px;
+            }
+            /* User */
+
+            .user-info {
+                padding: 3px;
+                border: none;
+                background: transparent;
+            }
+
+            .user-avatar {
+                width: 28px;
+                height: 28px;
+                font-size: 13px;
+            }
+
+            .user-details {
+                display: none;
+            }
+            /* Logout */
+
+            .logout-button {
+                padding: 6px 7px;
+                font-size: 9px;
+                border-radius: 5px;
+            }
+            /* ================= FOOTER ================= */
+
+            .study-footer {
+                padding: 35px 10px 18px;
+            }
+            /* 4 CỘT NẰM NGANG */
+
+            .footer-grid {
+                width: 100%;
+                display: grid;
+                grid-template-columns: 1.4fr 1fr 1fr 1fr;
+                gap: 8px;
+                padding-bottom: 25px;
+            }
+            /* Brand */
+
+            .footer-brand h3 {
+                font-size: 18px;
+                margin-bottom: 8px;
+            }
+
+            .footer-brand p {
+                font-size: 9px;
+                line-height: 1.45;
+                max-width: 100%;
+            }
+            /* Footer titles */
+
+            .footer-column h4 {
+                font-size: 10px;
+                margin-bottom: 9px;
+            }
+            /* Footer links */
+
+            .footer-column a {
+                font-size: 9px;
+                margin-bottom: 6px;
+                white-space: nowrap;
+            }
+            /* Copyright */
+
+            .footer-bottom {
+                font-size: 9px;
+                padding-top: 15px;
+            }
+        }
+
+
+        /* =====================================================
+                           SMALL PHONE
+                           ===================================================== */
+
+        @@media (max-width: 380px) {
+            /* ================= HEADER ================= */
+
+            .study-navbar .navbar-container {
+                padding: 0 6px;
+            }
+
+            .study-logo {
+                font-size: 17px;
+                margin-right: 1px;
+            }
+
+            .study-navbar .nav-link {
+                font-size: 9px;
+                padding: 6px 2px !important;
+            }
+
+            .study-right {
+                margin-left: 1px;
+                gap: 1px !important;
+            }
+
+            .notification-link {
+                width: 25px;
+                height: 25px;
+                font-size: 12px;
+            }
+
+            .user-avatar {
+                width: 25px;
+                height: 25px;
+                font-size: 11px;
+            }
+
+            .logout-button {
+                padding: 5px 5px;
+                font-size: 8px;
+            }
+            /* ================= FOOTER ================= */
+
+            .study-footer {
+                padding-left: 7px;
+                padding-right: 7px;
+            }
+
+            .footer-grid {
+                grid-template-columns: 1.4fr 1fr 1fr 1fr;
+                gap: 5px;
+            }
+
+            .footer-brand h3 {
+                font-size: 16px;
+            }
+
+            .footer-brand p {
+                font-size: 8px;
+            }
+
+            .footer-column h4 {
+                font-size: 9px;
+            }
+
+            .footer-column a {
+                font-size: 8px;
+            }
+
+            .footer-bottom {
+                font-size: 8px;
+            }
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <!-- =====================================================
+         HEADER
+         ===================================================== -->
+
+    <header>
+
+        <nav class="navbar navbar-expand-sm study-navbar">
+
+            <div class="navbar-container">
+
+
+                <!-- LOGO -->
+
+                <a class="study-logo"
+                   asp-area=""
+                   asp-controller="Home"
+                   asp-action="Index">
+
+                    STUDY
+
+                </a>
+
+
+                <!-- MOBILE BUTTON -->
+
+                <button class="navbar-toggler ms-auto"
+                        type="button"
+                        data-bs-toggle="collapse"
+                        data-bs-target="#mainNavbar"
+                        aria-controls="mainNavbar"
+                        aria-expanded="false"
+                        aria-label="Mở menu">
+
+                    <span class="navbar-toggler-icon"></span>
+
+                </button>
+
+
+                <!-- NAVIGATION -->
+
+                <div class="collapse navbar-collapse"
+                     id="mainNavbar">
+
+
+                    <!-- LEFT MENU -->
+
+                    <ul class="navbar-nav me-auto ms-sm-4 mb-2 mb-sm-0">
+
+                        <li class="nav-item">
+
+                            <a class="nav-link"
+                               asp-area=""
+                               asp-controller="Home"
+                               asp-action="Index">
+
+                                Trang chủ
+
+                            </a>
+
+                        </li>
+
+
+                        <li class="nav-item">
+
+                            <a class="nav-link"
+                               href="#">
+
+                                Kỳ thi
+
+                            </a>
+
+                        </li>
+
+
+                        <li class="nav-item">
+
+                            <a class="nav-link"
+                               href="#">
+
+                                Lịch thi
+
+                            </a>
+
+                        </li>
+
+
+                        <li class="nav-item">
+
+                            <a class="nav-link"
+                               href="#">
+
+                                Kết quả
+
+                            </a>
+
+                        </li>
+
+                    </ul>
+
+
+                    <!-- RIGHT MENU -->
+
+                    <div class="study-right">
+
+
+                        <!-- NOTIFICATION -->
+
+                        <a href="#"
+                           class="notification-link"
+                           title="Thông báo"
+                           aria-label="Thông báo">
+
+                            🔔
+
+                        </a>
+
+
+                        @{
+                            var fullName =
+                            Context.Session.GetString("FullName");
+
+                            var role =
+                            Context.Session.GetString("Role");
+                        }
+
+
+                        @if (!string.IsNullOrEmpty(fullName))
+                        {
+
+                            <!-- USER INFO -->
+
+                            <div class="user-info">
+
+                                <div class="user-avatar">
+
+                                    👤
+
+                                </div>
+
+                                <div class="user-details">
+
+                                    <div class="user-name">
+
+                                        @fullName
+
+                                    </div>
+
+                                    <div class="user-role">
+
+                                        @role
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+
+                            <!-- LOGOUT -->
+
+                            <a asp-controller="Account"
+                               asp-action="Logout"
+                               class="logout-button"
+                               onclick="return confirm('Bạn có chắc muốn đăng xuất?');">
+
+                                🚪 Đăng xuất
+
+                            </a>
+
+                        }
+                        else
+                        {
+
+                            <!-- LOGIN -->
+
+                            <a asp-controller="Account"
+                               asp-action="Login"
+                               class="login-button">
+
+                                Đăng nhập
+
+                            </a>
+
+                        }
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </nav>
+
+    </header>
+
+
+    <!-- =====================================================
+         MAIN
+         ===================================================== -->
+
+    <main role="main"
+          class="study-main">
+
+        @RenderBody()
+
+    </main>
+
+
+    <!-- =====================================================
+         FOOTER
+         ===================================================== -->
+
+    <footer class="study-footer">
+
+        <div class="footer-container">
+
+
+            <div class="footer-grid">
+
+
+                <!-- BRAND -->
+
+                <div class="footer-brand">
+
+                    <h3>
+                        STUDY
+                    </h3>
+
+                    <p>
+
+                        Hệ thống thi trực tuyến hỗ trợ tổ chức,
+                        quản lý và tham gia các kỳ thi một cách
+                        thuận tiện và hiệu quả.
+
+                    </p>
+
+                </div>
+
+
+                <!-- LIÊN KẾT -->
+
+                <div class="footer-column">
+
+                    <h4>
+                        Liên kết
+                    </h4>
+
+
+                    <a asp-controller="Home"
+                       asp-action="Index">
+
+                        Trang chủ
+
+                    </a>
+
+
+                    <a href="#">
+
+                        Kỳ thi
+
+                    </a>
+
+
+                    <a href="#">
+
+                        Lịch thi
+
+                    </a>
+
+
+                    <a href="#">
+
+                        Kết quả
+
+                    </a>
+
+                </div>
+
+
+                <!-- HỖ TRỢ -->
+
+                <div class="footer-column">
+
+                    <h4>
+                        Hỗ trợ
+                    </h4>
+
+
+                    <a href="#">
+
+                        Liên hệ
+
+                    </a>
+
+
+                    <a href="#">
+
+                        Điều khoản
+
+                    </a>
+
+
+                    <a href="#">
+
+                        Chính sách
+
+                    </a>
+
+                </div>
+
+
+                <!-- TÀI KHOẢN -->
+
+                <div class="footer-column">
+
+                    <h4>
+                        Tài khoản
+                    </h4>
+
+
+                    @if (!string.IsNullOrEmpty(fullName))
+                    {
+
+                        <a asp-controller="Account"
+                           asp-action="Logout">
+
+                            Đăng xuất
+
+                        </a>
+
+                    }
+                    else
+                    {
+
+                        <a asp-controller="Account"
+                           asp-action="Login">
+
+                            Đăng nhập
+
+                        </a>
+
+                    }
+
+                </div>
+
+
+            </div>
+
+
+            <!-- COPYRIGHT -->
+
+            <div class="footer-bottom">
+
+                © 2026 STUDY. All rights reserved.
+
+            </div>
+
+
+        </div>
+
+    </footer>
+
+
+    <!-- =====================================================
+         SCRIPTS
+         ===================================================== -->
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script src="~/js/site.js"
+            asp-append-version="true"></script>
+
+    @await RenderSectionAsync("Scripts", required: false)
+
+</body>
+
+</html>
