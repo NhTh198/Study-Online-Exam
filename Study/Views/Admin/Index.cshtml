@@ -1,37 +1,817 @@
+﻿@model List<Study.Models.User>
+
 @{
     ViewData["Title"] = "Admin Dashboard";
 }
+
 <style>
-    .admin-home{min-height:calc(100vh - 150px);padding:48px 5%;background:#f8fafc}
-    .admin-wrap{max-width:1150px;margin:0 auto}
-    .admin-title{margin:0;color:#1d4ed8;font-size:34px;font-weight:800}
-    .admin-subtitle{margin:10px 0 30px;color:#64748b}
-    .admin-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:22px}
-    .admin-card{display:block;background:#fff;border:1px solid #e2e8f0;border-radius:16px;padding:28px;text-decoration:none;box-shadow:0 4px 15px rgba(15,23,42,.05);transition:.2s}
-    .admin-card:hover{transform:translateY(-3px);border-color:#93c5fd;box-shadow:0 10px 24px rgba(37,99,235,.10)}
-    .admin-icon{font-size:34px;margin-bottom:15px}
-    .admin-card h2{font-size:21px;color:#0f172a;margin:0 0 8px}
-    .admin-card p{color:#64748b;margin:0;line-height:1.6}
-    .admin-link{display:inline-block;margin-top:18px;color:#2563eb;font-weight:700}
-    @@media(max-width:700px){.admin-grid{grid-template-columns:1fr}.admin-title{font-size:28px}}
+    .admin-page {
+        width: 100%;
+        padding: 40px 5%;
+        background: #f8fafc;
+        min-height: calc(100vh - 150px);
+        box-sizing: border-box;
+    }
+
+    .admin-header {
+        margin-bottom: 30px;
+    }
+
+    .admin-title {
+        margin: 0;
+        color: #1d4ed8;
+        font-size: 32px;
+        font-weight: 800;
+    }
+
+    .admin-subtitle {
+        margin-top: 8px;
+        color: #64748b;
+    }
+
+    .admin-card {
+        background: #ffffff;
+        border: 1px solid #e2e8f0;
+        border-radius: 12px;
+        overflow: hidden;
+    }
+
+    .card-header {
+        padding: 20px 24px;
+        border-bottom: 1px solid #e2e8f0;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 15px;
+    }
+
+        .card-header h2 {
+            margin: 0;
+            font-size: 20px;
+            color: #0f172a;
+        }
+
+    .header-left {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+    }
+
+    .account-count {
+        color: #64748b;
+        font-size: 14px;
+    }
+
+    /* CREATE */
+
+    .btn-create {
+        display: inline-block;
+        padding: 10px 16px;
+        background: #2563eb;
+        color: white;
+        text-decoration: none;
+        border-radius: 8px;
+        font-size: 14px;
+        font-weight: 700;
+        transition: 0.2s;
+        white-space: nowrap;
+    }
+
+        .btn-create:hover {
+            background: #1d4ed8;
+            color: white;
+        }
+
+    /* TABLE */
+
+    .table-wrapper {
+        width: 100%;
+        overflow-x: auto;
+    }
+
+    .account-table {
+        width: 100%;
+        border-collapse: collapse;
+        min-width: 1100px;
+    }
+
+        .account-table th {
+            background: #f1f5f9;
+            color: #334155;
+            font-size: 14px;
+            font-weight: 700;
+            padding: 14px 16px;
+            text-align: left;
+            white-space: nowrap;
+        }
+
+        .account-table td {
+            padding: 14px 16px;
+            border-top: 1px solid #e2e8f0;
+            color: #475569;
+            font-size: 14px;
+            vertical-align: middle;
+        }
+
+        .account-table tbody tr:hover {
+            background: #f8fafc;
+        }
+
+    /* BADGES */
+
+    .role-badge,
+    .status-badge {
+        display: inline-block;
+        padding: 5px 10px;
+        border-radius: 999px;
+        font-size: 12px;
+        font-weight: 700;
+    }
+
+    .role-admin {
+        background: #ede9fe;
+        color: #6d28d9;
+    }
+
+    .role-lecturer {
+        background: #dbeafe;
+        color: #1d4ed8;
+    }
+
+    .role-student {
+        background: #dcfce7;
+        color: #15803d;
+    }
+
+    .status-active {
+        background: #dcfce7;
+        color: #15803d;
+    }
+
+    .status-locked {
+        background: #fee2e2;
+        color: #b91c1c;
+    }
+
+    /* ACTION */
+
+    .action-group {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        flex-wrap: wrap;
+    }
+
+        .action-group form {
+            margin: 0;
+        }
+
+    .btn-action {
+        display: inline-block;
+        border: none;
+        border-radius: 7px;
+        padding: 7px 11px;
+        font-size: 12px;
+        font-weight: 700;
+        cursor: pointer;
+        white-space: nowrap;
+        text-decoration: none;
+        transition: 0.2s;
+    }
+
+    /* EDIT */
+
+    .btn-edit {
+        background: #f1f5f9;
+        color: #334155;
+    }
+
+        .btn-edit:hover {
+            background: #e2e8f0;
+            color: #0f172a;
+        }
+
+    /* LOCK */
+
+    .btn-lock {
+        background: #fef3c7;
+        color: #92400e;
+    }
+
+        .btn-lock:hover {
+            background: #fde68a;
+        }
+
+    /* UNLOCK */
+
+    .btn-unlock {
+        background: #dcfce7;
+        color: #15803d;
+    }
+
+        .btn-unlock:hover {
+            background: #bbf7d0;
+        }
+
+    /* RESET */
+
+    .btn-reset {
+        background: #dbeafe;
+        color: #1d4ed8;
+    }
+
+        .btn-reset:hover {
+            background: #bfdbfe;
+        }
+
+    /* DELETE */
+
+    .btn-delete {
+        background: #fee2e2;
+        color: #b91c1c;
+    }
+
+        .btn-delete:hover {
+            background: #fecaca;
+        }
+
+    /* ADMIN PROTECTED */
+
+    .admin-protected {
+        color: #64748b;
+        font-size: 12px;
+        font-style: italic;
+    }
+
+    /* EMPTY */
+
+    .empty-message {
+        padding: 40px;
+        text-align: center;
+        color: #64748b;
+    }
+
+    /* ALERT */
+
+    .alert-success {
+        margin-bottom: 20px;
+        padding: 13px 16px;
+        border-radius: 8px;
+        background: #dcfce7;
+        color: #166534;
+        border: 1px solid #bbf7d0;
+    }
+
+    .alert-error {
+        margin-bottom: 20px;
+        padding: 13px 16px;
+        border-radius: 8px;
+        background: #fee2e2;
+        color: #991b1b;
+        border: 1px solid #fecaca;
+    }
+
+    /* RESET PASSWORD MODAL */
+
+    .reset-modal {
+        display: none;
+        position: fixed;
+        inset: 0;
+        background: rgba(15, 23, 42, 0.5);
+        z-index: 9999;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+    }
+
+        .reset-modal.show {
+            display: flex;
+        }
+
+    .reset-box {
+        width: 100%;
+        max-width: 420px;
+        background: white;
+        border-radius: 14px;
+        padding: 25px;
+        box-shadow: 0 20px 50px rgba(0, 0, 0, 0.2);
+        box-sizing: border-box;
+    }
+
+        .reset-box h3 {
+            margin-top: 0;
+            margin-bottom: 8px;
+            color: #0f172a;
+        }
+
+        .reset-box p {
+            margin-bottom: 20px;
+            color: #64748b;
+            font-size: 14px;
+        }
+
+    .reset-input {
+        width: 100%;
+        box-sizing: border-box;
+        padding: 11px 13px;
+        border: 1px solid #cbd5e1;
+        border-radius: 8px;
+        margin-bottom: 18px;
+        font-size: 14px;
+        outline: none;
+    }
+
+        .reset-input:focus {
+            border-color: #2563eb;
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+
+    .reset-buttons {
+        display: flex;
+        justify-content: flex-end;
+        gap: 10px;
+    }
+
+    .btn-cancel {
+        border: 1px solid #cbd5e1;
+        background: white;
+        color: #475569;
+        border-radius: 8px;
+        padding: 9px 15px;
+        cursor: pointer;
+        font-weight: 600;
+    }
+
+        .btn-cancel:hover {
+            background: #f8fafc;
+        }
+
+    .btn-confirm-reset {
+        border: none;
+        background: #2563eb;
+        color: white;
+        border-radius: 8px;
+        padding: 9px 15px;
+        cursor: pointer;
+        font-weight: 600;
+    }
+
+        .btn-confirm-reset:hover {
+            background: #1d4ed8;
+        }
+
+    /* MOBILE */
+
+    @@media (max-width: 700px) {
+
+        .admin-page {
+            padding: 25px 15px;
+        }
+
+        .admin-title {
+            font-size: 26px;
+        }
+
+        .card-header {
+            align-items: flex-start;
+            flex-direction: column;
+            padding: 16px;
+        }
+
+        .header-left {
+            width: 100%;
+            justify-content: space-between;
+        }
+
+        .btn-create {
+            width: 100%;
+            text-align: center;
+        }
+
+        .reset-box {
+            padding: 20px;
+        }
+    }
 </style>
-<div class="admin-home">
- <div class="admin-wrap">
-  <h1 class="admin-title">ADMIN DASHBOARD</h1>
-  <p class="admin-subtitle">Khu vực quản lý môn học và phân công môn học cho giảng viên.</p>
-  <div class="admin-grid">
-   <a class="admin-card" asp-controller="Admin" asp-action="Subject">
-    <div class="admin-icon">📚</div>
-    <h2>Quản lý môn học</h2>
-    <p>Thêm, xem, chỉnh sửa, khóa/mở khóa và xóa môn học theo điều kiện nghiệp vụ.</p>
-    <span class="admin-link">Mở chức năng →</span>
-   </a>
-   <a class="admin-card" asp-controller="Admin" asp-action="Lecturers">
-    <div class="admin-icon">👩‍🏫</div>
-    <h2>Phân công môn học</h2>
-    <p>Chọn giảng viên, phân công môn học đang hoạt động và theo dõi danh sách phân công.</p>
-    <span class="admin-link">Mở chức năng →</span>
-   </a>
-  </div>
- </div>
+
+
+<div class="admin-page">
+
+    <!-- HEADER -->
+
+    <div class="admin-header">
+
+        <h1 class="admin-title">
+            ADMIN DASHBOARD
+        </h1>
+
+        <p class="admin-subtitle">
+            Quản lý tài khoản Lecturer và Student
+        </p>
+
+    </div>
+
+
+    <!-- SUCCESS / ERROR -->
+    @if (TempData["Success"] != null)
+    {
+        <div class="alert-success">
+            @TempData["Success"]
+        </div>
+    }
+
+    @if (TempData["Error"] != null)
+    {
+        <div class="alert-error">
+            @TempData["Error"]
+        </div>
+    }
+
+
+    <!-- ACCOUNT CARD -->
+
+    <div class="admin-card">
+
+        <div class="card-header">
+
+            <div class="header-left">
+
+                <h2>
+                    Danh sách tài khoản
+                </h2>
+
+                <span class="account-count">
+                    @Model.Count tài khoản
+                </span>
+
+            </div>
+            <a asp-controller="Admin"
+               asp-action="Subject"
+               class="btn-create">
+                📚 Quản lý môn học
+            </a>
+
+            <a asp-controller="Admin"
+               asp-action="CreateUser"
+               class="btn-create">
+                + Tạo tài khoản
+            </a>
+            <a asp-controller="Admin"
+               asp-action="Lecturers"
+               class="btn-create">
+                👨‍🏫 Quản lý Lecturer
+            </a>
+            <a asp-controller="Admin"
+               asp-action="Exams"
+               class="btn-create">
+                📝 Quản lý kỳ thi
+            </a>
+            <a asp-controller="Question"
+               asp-action="Index"
+               class="btn-create">
+                📖 Quản lý ngân hàng câu hỏi
+            </a>
+        </div>
+
+
+        @if (Model.Count == 0)
+        {
+            <div class="empty-message">
+                Chưa có tài khoản nào.
+            </div>
+        }
+        else
+        {
+            <div class="table-wrapper">
+
+                <table class="account-table">
+
+                    <thead>
+
+                        <tr>
+
+                            <th>ID</th>
+
+                            <th>Họ tên</th>
+
+                            <th>Email</th>
+
+                            <th>Mã sinh viên</th>
+
+                            <th>Role</th>
+
+                            <th>Trạng thái</th>
+
+                            <th>Ngày tạo</th>
+
+                            <th>Thao tác</th>
+
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody>
+
+                        @foreach (var user in Model)
+                        {
+                            <tr>
+
+                                <!-- ID -->
+
+                                <td>
+                                    @user.Id
+                                </td>
+
+
+                                <!-- FULL NAME -->
+
+                                <td>
+                                    @user.FullName
+                                </td>
+
+
+                                <!-- EMAIL -->
+
+                                <td>
+                                    @user.Email
+                                </td>
+
+
+                                <!-- STUDENT CODE -->
+
+                                <td>
+                                    @(string.IsNullOrEmpty(user.StudentCode)
+                                                                ? "-"
+                                                                : user.StudentCode)
+                        </td>
+
+
+                                <!-- ROLE -->
+
+                                <td>
+
+                            @if (user.Role.Name == "Admin")
+                                    {
+                                        <span class="role-badge role-admin">
+                                            Admin
+                                        </span>
+                                    }
+                                    else if (user.Role.Name == "Lecturer")
+                                    {
+                                        <span class="role-badge role-lecturer">
+                                            Lecturer
+                                        </span>
+                                    }
+                                    else
+                                    {
+                                        <span class="role-badge role-student">
+                                            Student
+                                        </span>
+                                    }
+
+                                </td>
+
+
+                                <!-- STATUS -->
+
+                                <td>
+
+                                    @if (user.IsActive)
+                                    {
+                                        <span class="status-badge status-active">
+                                            Hoạt động
+                                        </span>
+                                    }
+                                    else
+                                    {
+                                        <span class="status-badge status-locked">
+                                            Đã khóa
+                                        </span>
+                                    }
+
+                                </td>
+
+
+                                <!-- CREATED DATE -->
+
+                                <td>
+                                    @user.CreatedAt.ToString("dd/MM/yyyy")
+                                </td>
+
+
+                                <!-- ACTION -->
+
+                                <td>
+
+                                    @if (user.Role.Name == "Admin")
+                                    {
+                                        <span class="admin-protected">
+                                            Tài khoản hệ thống
+                                        </span>
+                                    }
+                                    else
+                                    {
+                                        <div class="action-group">
+
+                                            <!-- EDIT -->
+
+                                            <a asp-controller="Admin"
+                                               asp-action="EditUser"
+                                               asp-route-id="@user.Id"
+                                               class="btn-action btn-edit">
+                                                Sửa
+                                            </a>
+
+
+                                            <!-- LOCK / UNLOCK -->
+
+                                            <form asp-controller="Admin"
+                                                  asp-action="ToggleActive"
+                                                  method="post">
+
+                                                @Html.AntiForgeryToken()
+
+                                                <input type="hidden"
+                                                       name="id"
+                                                       value="@user.Id" />
+
+                                                @if (user.IsActive)
+                                                {
+                                                    <button type="submit"
+                                                            class="btn-action btn-lock"
+                                                            onclick="return confirm('Bạn có chắc muốn khóa tài khoản này?');">
+                                                        Khóa
+                                                    </button>
+                                                }
+                                                else
+                                                {
+                                                    <button type="submit"
+                                                            class="btn-action btn-unlock">
+                                                        Mở khóa
+                                                    </button>
+                                                }
+
+                                            </form>
+
+
+                                            <!-- RESET PASSWORD -->
+
+                                            <button type="button"
+                                                    class="btn-action btn-reset"
+                                                    onclick="openResetModal(@user.Id, '@Html.Raw(user.FullName.Replace("'", "\\'"))')">
+                                                Reset mật khẩu
+                                            </button>
+
+
+                                            <!-- DELETE -->
+
+                                            <form asp-controller="Admin"
+                                                  asp-action="DeleteUser"
+                                                  method="post">
+
+                                                @Html.AntiForgeryToken()
+
+                                                <input type="hidden"
+                                                       name="id"
+                                                       value="@user.Id" />
+
+                                                <button type="submit"
+                                                        class="btn-action btn-delete"
+                                                        onclick="return confirm('Bạn có chắc muốn xóa tài khoản này?');">
+                                                    Xóa
+                                                </button>
+
+                                            </form>
+
+                                        </div>
+                                    }
+
+                                </td>
+
+                            </tr>
+                        }
+
+                    </tbody>
+
+                </table>
+
+            </div>
+        }
+
+    </div>
+
 </div>
+
+
+<!-- RESET PASSWORD MODAL -->
+
+<div id="resetModal"
+     class="reset-modal">
+
+    <div class="reset-box">
+
+        <h3>
+            Reset mật khẩu
+        </h3>
+
+        <p>
+            Đặt mật khẩu mới cho:
+            <strong id="resetUserName"></strong>
+        </p>
+
+
+        <form asp-controller="Admin"
+              asp-action="ResetPassword"
+              method="post">
+
+            @Html.AntiForgeryToken()
+
+            <input type="hidden"
+                   id="resetUserId"
+                   name="id" />
+
+
+            <input type="password"
+                   id="newPassword"
+                   name="newPassword"
+                   class="reset-input"
+                   placeholder="Nhập mật khẩu mới"
+                   minlength="6"
+                   required />
+
+
+            <div class="reset-buttons">
+
+                <button type="button"
+                        class="btn-cancel"
+                        onclick="closeResetModal()">
+                    Hủy
+                </button>
+
+                <button type="submit"
+                        class="btn-confirm-reset">
+                    Xác nhận
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+
+<script>
+
+    function openResetModal(id, name) {
+
+        document.getElementById("resetUserId").value = id;
+
+        document.getElementById("resetUserName").textContent = name;
+
+        document.getElementById("newPassword").value = "";
+
+        document.getElementById("resetModal")
+            .classList.add("show");
+
+        document.getElementById("newPassword").focus();
+    }
+
+
+    function closeResetModal() {
+
+        document.getElementById("resetModal")
+            .classList.remove("show");
+
+    }
+
+
+    // Click ra ngoài modal để đóng
+
+    document.getElementById("resetModal")
+        .addEventListener("click", function (event) {
+
+            if (event.target === this) {
+
+                closeResetModal();
+
+            }
+
+        });
+
+
+    // Nhấn ESC để đóng modal
+
+    document.addEventListener("keydown", function (event) {
+
+        if (event.key === "Escape") {
+
+            closeResetModal();
+
+        }
+
+    });
+
+</script>

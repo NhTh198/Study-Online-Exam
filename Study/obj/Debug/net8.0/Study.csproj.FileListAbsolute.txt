@@ -145,3 +145,4 @@ C:\Users\nguyên khang\Downloads\Study_Sprint1_Issue_1_5_6_Only\Study_Sprint1_Is
 C:\Users\nguyên khang\Downloads\Study_Sprint1_Issue_1_5_6_Only\Study_Sprint1_Issues_1_5_6_Only\Study\obj\Debug\net8.0\Study.pdb
 C:\Users\nguyên khang\Downloads\Study_Sprint1_Issue_1_5_6_Only\Study_Sprint1_Issues_1_5_6_Only\Study\obj\Debug\net8.0\Study.genruntimeconfig.cache
 C:\Users\nguyên khang\Downloads\Study_Sprint1_Issue_1_5_6_Only\Study_Sprint1_Issues_1_5_6_Only\Study\obj\Debug\net8.0\ref\Study.dll
+C:\Users\nguyên khang\Downloads\Study_Sprint1_Issue_1_5_6_Only\Study_Sprint1_Issues_1_5_6_Only\Study\obj\Debug\net8.0\Study.sourcelink.json

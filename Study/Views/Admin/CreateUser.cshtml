@@ -1,0 +1,240 @@
+﻿@model Study.ViewModels.AdminCreateUserViewModel
+
+@{
+    ViewData["Title"] = "Tạo tài khoản";
+    var roles = ViewBag.Roles as List<Study.Models.Role>;
+}
+
+<div class="admin-page">
+
+    <div class="admin-header">
+        <div>
+            <h1>Tạo tài khoản</h1>
+            <p>Tạo tài khoản Lecturer hoặc Student</p>
+        </div>
+
+        <a asp-action="Index" class="btn-back">
+            ← Quay lại
+        </a>
+    </div>
+
+    <div class="form-card">
+
+        <form asp-action="CreateUser" method="post">
+
+            @Html.AntiForgeryToken()
+
+            <div asp-validation-summary="ModelOnly"
+                 class="text-danger mb-3">
+            </div>
+
+            <div class="form-group">
+                <label asp-for="FullName">
+                    Họ và tên
+                </label>
+
+                <input asp-for="FullName"
+                       class="form-control"
+                       placeholder="Nhập họ và tên" />
+
+                <span asp-validation-for="FullName"
+                      class="text-danger">
+                </span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Email">
+                    Email
+                </label>
+
+                <input asp-for="Email"
+                       class="form-control"
+                       placeholder="example@gmail.com" />
+
+                <span asp-validation-for="Email"
+                      class="text-danger">
+                </span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Password">
+                    Mật khẩu
+                </label>
+
+                <input asp-for="Password"
+                       class="form-control"
+                       placeholder="Tối thiểu 6 ký tự" />
+
+                <span asp-validation-for="Password"
+                      class="text-danger">
+                </span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="RoleId">
+                    Vai trò
+                </label>
+
+                <select asp-for="RoleId"
+                        class="form-control">
+
+                    <option value="">
+                        -- Chọn vai trò --
+                    </option>
+
+                    @if (roles != null)
+                    {
+                        foreach (var role in roles)
+                        {
+                            <option value="@role.Id">
+                                @role.Name
+                            </option>
+                        }
+                    }
+
+                </select>
+
+                <span asp-validation-for="RoleId"
+                      class="text-danger">
+                </span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="StudentCode">
+                    Mã sinh viên
+                </label>
+
+                <input asp-for="StudentCode"
+                       class="form-control"
+                       placeholder="Ví dụ: SE180001" />
+
+                <span asp-validation-for="StudentCode"
+                      class="text-danger">
+                </span>
+            </div>
+
+            <button type="submit"
+                    class="btn-create">
+                Tạo tài khoản
+            </button>
+
+        </form>
+
+    </div>
+
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
+
+<style>
+
+    .admin-page {
+        width: 100%;
+        max-width: 1000px;
+        margin: 0 auto;
+        padding: 40px 24px;
+    }
+
+    .admin-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 30px;
+    }
+
+        .admin-header h1 {
+            margin: 0;
+            font-size: 32px;
+            font-weight: 700;
+        }
+
+        .admin-header p {
+            margin-top: 8px;
+            color: #666;
+        }
+
+    .btn-back {
+        text-decoration: none;
+        padding: 10px 18px;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        color: #333;
+        background: white;
+    }
+
+    .form-card {
+        background: white;
+        border-radius: 14px;
+        padding: 30px;
+        box-shadow: 0 5px 25px rgba(0,0,0,0.08);
+    }
+
+    .form-group {
+        margin-bottom: 20px;
+    }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+
+    .form-control {
+        width: 100%;
+        padding: 12px 14px;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        font-size: 15px;
+        box-sizing: border-box;
+    }
+
+        .form-control:focus {
+            outline: none;
+            border-color: #2563eb;
+        }
+
+    .btn-create {
+        width: 100%;
+        padding: 13px;
+        border: none;
+        border-radius: 8px;
+        background: #2563eb;
+        color: white;
+        font-size: 16px;
+        font-weight: 600;
+        cursor: pointer;
+    }
+
+        .btn-create:hover {
+            background: #1d4ed8;
+        }
+
+    .text-danger {
+        color: #dc2626;
+        font-size: 14px;
+    }
+
+    @@media (max-width: 600px) {
+        .admin-page
+
+    {
+        padding: 25px 15px;
+    }
+
+    .admin-header {
+        align-items: flex-start;
+        gap: 15px;
+    }
+
+        .admin-header h1 {
+            font-size: 25px;
+        }
+
+    .form-card {
+        padding: 20px;
+    }
+
+    }
+</style>

@@ -1,0 +1,139 @@
+﻿@model Study.Controllers.QuestionFormViewModel
+
+@{
+    ViewData["Title"] = "Add Question";
+}
+
+<div class="container py-4">
+    <div class="mb-4">
+        <a asp-action="Index" class="text-decoration-none text-muted">
+            <i class="bi bi-arrow-left"></i> Back to Question Bank
+        </a>
+        <h3 class="fw-bold mt-3">Add New Question</h3>
+        <p class="text-muted">Create a new question and configure its answer options.</p>
+    </div>
+
+    <form asp-action="Create" method="post">
+        @Html.AntiForgeryToken()
+
+        <div asp-validation-summary="ModelOnly"
+             class="alert alert-danger"></div>
+
+        <div class="card border-0 shadow-sm mb-4">
+            <div class="card-header bg-white py-3">
+                <h5 class="fw-bold mb-0">Question Information</h5>
+            </div>
+
+            <div class="card-body">
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <label asp-for="SubjectId" class="form-label fw-semibold">
+                            Subject <span class="text-danger">*</span>
+                        </label>
+                        <select asp-for="SubjectId"
+                                asp-items="ViewBag.Subjects"
+                                class="form-select">
+                            <option value="">-- Select subject --</option>
+                        </select>
+                        <span asp-validation-for="SubjectId"
+                              class="text-danger"></span>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label asp-for="Topic" class="form-label fw-semibold">
+                            Topic
+                        </label>
+                        <input asp-for="Topic"
+                               class="form-control"
+                               placeholder="Example: Grammar, Vocabulary..." />
+                        <span asp-validation-for="Topic"
+                              class="text-danger"></span>
+                    </div>
+
+                    <div class="col-md-12">
+                        <label asp-for="Content" class="form-label fw-semibold">
+                            Question Content <span class="text-danger">*</span>
+                        </label>
+                        <textarea asp-for="Content"
+                                  class="form-control"
+                                  rows="4"
+                                  placeholder="Enter your question..."></textarea>
+                        <span asp-validation-for="Content"
+                              class="text-danger"></span>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label asp-for="Difficulty"
+                               class="form-label fw-semibold">
+                            Difficulty <span class="text-danger">*</span>
+                        </label>
+                        <select asp-for="Difficulty" class="form-select">
+                            <option value="Easy">Easy</option>
+                            <option value="Medium">Medium</option>
+                            <option value="Hard">Hard</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card border-0 shadow-sm mb-4">
+            <div class="card-header bg-white py-3">
+                <div class="d-flex justify-content-between align-items-center flex-wrap gap-2">
+                    <div>
+                        <h5 class="fw-bold mb-1">Answer Options</h5>
+                        <small class="text-muted">
+                            Enter at least 2 answers and select exactly 1 correct answer.
+                        </small>
+                    </div>
+                    <span class="badge bg-primary">Multiple Choice</span>
+                </div>
+            </div>
+
+            <div class="card-body">
+                <div asp-validation-for="Options" class="text-danger mb-3"></div>
+
+                @for (int i = 0; i < Model.Options.Count; i++)
+                {
+                    <div class="row g-2 align-items-center mb-3">
+                        <div class="col-auto">
+                            <span class="badge bg-light text-dark border">
+                                @((char)('A' + i))
+                            </span>
+                        </div>
+
+                        <div class="col">
+                            <input asp-for="Options[i].Content"
+                                   class="form-control"
+                                   placeholder="Enter answer @(i + 1)..." />
+                        </div>
+
+                        <div class="col-auto">
+                            <div class="form-check">
+                                <input asp-for="Options[i].IsCorrect"
+                                       class="form-check-input correct-option"
+                                       type="checkbox" />
+                                <label class="form-check-label">
+                                    Correct
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+
+        <div class="d-flex justify-content-end gap-2">
+            <a asp-action="Index" class="btn btn-light border">
+                Cancel
+            </a>
+            <button type="submit" class="btn btn-primary px-4">
+                <i class="bi bi-check-circle me-1"></i> Save Question
+            </button>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

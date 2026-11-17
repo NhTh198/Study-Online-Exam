@@ -1,0 +1,120 @@
+﻿@model Study.Models.Question
+
+@{
+    ViewData["Title"] = "Delete Question";
+}
+
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="mb-4">
+                <a asp-action="Index" class="text-decoration-none text-muted">
+                    <i class="bi bi-arrow-left"></i> Back to Question Bank
+                </a>
+            </div>
+
+            <div class="card border-0 shadow-sm">
+                <div class="card-body p-4 p-md-5">
+
+                    <div class="text-center mb-4">
+                        <div class="rounded-circle bg-danger bg-opacity-10
+                                    d-inline-flex align-items-center
+                                    justify-content-center mb-3"
+                             style="width:75px;height:75px;">
+                            <i class="bi bi-exclamation-triangle text-danger fs-2"></i>
+                        </div>
+
+                        <h3 class="fw-bold">Deactivate Question?</h3>
+                        <p class="text-muted">
+                            This question will no longer be available
+                            for future practice or exams.
+                        </p>
+                    </div>
+
+                    <div class="bg-light rounded-3 p-3 mb-4">
+                        <div class="mb-3">
+                            <small class="text-muted">Subject</small>
+                            <div class="fw-semibold">
+                                @Model.Subject?.Name
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <small class="text-muted">Topic</small>
+                            <div class="fw-semibold">
+                                @(Model.Topic ?? "-")
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <small class="text-muted">Question Content</small>
+                            <div class="fw-semibold">
+                                @Model.Content
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <small class="text-muted">Difficulty</small>
+                            <div>
+                                @Model.Difficulty
+                            </div>
+                        </div>
+
+                        <div>
+                            <small class="text-muted">Answer Options</small>
+
+                            @foreach (var option in Model.Options)
+                            {
+                                <div class="d-flex align-items-center gap-2 mt-2">
+                                    @if (option.IsCorrect)
+                                    {
+                                        <i class="bi bi-check-circle-fill text-success"></i>
+                                    }
+                                    else
+                                    {
+                                        <i class="bi bi-circle text-muted"></i>
+                                    }
+
+                                    <span>@option.Content</span>
+
+                                    @if (option.IsCorrect)
+                                    {
+                                        <span class="badge bg-success ms-1">
+                                            Correct
+                                        </span>
+                                    }
+                                </div>
+                            }
+                        </div>
+                    </div>
+
+                    <div class="alert alert-warning">
+                        <i class="bi bi-info-circle me-1"></i>
+                        This is a soft delete. Existing exam and practice
+                        history will be preserved.
+                    </div>
+
+                    <form asp-action="Delete"
+                          asp-route-id="@Model.Id"
+                          method="post">
+                        @Html.AntiForgeryToken()
+
+                        <div class="d-flex justify-content-center gap-2">
+                            <a asp-action="Index"
+                               class="btn btn-light border px-4">
+                                Cancel
+                            </a>
+
+                            <button type="submit"
+                                    class="btn btn-danger px-4">
+                                <i class="bi bi-trash me-1"></i>
+                                Deactivate Question
+                            </button>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
