@@ -80,6 +80,34 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
+[C:/Users/nguyên khang/Downloads/Study_Sprint1_Issue_1_5_6_Only/Study_Sprint1_Issues_1_5_6_Only/Study/Views/Lecturer/CreateExam.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTGVjdHVyZXJcQ3JlYXRlRXhhbS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/nguyên khang/Downloads/Study_Sprint1_Issue_1_5_6_Only/Study_Sprint1_Issues_1_5_6_Only/Study/Views/Lecturer/CreateQuestion.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTGVjdHVyZXJcQ3JlYXRlUXVlc3Rpb24uY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/nguyên khang/Downloads/Study_Sprint1_Issue_1_5_6_Only/Study_Sprint1_Issues_1_5_6_Only/Study/Views/Lecturer/EditQuestion.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTGVjdHVyZXJcRWRpdFF1ZXN0aW9uLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/nguyên khang/Downloads/Study_Sprint1_Issue_1_5_6_Only/Study_Sprint1_Issues_1_5_6_Only/Study/Views/Lecturer/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTGVjdHVyZXJcSW5kZXguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/nguyên khang/Downloads/Study_Sprint1_Issue_1_5_6_Only/Study_Sprint1_Issues_1_5_6_Only/Study/Views/Lecturer/MyExams.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTGVjdHVyZXJcTXlFeGFtcy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/nguyên khang/Downloads/Study_Sprint1_Issue_1_5_6_Only/Study_Sprint1_Issues_1_5_6_Only/Study/Views/Lecturer/Questions.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTGVjdHVyZXJcUXVlc3Rpb25zLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/nguyên khang/Downloads/Study_Sprint1_Issue_1_5_6_Only/Study_Sprint1_Issues_1_5_6_Only/Study/Views/Lecturer/ReviewExam.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTGVjdHVyZXJcUmV2aWV3RXhhbS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
 [C:/Users/nguyên khang/Downloads/Study_Sprint1_Issue_1_5_6_Only/Study_Sprint1_Issues_1_5_6_Only/Study/Views/Question/Create.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUXVlc3Rpb25cQ3JlYXRlLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 

@@ -1,0 +1,432 @@
+﻿
+@model Study.ViewModels.LecturerQuestionViewModel
+
+@{
+    ViewData["Title"] = "Thêm câu hỏi";
+
+    string[] optionLetters = { "A", "B", "C", "D" };
+}
+
+<div class="question-form-page">
+
+    <div class="page-header">
+
+        <div>
+            <h1>Thêm câu hỏi</h1>
+
+            <p>
+                Môn học:
+                <strong>@Model.SubjectName</strong>
+            </p>
+        </div>
+
+        <a asp-action="Questions"
+           asp-route-subjectId="@Model.SubjectId"
+           class="btn-back">
+            ← Quay lại
+        </a>
+
+    </div>
+
+
+    <div class="form-card">
+
+        <form asp-controller="Lecturer"
+              asp-action="CreateQuestion"
+              method="post">
+
+            @Html.AntiForgeryToken()
+
+            <input type="hidden"
+                   asp-for="SubjectId" />
+
+            <input type="hidden"
+                   asp-for="SubjectName" />
+
+
+            <div asp-validation-summary="ModelOnly"
+                 class="validation-summary">
+            </div>
+
+
+            <!-- CHỦ ĐỀ -->
+
+            <div class="form-group">
+
+                <label asp-for="Topic">
+                    Chủ đề
+                </label>
+
+                <input asp-for="Topic"
+                       class="form-control"
+                       placeholder="Ví dụ: OOP, SQL JOIN..." />
+
+                <span asp-validation-for="Topic"
+                      class="text-danger">
+                </span>
+
+            </div>
+
+
+            <!-- NỘI DUNG -->
+
+            <div class="form-group">
+
+                <label asp-for="Content">
+                    Nội dung câu hỏi
+                </label>
+
+                <textarea asp-for="Content"
+                          class="form-control question-textarea"
+                          placeholder="Nhập nội dung câu hỏi..."></textarea>
+
+                <span asp-validation-for="Content"
+                      class="text-danger">
+                </span>
+
+            </div>
+
+
+            <!-- ĐỘ KHÓ -->
+
+            <div class="form-group">
+
+                <label asp-for="Difficulty">
+                    Độ khó
+                </label>
+
+                <select asp-for="Difficulty"
+                        class="form-control">
+
+                    <option value="Easy">
+                        Dễ
+                    </option>
+
+                    <option value="Medium">
+                        Trung bình
+                    </option>
+
+                    <option value="Hard">
+                        Khó
+                    </option>
+
+                </select>
+
+                <span asp-validation-for="Difficulty"
+                      class="text-danger">
+                </span>
+
+            </div>
+
+
+            <!-- ĐÁP ÁN -->
+
+            <div class="options-section">
+
+                <h2>Đáp án</h2>
+
+                <p>
+                    Chọn <strong>đúng 1</strong> đáp án đúng.
+                </p>
+
+
+                @for (int i = 0; i < 4; i++)
+                {
+                    <div class="option-row">
+
+                        <div class="option-letter">
+                            @optionLetters[i]
+                        </div>
+
+
+                        <input asp-for="Options[i].Content"
+                               class="form-control"
+                               placeholder="Nhập đáp án @optionLetters[i]..." />
+
+
+                        <label class="correct-option">
+
+                            <input asp-for="Options[i].IsCorrect" />
+
+                            Đúng
+
+                        </label>
+
+                    </div>
+                }
+
+            </div>
+
+
+            <!-- BUTTON -->
+
+            <div class="form-actions">
+
+                <a asp-action="Questions"
+                   asp-route-subjectId="@Model.SubjectId"
+                   class="btn-cancel">
+                    Hủy
+                </a>
+
+                <button type="submit"
+                        class="btn-save">
+                    💾 Lưu câu hỏi
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+
+<style>
+
+    .question-form-page {
+        width: 100%;
+        min-height: calc(100vh - 150px);
+        padding: 40px 5%;
+        background: #f8fafc;
+        box-sizing: border-box;
+    }
+
+
+    .page-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 25px;
+    }
+
+
+        .page-header h1 {
+            margin: 0;
+            color: #0f172a;
+            font-size: 30px;
+        }
+
+
+        .page-header p {
+            color: #64748b;
+            margin-top: 8px;
+        }
+
+
+    .btn-back {
+        text-decoration: none;
+        padding: 10px 18px;
+        background: #e2e8f0;
+        color: #334155;
+        border-radius: 8px;
+        font-weight: 600;
+    }
+
+
+        .btn-back:hover {
+            background: #cbd5e1;
+        }
+
+
+    .form-card {
+        max-width: 900px;
+        background: white;
+        padding: 30px;
+        border-radius: 16px;
+        box-shadow: 0 4px 15px rgba(15, 23, 42, .06);
+    }
+
+
+    .form-group {
+        margin-bottom: 22px;
+    }
+
+
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #334155;
+        }
+
+
+    .form-control {
+        width: 100%;
+        box-sizing: border-box;
+        padding: 11px 12px;
+        border: 1px solid #cbd5e1;
+        border-radius: 8px;
+        font-size: 15px;
+        background: white;
+    }
+
+
+        .form-control:focus {
+            outline: none;
+            border-color: #2563eb;
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, .1);
+        }
+
+
+    .question-textarea {
+        min-height: 130px;
+        resize: vertical;
+    }
+
+
+    .options-section {
+        margin-top: 30px;
+    }
+
+
+        .options-section h2 {
+            margin-bottom: 5px;
+            color: #0f172a;
+        }
+
+
+        .options-section p {
+            color: #64748b;
+            margin-bottom: 20px;
+        }
+
+
+    .option-row {
+        display: grid;
+        grid-template-columns: 45px 1fr 90px;
+        align-items: center;
+        gap: 12px;
+        margin-bottom: 15px;
+    }
+
+
+    .option-letter {
+        width: 40px;
+        height: 40px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: #dbeafe;
+        color: #1d4ed8;
+        border-radius: 8px;
+        font-weight: 700;
+        font-size: 16px;
+    }
+
+
+    .correct-option {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
+        white-space: nowrap;
+        color: #166534;
+        font-weight: 600;
+        cursor: pointer;
+    }
+
+
+        .correct-option input {
+            width: 17px;
+            height: 17px;
+            cursor: pointer;
+        }
+
+
+    .form-actions {
+        display: flex;
+        justify-content: flex-end;
+        gap: 10px;
+        margin-top: 30px;
+        padding-top: 20px;
+        border-top: 1px solid #e2e8f0;
+    }
+
+
+    .btn-save,
+    .btn-cancel {
+        border: none;
+        padding: 11px 20px;
+        border-radius: 8px;
+        cursor: pointer;
+        text-decoration: none;
+        font-weight: 600;
+        font-size: 14px;
+    }
+
+
+    .btn-save {
+        background: #2563eb;
+        color: white;
+    }
+
+
+        .btn-save:hover {
+            background: #1d4ed8;
+        }
+
+
+    .btn-cancel {
+        background: #e2e8f0;
+        color: #334155;
+    }
+
+
+        .btn-cancel:hover {
+            background: #cbd5e1;
+        }
+
+
+    .text-danger,
+    .validation-summary {
+        color: #dc2626;
+        font-size: 14px;
+    }
+
+
+    .validation-summary {
+        margin-bottom: 15px;
+    }
+
+
+    @@media (max-width: 700px) {
+
+        .question-form-page {
+            padding: 25px 15px;
+        }
+
+
+        .page-header {
+            align-items: flex-start;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+
+        .form-card {
+            padding: 20px;
+        }
+
+
+        .option-row {
+            grid-template-columns: 40px 1fr;
+        }
+
+
+        .correct-option {
+            grid-column: 2;
+            justify-content: flex-start;
+        }
+    }
+
+</style>
+
+
+@section Scripts {
+
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+
+}
