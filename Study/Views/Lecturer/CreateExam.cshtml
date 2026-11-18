@@ -1,0 +1,557 @@
+﻿
+@model Study.ViewModels.LecturerCreateExamViewModel
+
+@{
+    ViewData["Title"] = "Tạo kỳ thi";
+
+    var subjects = ViewBag.Subjects
+        as List<Study.Models.Subject>
+        ?? new List<Study.Models.Subject>();
+
+    var questions = ViewBag.Questions
+        as List<Study.Models.Question>
+        ?? new List<Study.Models.Question>();
+
+    var selectedIds = Model.SelectedQuestionIds
+        ?? new List<int>();
+}
+
+<style>
+
+    .exam-page {
+        width: 100%;
+        min-height: calc(100vh - 150px);
+        padding: 40px 5%;
+        background: #f8fafc;
+        box-sizing: border-box;
+    }
+
+    .page-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 25px;
+        gap: 20px;
+    }
+
+        .page-header h1 {
+            margin: 0;
+            color: #0f172a;
+            font-size: 30px;
+        }
+
+        .page-header p {
+            color: #64748b;
+            margin-top: 8px;
+        }
+
+    .btn-back {
+        padding: 10px 18px;
+        background: #e2e8f0;
+        color: #334155;
+        border-radius: 8px;
+        text-decoration: none;
+        font-weight: 600;
+        white-space: nowrap;
+    }
+
+    .form-card {
+        background: white;
+        padding: 30px;
+        border-radius: 16px;
+        box-shadow: 0 4px 15px rgba(15, 23, 42, .06);
+        margin-bottom: 25px;
+    }
+
+    .form-group {
+        margin-bottom: 22px;
+    }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #334155;
+        }
+
+    .form-control {
+        width: 100%;
+        box-sizing: border-box;
+        padding: 11px 12px;
+        border: 1px solid #cbd5e1;
+        border-radius: 8px;
+        font-size: 15px;
+        background: white;
+    }
+
+        .form-control:focus {
+            outline: none;
+            border-color: #2563eb;
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, .1);
+        }
+
+    textarea.form-control {
+        min-height: 120px;
+        resize: vertical;
+    }
+
+    .question-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+        gap: 15px;
+    }
+
+        .question-header h2 {
+            margin: 0;
+            color: #0f172a;
+            font-size: 22px;
+        }
+
+    .question-count {
+        background: #dbeafe;
+        color: #1d4ed8;
+        padding: 7px 12px;
+        border-radius: 20px;
+        font-size: 13px;
+        font-weight: 700;
+    }
+
+    .question-list {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    .question-item {
+        display: grid;
+        grid-template-columns: 35px 1fr auto;
+        align-items: start;
+        gap: 12px;
+        padding: 16px;
+        border: 1px solid #e2e8f0;
+        border-radius: 10px;
+        transition: .2s;
+    }
+
+        .question-item:hover {
+            border-color: #93c5fd;
+            background: #f8fbff;
+        }
+
+    .question-checkbox {
+        width: 18px;
+        height: 18px;
+        margin-top: 3px;
+        cursor: pointer;
+    }
+
+    .question-text {
+        color: #0f172a;
+        font-weight: 600;
+        line-height: 1.5;
+    }
+
+    .question-info {
+        margin-top: 7px;
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+    }
+
+    .badge {
+        display: inline-block;
+        padding: 4px 8px;
+        border-radius: 6px;
+        font-size: 11px;
+        font-weight: 700;
+    }
+
+    .badge-topic {
+        background: #f1f5f9;
+        color: #475569;
+    }
+
+    .badge-easy {
+        background: #dcfce7;
+        color: #166534;
+    }
+
+    .badge-medium {
+        background: #fef3c7;
+        color: #92400e;
+    }
+
+    .badge-hard {
+        background: #fee2e2;
+        color: #991b1b;
+    }
+
+    .option-preview {
+        color: #64748b;
+        font-size: 13px;
+        min-width: 80px;
+        text-align: right;
+    }
+
+    .empty {
+        padding: 40px;
+        text-align: center;
+        color: #64748b;
+        background: #f8fafc;
+        border-radius: 10px;
+    }
+
+    .form-actions {
+        display: flex;
+        justify-content: flex-end;
+        gap: 10px;
+        margin-top: 25px;
+    }
+
+    .btn-save,
+    .btn-cancel {
+        padding: 11px 20px;
+        border-radius: 8px;
+        border: none;
+        text-decoration: none;
+        font-weight: 600;
+        cursor: pointer;
+    }
+
+    .btn-save {
+        background: #2563eb;
+        color: white;
+    }
+
+        .btn-save:hover {
+            background: #1d4ed8;
+        }
+
+    .btn-cancel {
+        background: #e2e8f0;
+        color: #334155;
+    }
+
+        .btn-cancel:hover {
+            background: #cbd5e1;
+        }
+
+    .validation-summary {
+        color: #dc2626;
+        margin-bottom: 20px;
+    }
+
+    .text-danger {
+        color: #dc2626;
+        font-size: 13px;
+    }
+
+    @@media (max-width: 700px) {
+
+        .exam-page {
+            padding: 25px 15px;
+        }
+
+        .page-header {
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .question-item {
+            grid-template-columns: 30px 1fr;
+        }
+
+        .option-preview {
+            grid-column: 2;
+            text-align: left;
+        }
+    }
+
+</style>
+
+
+<div class="exam-page">
+
+
+    <!-- HEADER -->
+
+    <div class="page-header">
+
+        <div>
+
+            <h1>
+                Tạo kỳ thi
+            </h1>
+
+            <p>
+                Tạo đề thi từ Question Bank của bạn.
+            </p>
+
+        </div>
+
+
+        <a asp-action="MyExams"
+           class="btn-back">
+
+            ← Danh sách kỳ thi
+
+        </a>
+
+    </div>
+
+
+    <div class="form-card">
+
+        <form asp-controller="Lecturer"
+              asp-action="CreateExam"
+              method="post">
+
+            @Html.AntiForgeryToken()
+
+
+            <div asp-validation-summary="ModelOnly"
+                 class="validation-summary">
+            </div>
+
+
+            <!-- TÊN -->
+
+            <div class="form-group">
+
+                <label asp-for="Name">
+                    Tên kỳ thi
+                </label>
+
+                <input asp-for="Name"
+                       class="form-control"
+                       placeholder="Ví dụ: Kiểm tra giữa kỳ SQL" />
+
+                <span asp-validation-for="Name"
+                      class="text-danger">
+                </span>
+
+            </div>
+
+
+            <!-- MÔN -->
+
+            <div class="form-group">
+
+                <label asp-for="SubjectId">
+                    Môn học
+                </label>
+
+                <select asp-for="SubjectId"
+                        class="form-control"
+                        onchange="this.form.method='get'; this.form.submit();">
+
+                    @foreach (var subject in subjects)
+                    {
+                        <option value="@subject.Id">
+                            @subject.Code - @subject.Name
+                        </option>
+                    }
+
+                </select>
+
+            </div>
+
+
+            <!-- MÔ TẢ -->
+
+            <div class="form-group">
+
+                <label asp-for="Description">
+                    Mô tả
+                </label>
+
+                <textarea asp-for="Description"
+                          class="form-control"
+                          placeholder="Nhập mô tả kỳ thi..."></textarea>
+
+                <span asp-validation-for="Description"
+                      class="text-danger">
+                </span>
+
+            </div>
+
+
+            <!-- QUESTIONS -->
+
+            <div class="question-header">
+
+                <h2>
+                    Chọn câu hỏi
+                </h2>
+
+                <span class="question-count"
+                      id="selectedCount">
+
+                    Đã chọn: @selectedIds.Count
+
+                </span>
+
+            </div>
+
+
+            @if (!questions.Any())
+            {
+                <div class="empty">
+
+                    <h3>
+                        Chưa có câu hỏi
+                    </h3>
+
+                    <p>
+                        Môn học này chưa có câu hỏi trong Question Bank.
+                    </p>
+
+                </div>
+            }
+            else
+            {
+
+                <div class="question-list">
+
+                    @foreach (var question in questions)
+                    {
+                        <label class="question-item">
+
+                            <input type="checkbox"
+                                   name="SelectedQuestionIds"
+                                   value="@question.Id"
+                                   class="question-checkbox"
+                                   @(selectedIds.Contains(question.Id)
+                                                              ? "checked"
+                                                              : "") />
+
+
+                    <div>
+
+                                <div class="question-text">
+
+                                    @question.Content
+
+                                </div>
+
+
+                                <div class="question-info">
+
+                            @if (!string.IsNullOrWhiteSpace(question.Topic))
+                                    {
+                                        <span class="badge badge-topic">
+                                            @question.Topic
+                                        </span>
+                                    }
+
+
+                                    @if (question.Difficulty == "Easy")
+                                    {
+                                        <span class="badge badge-easy">
+                                            Dễ
+                                        </span>
+                                    }
+                                    else if (question.Difficulty == "Medium")
+                                    {
+                                        <span class="badge badge-medium">
+                                            Trung bình
+                                        </span>
+                                    }
+                                    else if (question.Difficulty == "Hard")
+                                    {
+                                        <span class="badge badge-hard">
+                                            Khó
+                                        </span>
+                                    }
+
+                                </div>
+
+                            </div>
+
+
+                            <div class="option-preview">
+
+                                @question.Options.Count đáp án
+
+                            </div>
+
+                        </label>
+                    }
+
+                </div>
+
+            }
+
+
+            <!-- BUTTON -->
+
+            <div class="form-actions">
+
+                <a asp-action="MyExams"
+                   class="btn-cancel">
+
+                    Hủy
+
+                </a>
+
+
+                <button type="submit"
+                        class="btn-save">
+
+                    💾 Tạo kỳ thi
+
+                </button>
+
+            </div>
+
+
+        </form>
+
+    </div>
+
+</div>
+
+
+<script>
+
+    const checkboxes =
+        document.querySelectorAll(
+            '.question-checkbox'
+        );
+
+    const selectedCount =
+        document.getElementById(
+            'selectedCount'
+        );
+
+    checkboxes.forEach(function (checkbox) {
+
+        checkbox.addEventListener(
+            'change',
+            function () {
+
+                const count =
+                    document.querySelectorAll(
+                        '.question-checkbox:checked'
+                    ).length;
+
+                selectedCount.textContent =
+                    'Đã chọn: ' + count;
+
+            }
+        );
+
+    });
+
+</script>
+
+
+@section Scripts {
+
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+
+}

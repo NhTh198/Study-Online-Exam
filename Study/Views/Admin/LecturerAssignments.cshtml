@@ -1,0 +1,221 @@
+﻿@model List<Study.Models.LecturerSubject>
+
+@{
+    ViewData["Title"] = "Phân công Lecturer - Môn học";
+}
+
+<style>
+    .assignment-page {
+        width: 100%;
+        min-height: calc(100vh - 150px);
+        padding: 40px 5%;
+        background: #f8fafc;
+        box-sizing: border-box;
+    }
+
+    .page-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 25px;
+        gap: 20px;
+    }
+
+        .page-header h1 {
+            margin: 0;
+            color: #0f172a;
+            font-size: 30px;
+        }
+
+        .page-header p {
+            margin-top: 8px;
+            color: #64748b;
+        }
+
+    .btn-back {
+        display: inline-block;
+        padding: 11px 18px;
+        background: #e2e8f0;
+        color: #334155;
+        border-radius: 9px;
+        text-decoration: none;
+        font-weight: 600;
+    }
+
+    .table-card {
+        background: white;
+        border-radius: 16px;
+        overflow: hidden;
+        box-shadow: 0 4px 15px rgba(15, 23, 42, 0.06);
+    }
+
+    .table-wrapper {
+        width: 100%;
+        overflow-x: auto;
+    }
+
+    table {
+        width: 100%;
+        min-width: 700px;
+        border-collapse: collapse;
+    }
+
+    th {
+        background: #eff6ff;
+        color: #1e3a8a;
+        text-align: left;
+        padding: 16px;
+    }
+
+    td {
+        padding: 16px;
+        border-top: 1px solid #e2e8f0;
+        color: #334155;
+    }
+
+    tr:hover {
+        background: #f8fafc;
+    }
+
+    .lecturer-name {
+        font-weight: 600;
+        color: #0f172a;
+    }
+
+    .subject-code {
+        display: inline-block;
+        background: #dbeafe;
+        color: #1d4ed8;
+        padding: 6px 10px;
+        border-radius: 7px;
+        font-weight: 700;
+        font-size: 13px;
+    }
+
+    .btn-manage {
+        display: inline-block;
+        padding: 8px 12px;
+        border-radius: 7px;
+        background: #ede9fe;
+        color: #6d28d9;
+        text-decoration: none;
+        font-size: 13px;
+        font-weight: 600;
+    }
+
+    .empty {
+        padding: 60px 20px;
+        text-align: center;
+        color: #64748b;
+    }
+
+    @@media (max-width: 700px) {
+        .assignment-page {
+            padding: 25px 15px;
+        }
+
+        .page-header {
+            flex-direction: column;
+            align-items: stretch;
+        }
+    }
+</style>
+
+<div class="assignment-page">
+
+    <div class="page-header">
+
+        <div>
+            <h1>Phân công Lecturer - Môn học</h1>
+            <p>
+                Danh sách các môn học đã được Admin phân công cho Lecturer.
+            </p>
+        </div>
+
+        <a asp-controller="Admin"
+           asp-action="Lecturers"
+           class="btn-back">
+            ← Lecturer
+        </a>
+
+    </div>
+
+
+    <div class="table-card">
+
+        @if (Model == null || !Model.Any())
+        {
+            <div class="empty">
+
+                <h3>Chưa có phân công</h3>
+
+                <p>
+                    Chưa có Lecturer nào được phân công môn học.
+                </p>
+
+            </div>
+        }
+        else
+        {
+            <div class="table-wrapper">
+
+                <table>
+
+                    <thead>
+                        <tr>
+                            <th>Lecturer</th>
+                            <th>Email</th>
+                            <th>Mã môn</th>
+                            <th>Môn học</th>
+                            <th>Thao tác</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+
+                                <td>
+                                    <span class="lecturer-name">
+                                        @item.Lecturer.FullName
+                                    </span>
+                                </td>
+
+                                <td>
+                                    @item.Lecturer.Email
+                                </td>
+
+                                <td>
+                                    <span class="subject-code">
+                                        @item.Subject.Code
+                                    </span>
+                                </td>
+
+                                <td>
+                                    @item.Subject.Name
+                                </td>
+
+                                <td>
+                                    <a asp-controller="Admin"
+                                       asp-action="AssignSubjects"
+                                       asp-route-lecturerId="@item.LecturerId"
+                                       class="btn-manage">
+                                        Quản lý
+                                    </a>
+                                </td>
+
+                            </tr>
+                        }
+
+                    </tbody>
+
+                </table>
+
+            </div>
+        }
+
+    </div>
+
+</div>

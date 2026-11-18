@@ -1,0 +1,348 @@
+﻿
+@model Study.Models.ExamAttempt
+
+@{
+    ViewData["Title"] = "Kết quả thi";
+
+    var result = Model.Result;
+
+    string scoreClass = result != null
+        ? result.Score >= 5
+            ? "pass"
+            : "fail"
+        : "";
+
+    string scoreText = result != null
+        ? result.Score.ToString("0.00")
+        : "0.00";
+}
+
+<style>
+    .result-page {
+        max-width: 900px;
+        margin: 40px auto;
+        padding: 0 20px;
+    }
+
+    .result-header {
+        text-align: center;
+        margin-bottom: 30px;
+    }
+
+        .result-header h1 {
+            margin-bottom: 8px;
+            font-size: 32px;
+            font-weight: 700;
+        }
+
+        .result-header p {
+            color: #666;
+            margin: 0;
+        }
+
+    .result-card {
+        background: white;
+        border-radius: 16px;
+        padding: 30px;
+        box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+        margin-bottom: 25px;
+    }
+
+    .exam-info {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 18px;
+    }
+
+    .info-item {
+        padding: 15px;
+        background: #f8f9fa;
+        border-radius: 10px;
+    }
+
+    .info-label {
+        display: block;
+        color: #777;
+        font-size: 14px;
+        margin-bottom: 5px;
+    }
+
+    .info-value {
+        font-weight: 600;
+        color: #222;
+    }
+
+    .score-box {
+        text-align: center;
+        padding: 30px;
+        border-radius: 14px;
+        background: #f8f9fa;
+        margin-bottom: 25px;
+    }
+
+    .score {
+        font-size: 64px;
+        font-weight: 800;
+        line-height: 1;
+        margin-bottom: 10px;
+    }
+
+        .score.pass {
+            color: #198754;
+        }
+
+        .score.fail {
+            color: #dc3545;
+        }
+
+    .score-label {
+        color: #666;
+        font-size: 15px;
+    }
+
+    .result-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 15px;
+    }
+
+    .stat-box {
+        text-align: center;
+        padding: 20px 10px;
+        border-radius: 12px;
+        background: #f8f9fa;
+    }
+
+    .stat-number {
+        display: block;
+        font-size: 28px;
+        font-weight: 700;
+        margin-bottom: 5px;
+    }
+
+    .stat-label {
+        color: #666;
+        font-size: 14px;
+    }
+
+    .correct {
+        color: #198754;
+    }
+
+    .wrong {
+        color: #dc3545;
+    }
+
+    .unanswered {
+        color: #fd7e14;
+    }
+
+    .status {
+        display: inline-block;
+        padding: 7px 15px;
+        border-radius: 20px;
+        background: #198754;
+        color: white;
+        font-size: 14px;
+        font-weight: 600;
+    }
+
+    .actions {
+        display: flex;
+        justify-content: center;
+        gap: 12px;
+        margin-top: 25px;
+    }
+
+    .btn {
+        display: inline-block;
+        padding: 11px 22px;
+        border-radius: 9px;
+        text-decoration: none;
+        font-weight: 600;
+        border: none;
+        cursor: pointer;
+    }
+
+    .btn-primary {
+        background: #dc3545;
+        color: white;
+    }
+
+    .btn-secondary {
+        background: #6c757d;
+        color: white;
+    }
+
+    @@media (max-width: 700px) {
+        .exam-info
+
+    {
+        grid-template-columns: 1fr;
+    }
+
+    .result-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .score {
+        font-size: 52px;
+    }
+
+    }
+</style>
+
+<div class="result-page">
+
+    <div class="result-header">
+        <h1>🎉 Kết quả thi</h1>
+        <p>Bạn đã hoàn thành kỳ thi</p>
+    </div>
+
+    @if (result != null)
+    {
+        <!-- THÔNG TIN KỲ THI -->
+        <div class="result-card">
+
+            <h2 style="margin-bottom:20px;">
+                @Model.Exam.Name
+            </h2>
+
+            <div class="exam-info">
+
+                <div class="info-item">
+                    <span class="info-label">
+                        Môn học
+                    </span>
+
+                    <span class="info-value">
+                        @Model.Exam.Subject.Name
+                    </span>
+                </div>
+
+                <div class="info-item">
+                    <span class="info-label">
+                        Trạng thái
+                    </span>
+
+                    <span class="status">
+                        Đã hoàn thành
+                    </span>
+                </div>
+
+                <div class="info-item">
+                    <span class="info-label">
+                        Thời gian bắt đầu
+                    </span>
+
+                    <span class="info-value">
+                        @(Model.ActualStartTime?.ToString("dd/MM/yyyy HH:mm:ss")
+                                            ?? "-")
+                                               </span>
+                                           </div>
+
+                <div class="info-item">
+                    <span class="info-label">
+                        Thời gian nộp bài
+                    </span>
+
+                    <span class="info-value">
+                        @(Model.SubmittedAt?.ToString("dd/MM/yyyy HH:mm:ss")
+                                            ?? "-")
+                </span>
+            </div>
+
+            </div>
+        </div>
+
+        <!-- ĐIỂM -->
+        <div class="result-card">
+
+            <div class="score-box">
+
+                <div class="score @scoreClass">
+                    @scoreText / 10
+                </div>
+
+                <div class="score-label">
+                    Điểm số
+                </div>
+
+            </div>
+
+            <!-- THỐNG KÊ -->
+            <div class="result-grid">
+
+                <div class="stat-box">
+                    <span class="stat-number">
+                        @result.TotalQuestions
+                    </span>
+
+                    <span class="stat-label">
+                        Tổng số câu
+                    </span>
+                </div>
+
+                <div class="stat-box">
+                    <span class="stat-number correct">
+                        @result.CorrectAnswers
+                    </span>
+
+                    <span class="stat-label">
+                        Câu đúng
+                    </span>
+                </div>
+
+                <div class="stat-box">
+                    <span class="stat-number wrong">
+                        @result.WrongAnswers
+                    </span>
+
+                    <span class="stat-label">
+                        Câu sai
+                    </span>
+                </div>
+
+                <div class="stat-box">
+                    <span class="stat-number unanswered">
+                        @result.Unanswered
+                    </span>
+
+                    <span class="stat-label">
+                        Chưa trả lời
+                    </span>
+                </div>
+
+            </div>
+
+            <!-- NÚT -->
+            <div class="actions">
+
+                <a asp-controller="Student"
+                   asp-action="Index"
+                   class="btn btn-primary">
+                    ← Về danh sách kỳ thi
+                </a>
+
+            </div>
+
+        </div>
+        }
+    else
+    {
+        <div class="result-card" style="text-align:center;">
+            <h3>Không tìm thấy kết quả</h3>
+
+            <p>
+                Kết quả của bài thi chưa được tạo.
+            </p>
+
+            <a asp-controller="Student"
+               asp-action="Index"
+               class="btn btn-secondary">
+                ← Quay lại
+            </a>
+        </div>
+    }
+
+</div>
