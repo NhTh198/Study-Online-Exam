@@ -1,0 +1,259 @@
+﻿@model Study.ViewModels.StudentExamKeyViewModel
+
+@{
+    ViewData["Title"] = "Vào thi";
+}
+
+<style>
+
+    .exam-key-page {
+        max-width: 650px;
+        margin: 50px auto;
+        padding: 0 20px;
+    }
+
+    .exam-key-card {
+        background: white;
+        border-radius: 16px;
+        padding: 35px;
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+    }
+
+    .page-title {
+        color: #1565c0;
+        margin-bottom: 8px;
+    }
+
+    .subtitle {
+        color: #666;
+        margin-bottom: 25px;
+    }
+
+    .exam-info {
+        background: #f1f7ff;
+        border-left: 5px solid #1976d2;
+        padding: 18px;
+        border-radius: 8px;
+        margin-bottom: 25px;
+    }
+
+    .info-row {
+        margin-bottom: 8px;
+    }
+
+        .info-row:last-child {
+            margin-bottom: 0;
+        }
+
+        .info-row strong {
+            color: #333;
+        }
+
+    .form-group {
+        margin-bottom: 20px;
+    }
+
+    .form-label {
+        display: block;
+        font-weight: 600;
+        margin-bottom: 8px;
+    }
+
+    .key-input {
+        width: 100%;
+        box-sizing: border-box;
+        padding: 14px;
+        border: 2px solid #ccc;
+        border-radius: 9px;
+        font-size: 18px;
+        text-align: center;
+        letter-spacing: 3px;
+        text-transform: uppercase;
+    }
+
+        .key-input:focus {
+            outline: none;
+            border-color: #1976d2;
+        }
+
+    .validation {
+        color: #d32f2f;
+        font-size: 14px;
+        margin-top: 7px;
+    }
+
+    .hint {
+        color: #777;
+        font-size: 13px;
+        margin-top: 8px;
+    }
+
+    .button-group {
+        display: flex;
+        gap: 12px;
+        margin-top: 25px;
+    }
+
+    .btn {
+        flex: 1;
+        border: none;
+        border-radius: 8px;
+        padding: 13px 20px;
+        text-align: center;
+        text-decoration: none;
+        font-weight: 600;
+        font-size: 15px;
+        cursor: pointer;
+    }
+
+    .btn-start {
+        background: #1976d2;
+        color: white;
+    }
+
+        .btn-start:hover {
+            background: #125ca1;
+        }
+
+    .btn-back {
+        background: #eeeeee;
+        color: #333;
+    }
+
+        .btn-back:hover {
+            background: #dddddd;
+        }
+
+    .error-summary {
+        background: #ffebee;
+        border: 1px solid #ef9a9a;
+        color: #c62828;
+        padding: 12px 16px;
+        border-radius: 8px;
+        margin-bottom: 20px;
+    }
+
+    @@media (max-width: 600px) {
+        .exam-key-card
+
+    {
+        padding: 25px 20px;
+    }
+
+    .button-group {
+        flex-direction: column;
+    }
+
+    }
+</style>
+
+<div class="exam-key-page">
+
+    ```
+    <div class="exam-key-card">
+
+        <h1 class="page-title">
+            🚀 Vào kỳ thi
+        </h1>
+
+        <p class="subtitle">
+            Nhập Exam Key để bắt đầu làm bài.
+        </p>
+
+
+        <div class="exam-info">
+
+            <div class="info-row">
+                <strong>Kỳ thi:</strong>
+                @Model.ExamName
+            </div>
+
+            <div class="info-row">
+                <strong>Môn học:</strong>
+                @Model.SubjectName
+            </div>
+
+            <div class="info-row">
+                <strong>Thời gian:</strong>
+                @Model.StartTime.ToString("dd/MM/yyyy HH:mm")
+                -
+                @Model.EndTime.ToString("HH:mm")
+            </div>
+
+            <div class="info-row">
+                <strong>Thời lượng:</strong>
+                @Model.DurationMinutes phút
+            </div>
+
+        </div>
+
+
+        <div asp-validation-summary="All"
+             class="error-summary">
+        </div>
+
+
+        <form asp-controller="Student"
+              asp-action="StartExam"
+              method="post">
+
+            @Html.AntiForgeryToken()
+
+            <input type="hidden"
+                   asp-for="ExamId" />
+
+
+            <div class="form-group">
+
+                <label asp-for="ExamKey"
+                       class="form-label">
+                    Exam Key
+                </label>
+
+                <input asp-for="ExamKey"
+                       class="key-input"
+                       autocomplete="off"
+                       placeholder="NHẬP KEY" />
+
+                <div asp-validation-for="ExamKey"
+                     class="validation">
+                </div>
+
+                <div class="hint">
+                    Exam Key được cung cấp cho sinh viên theo quy định của kỳ thi.
+                </div>
+
+            </div>
+
+
+            <div class="button-group">
+
+                <button type="submit"
+                        class="btn btn-start">
+                    🚀 Bắt đầu thi
+                </button>
+
+                <a asp-controller="Student"
+                   asp-action="Index"
+                   class="btn btn-back">
+                    ← Quay lại
+                </a>
+
+            </div>
+
+        </form>
+
+    </div>
+    
+
+</div>
+
+@section Scripts {
+
+    
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    
+
+}

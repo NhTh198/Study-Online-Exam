@@ -1,0 +1,427 @@
+﻿
+@model Study.ViewModels.StudentTakeExamViewModel
+
+@{
+    ViewData["Title"] = "Làm bài thi";
+}
+
+<style>
+
+    .exam-container {
+        max-width: 1000px;
+        margin: 30px auto;
+    }
+
+    .exam-header {
+        background: white;
+        border-radius: 14px;
+        padding: 22px;
+        margin-bottom: 20px;
+        box-shadow: 0 5px 18px rgba(0,0,0,0.08);
+    }
+
+    .exam-title {
+        color: #1565c0;
+        margin-bottom: 8px;
+    }
+
+    .exam-info {
+        color: #666;
+        display: flex;
+        gap: 25px;
+        flex-wrap: wrap;
+    }
+
+    .timer {
+        margin-top: 15px;
+        padding: 12px 16px;
+        background: #fff3e0;
+        border: 1px solid #ffcc80;
+        border-radius: 8px;
+        font-weight: bold;
+        color: #e65100;
+    }
+
+    .question-card {
+        background: white;
+        border-radius: 14px;
+        padding: 25px;
+        margin-bottom: 18px;
+        box-shadow: 0 5px 18px rgba(0,0,0,0.07);
+    }
+
+    .question-number {
+        color: #1565c0;
+        font-weight: bold;
+        margin-bottom: 10px;
+    }
+
+    .question-content {
+        font-size: 17px;
+        font-weight: 600;
+        line-height: 1.6;
+        margin-bottom: 20px;
+    }
+
+    .option {
+        display: flex;
+        align-items: flex-start;
+        gap: 12px;
+        padding: 13px 15px;
+        margin-bottom: 10px;
+        border: 1px solid #ddd;
+        border-radius: 9px;
+        cursor: pointer;
+        transition: 0.2s;
+    }
+
+        .option:hover {
+            background: #f5f9ff;
+            border-color: #1976d2;
+        }
+
+        .option input {
+            margin-top: 4px;
+        }
+
+    .option-letter {
+        font-weight: bold;
+        color: #1565c0;
+        min-width: 25px;
+    }
+
+    .mark-row {
+        margin-top: 15px;
+        color: #555;
+    }
+
+    .navigation {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 10px;
+        margin: 25px 0;
+        flex-wrap: wrap;
+    }
+
+    .page-buttons {
+        display: flex;
+        gap: 6px;
+        flex-wrap: wrap;
+    }
+
+    .page-btn {
+        min-width: 38px;
+        padding: 9px 12px;
+        border: 1px solid #ccc;
+        border-radius: 7px;
+        background: white;
+        text-decoration: none;
+        color: #333;
+        text-align: center;
+    }
+
+        .page-btn.active {
+            background: #1976d2;
+            color: white;
+            border-color: #1976d2;
+        }
+
+    .btn {
+        border: none;
+        border-radius: 8px;
+        padding: 11px 20px;
+        font-weight: 600;
+        cursor: pointer;
+        text-decoration: none;
+        display: inline-block;
+    }
+
+    .btn-next {
+        background: #1976d2;
+        color: white;
+    }
+
+    .btn-submit {
+        background: #2e7d32;
+        color: white;
+    }
+
+    .btn-back {
+        background: #eeeeee;
+        color: #333;
+    }
+
+    .status-box {
+        background: #f5f5f5;
+        padding: 15px;
+        border-radius: 9px;
+        margin-bottom: 20px;
+    }
+
+    .answered {
+        color: #2e7d32;
+        font-weight: 600;
+    }
+
+    .unanswered {
+        color: #d32f2f;
+        font-weight: 600;
+    }
+
+    .marked {
+        color: #ef6c00;
+        font-weight: 600;
+    }
+
+</style>
+
+
+<div class="exam-container">
+
+    <div class="exam-header">
+
+        <h1 class="exam-title">
+            📝 @Model.ExamName
+        </h1>
+
+        <div class="exam-info">
+
+            <span>
+                📚 @Model.SubjectName
+            </span>
+
+            <span>
+                📌 @Model.TotalQuestions câu hỏi
+            </span>
+
+            <span>
+                📄 Trang @Model.CurrentPage / @Model.TotalPages
+            </span>
+
+        </div>
+
+        <div class="timer">
+            ⏱ Thời gian còn lại:
+            <span id="countdown">Đang tính...</span>
+        </div>
+
+    </div>
+
+
+    <div class="status-box">
+
+        <span class="answered">
+            ● Đã trả lời
+        </span>
+
+        &nbsp;&nbsp;
+
+        <span class="unanswered">
+            ● Chưa trả lời
+        </span>
+
+        &nbsp;&nbsp;
+
+        <span class="marked">
+            ● Đánh dấu
+        </span>
+
+    </div>
+
+
+    @foreach (var question in Model.Questions)
+    {
+        <form asp-controller="Student"
+              asp-action="SaveAnswer"
+              method="post"
+              class="question-card">
+
+            @Html.AntiForgeryToken()
+
+            <input type="hidden"
+                   name="attemptId"
+                   value="@Model.AttemptId" />
+
+            <input type="hidden"
+                   name="questionId"
+                   value="@question.QuestionId" />
+
+            <input type="hidden"
+                   name="page"
+                   value="@Model.CurrentPage" />
+
+            <div class="question-number">
+                Câu @question.QuestionOrder
+            </div>
+
+            <div class="question-content">
+                @question.Content
+            </div>
+
+
+            @foreach (var option in question.Options)
+            {
+                <label class="option">
+
+                    <input type="radio"
+                           name="selectedOptionId"
+                           value="@option.OptionId"
+                           @(question.SelectedOptionId == option.OptionId
+                                              ? "checked"
+                                              : "") />
+
+            <span class="option-letter">
+                @option.Letter.
+            </span>
+
+                    <span>
+                        @option.Content
+                    </span>
+
+                </label>
+                }
+
+
+        <div class="mark-row">
+
+            <label>
+
+                <input type="checkbox"
+                       name="isMarked"
+                       value="true"
+                       @(question.IsMarked
+                                              ? "checked"
+                                              : "") />
+
+                🔖 Đánh dấu câu này
+
+                </label>
+
+            </div>
+
+
+
+
+        </form>
+        }
+
+
+    <div class="navigation">
+
+        <div>
+
+            @if (Model.CurrentPage > 1)
+            {
+                <a asp-controller="Student"
+                   asp-action="TakeExam"
+                   asp-route-id="@Model.AttemptId"
+                   asp-route-page="@(Model.CurrentPage - 1)"
+                   class="btn btn-back">
+                    ← Trang trước
+                </a>
+            }
+
+        </div>
+
+
+        <div class="page-buttons">
+
+            @for (int i = 1; i <= Model.TotalPages; i++)
+            {
+                <a asp-controller="Student"
+                   asp-action="TakeExam"
+                   asp-route-id="@Model.AttemptId"
+                   asp-route-page="@i"
+                   class="page-btn @(i == Model.CurrentPage ? "active" : "")">
+                    @i
+                </a>
+            }
+
+        </div>
+
+
+        <div>
+
+            @if (Model.CurrentPage < Model.TotalPages)
+            {
+                <a asp-controller="Student"
+                   asp-action="TakeExam"
+                   asp-route-id="@Model.AttemptId"
+                   asp-route-page="@(Model.CurrentPage + 1)"
+                   class="btn btn-next">
+                    Trang sau →
+                </a>
+            }
+
+        </div>
+
+    </div>
+
+
+    <div style="text-align: center; margin-top: 25px;">
+
+        <form asp-controller="Student"
+              asp-action="SubmitExam"
+              asp-route-id="@Model.AttemptId"
+              method="post"
+              style="display:inline;">
+
+            @Html.AntiForgeryToken()
+
+            <button type="submit"
+                    class="btn btn-submit"
+                    onclick="return confirm('Bạn có chắc chắn muốn nộp bài? Sau khi nộp sẽ không thể thay đổi câu trả lời.');">
+                ✅ Nộp bài
+            </button>
+
+        </form>
+
+    </div>
+
+</div>
+
+
+<script>
+
+    const forcedSubmitTime =
+     new Date("@Model.ForcedSubmitTime?.ToString("yyyy-MM-ddTHH:mm:ss")");
+
+    function updateCountdown() {
+
+        const now = new Date();
+
+        const difference =
+            forcedSubmitTime.getTime() - now.getTime();
+
+        if (difference <= 0) {
+
+            document.getElementById("countdown")
+                .innerText = "00:00";
+
+            location.reload();
+
+            return;
+        }
+
+        const totalSeconds =
+            Math.floor(difference / 1000);
+
+        const minutes =
+            Math.floor(totalSeconds / 60);
+
+        const seconds =
+            totalSeconds % 60;
+
+        document.getElementById("countdown")
+            .innerText =
+            String(minutes).padStart(2, "0")
+            + ":"
+            + String(seconds).padStart(2, "0");
+    }
+
+    updateCountdown();
+
+    setInterval(updateCountdown, 1000);
+
+</script>

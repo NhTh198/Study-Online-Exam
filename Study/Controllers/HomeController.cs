@@ -1,9 +1,27 @@
+using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
+using Study.Models;
 
-namespace Study.Controllers;
-
-public class HomeController : Controller
+namespace Study.Controllers
 {
-    // Issue #1: Trang chủ
-    public IActionResult Index() => View();
+    public class HomeController : Controller
+    {
+        private readonly ILogger<HomeController> _logger;
+
+        public HomeController(ILogger<HomeController> logger)
+        {
+            _logger = logger;
+        }
+
+        public IActionResult Index()
+        {
+            return View();
+        }
+
+        public IActionResult Privacy()
+        {
+            return View();
+        }
+
+    }
 }

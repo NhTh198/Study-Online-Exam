@@ -1,0 +1,325 @@
+﻿@model List<Study.ViewModels.PracticeHistoryViewModel>
+
+@{
+    ViewData["Title"] = "Lịch sử tự luyện";
+}
+
+<div class="container-fluid py-4">
+
+    <!-- HEADER -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+
+        <div>
+            <h1 class="fw-bold text-primary mb-1">
+                📚 LỊCH SỬ TỰ LUYỆN
+            </h1>
+
+            <p class="text-muted mb-0">
+                Xem lại các lần bạn đã hoàn thành bài luyện.
+            </p>
+        </div>
+
+        <a asp-controller="Practice"
+           asp-action="Index"
+           class="btn btn-primary">
+
+            📝 Tự luyện
+        </a>
+
+    </div>
+
+
+    @if (Model == null || !Model.Any())
+    {
+        <!-- CHƯA CÓ LỊCH SỬ -->
+
+        <div class="card shadow-sm border-0">
+
+            <div class="card-body text-center py-5">
+
+                <div class="display-4 mb-3">
+                    📭
+                </div>
+
+                <h4 class="fw-bold">
+                    Chưa có lịch sử luyện tập
+                </h4>
+
+                <p class="text-muted">
+                    Bạn chưa hoàn thành bài luyện nào.
+                </p>
+
+                <a asp-controller="Practice"
+                   asp-action="Index"
+                   class="btn btn-primary">
+
+                    🚀 Bắt đầu luyện
+                </a>
+
+            </div>
+
+        </div>
+    }
+    else
+    {
+        <!-- THỐNG KÊ NHANH -->
+
+        <div class="row g-3 mb-4">
+
+            <div class="col-12 col-md-4">
+
+                <div class="card shadow-sm border-0 h-100">
+
+                    <div class="card-body">
+
+                        <div class="text-muted">
+                            Tổng số lần luyện
+                        </div>
+
+                        <div class="fs-2 fw-bold text-primary">
+                            @Model.Count
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="col-12 col-md-4">
+
+                <div class="card shadow-sm border-0 h-100">
+
+                    <div class="card-body">
+
+                        <div class="text-muted">
+                            Điểm cao nhất
+                        </div>
+
+                        <div class="fs-2 fw-bold text-success">
+                            @Model.Max(x => x.Score).ToString("0.00")
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="col-12 col-md-4">
+
+                <div class="card shadow-sm border-0 h-100">
+
+                    <div class="card-body">
+
+                        <div class="text-muted">
+                            Điểm trung bình
+                        </div>
+
+                        <div class="fs-2 fw-bold text-warning">
+                            @Model.Average(x => x.Score).ToString("0.00")
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- DANH SÁCH LỊCH SỬ -->
+
+        <div class="card shadow-sm border-0">
+
+            <div class="card-body p-0">
+
+                <div class="table-responsive">
+
+                    <table class="table table-hover align-middle mb-0">
+
+                        <thead class="table-light">
+
+                            <tr>
+
+                                <th class="ps-4">
+                                    #
+                                </th>
+
+                                <th>
+                                    Môn học
+                                </th>
+
+                                <th>
+                                    Thời gian làm
+                                </th>
+
+                                <th class="text-center">
+                                    Tổng câu
+                                </th>
+
+                                <th class="text-center text-success">
+                                    Đúng
+                                </th>
+
+                                <th class="text-center text-danger">
+                                    Sai
+                                </th>
+
+                                <th class="text-center">
+                                    Chưa làm
+                                </th>
+
+                                <th class="text-center">
+                                    Điểm
+                                </th>
+
+                                <th class="text-center">
+                                    Thao tác
+                                </th>
+
+                            </tr>
+
+                        </thead>
+
+                        <tbody>
+
+                            @{
+                                int index = 1;
+                            }
+
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+
+                                    <td class="ps-4 fw-semibold">
+                                        @index
+                                    </td>
+
+                                    <td>
+
+                                        <div class="fw-semibold">
+                                            @item.SubjectName
+                                        </div>
+
+                                        <div class="text-muted small">
+                                            @item.StartedAt.ToString("dd/MM/yyyy HH:mm")
+                                        </div>
+
+                                    </td>
+
+                                    <td>
+
+                                        @if (item.SubmittedAt.HasValue)
+                                        {
+                                            var duration =
+                                                item.SubmittedAt.Value -
+                                                item.StartedAt;
+
+                                            if (duration.TotalSeconds < 0)
+                                            {
+                                                duration = TimeSpan.Zero;
+                                            }
+
+                                            <span>
+                                                @((int)duration.TotalMinutes)
+                                                phút
+                                                @duration.Seconds
+                                                giây
+                                            </span>
+                                        }
+                                        else
+                                        {
+                                            <span>-</span>
+                                        }
+
+                                    </td>
+
+                                    <td class="text-center">
+                                        @item.TotalQuestions
+                                    </td>
+
+                                    <td class="text-center">
+
+                                        <span class="badge bg-success">
+                                            @item.CorrectAnswers
+                                        </span>
+
+                                    </td>
+
+                                    <td class="text-center">
+
+                                        <span class="badge bg-danger">
+                                            @item.WrongAnswers
+                                        </span>
+
+                                    </td>
+
+                                    <td class="text-center">
+
+                                        <span class="badge bg-secondary">
+                                            @item.Unanswered
+                                        </span>
+
+                                    </td>
+
+                                    <td class="text-center">
+
+                                        @if (item.Score >= 8)
+                                        {
+                                            <span class="fw-bold text-success">
+                                                @item.Score.ToString("0.00")
+                                            </span>
+                                        }
+                                        else if (item.Score >= 5)
+                                        {
+                                            <span class="fw-bold text-warning">
+                                                @item.Score.ToString("0.00")
+                                            </span>
+                                        }
+                                        else
+                                        {
+                                            <span class="fw-bold text-danger">
+                                                @item.Score.ToString("0.00")
+                                            </span>
+                                        }
+
+                                        <span class="text-muted">
+                                            /10
+                                        </span>
+
+                                    </td>
+
+                                    <td class="text-center">
+
+                                        <a asp-controller="Practice"
+                                           asp-action="Result"
+                                           asp-route-id="@item.AttemptId"
+                                           class="btn btn-sm btn-outline-primary">
+
+                                            Xem kết quả
+                                        </a>
+
+                                    </td>
+
+                                </tr>
+
+                                index++;
+                            }
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    }
+
+</div>

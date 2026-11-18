@@ -1,4 +1,4 @@
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Study.Models;
 using Study.ViewModels;
@@ -114,7 +114,7 @@ public class AccountController : Controller
     // TẠO ADMIN BAN ĐẦU
     // CHỈ DÙNG 1 LẦN
     // =========================
-
+  
 
     // =========================
     // REDIRECT THEO ROLE
@@ -138,13 +138,13 @@ public class AccountController : Controller
                 return RedirectToAction("Login", "Account");
         }
     }
+ 
+// ==============================
+// REGISTER STUDENT
+// ==============================
 
-    // ==============================
-    // REGISTER STUDENT
-    // ==============================
-
-    [HttpGet]
-    public IActionResult Register()
+[HttpGet]
+public IActionResult Register()
     {
         var role = HttpContext.Session.GetString("Role");
 
@@ -156,10 +156,10 @@ public class AccountController : Controller
         return View();
     }
 
-
-    [HttpPost]
-    [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Register(RegisterViewModel model)
+  
+[HttpPost]
+[ValidateAntiForgeryToken]
+public async Task<IActionResult> Register(RegisterViewModel model)
     {
         if (!ModelState.IsValid)
         {
