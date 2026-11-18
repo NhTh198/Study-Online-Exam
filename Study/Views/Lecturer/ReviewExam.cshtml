@@ -1,0 +1,442 @@
+﻿
+@model Study.Models.Exam
+
+@{
+    ViewData["Title"] = "Xem kỳ thi";
+}
+
+<style>
+
+    .page {
+        width: 100%;
+        min-height: calc(100vh - 150px);
+        padding: 40px 5%;
+        background: #f8fafc;
+        box-sizing: border-box;
+    }
+
+    .header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        gap: 20px;
+        margin-bottom: 25px;
+    }
+
+        .header h1 {
+            margin: 0;
+            color: #0f172a;
+            font-size: 30px;
+        }
+
+        .header p {
+            color: #64748b;
+            margin-top: 8px;
+        }
+
+    .back-btn {
+        padding: 10px 16px;
+        background: #e2e8f0;
+        color: #334155;
+        text-decoration: none;
+        border-radius: 8px;
+        font-weight: 600;
+        white-space: nowrap;
+    }
+
+    .info-card {
+        background: white;
+        padding: 25px;
+        border-radius: 14px;
+        box-shadow: 0 4px 15px rgba(15, 23, 42, .06);
+        margin-bottom: 25px;
+    }
+
+    .info-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 20px;
+    }
+
+    .info-item label {
+        display: block;
+        font-size: 13px;
+        color: #64748b;
+        margin-bottom: 5px;
+    }
+
+    .info-item strong {
+        color: #0f172a;
+    }
+
+    .status {
+        display: inline-block;
+        padding: 6px 10px;
+        border-radius: 20px;
+        font-size: 12px;
+        font-weight: 700;
+    }
+
+    .draft {
+        background: #f1f5f9;
+        color: #475569;
+    }
+
+    .pending {
+        background: #fef3c7;
+        color: #92400e;
+    }
+
+    .approved {
+        background: #dcfce7;
+        color: #166534;
+    }
+
+    .rejected {
+        background: #fee2e2;
+        color: #991b1b;
+    }
+
+    .questions-card {
+        background: white;
+        padding: 25px;
+        border-radius: 14px;
+        box-shadow: 0 4px 15px rgba(15, 23, 42, .06);
+    }
+
+        .questions-card h2 {
+            margin-top: 0;
+            color: #0f172a;
+        }
+
+    .question {
+        padding: 20px 0;
+        border-bottom: 1px solid #e2e8f0;
+    }
+
+        .question:last-child {
+            border-bottom: none;
+        }
+
+    .question-title {
+        font-weight: 700;
+        color: #0f172a;
+        margin-bottom: 12px;
+        line-height: 1.5;
+    }
+
+    .options {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 8px 20px;
+    }
+
+    .option {
+        padding: 10px;
+        border-radius: 7px;
+        background: #f8fafc;
+        color: #475569;
+    }
+
+    .correct {
+        background: #dcfce7;
+        color: #166534;
+        font-weight: 600;
+    }
+
+    .empty {
+        padding: 30px;
+        text-align: center;
+        color: #64748b;
+    }
+
+    .actions {
+        display: flex;
+        gap: 10px;
+        margin-top: 25px;
+    }
+
+    .btn {
+        padding: 11px 18px;
+        border-radius: 8px;
+        border: none;
+        text-decoration: none;
+        font-weight: 600;
+        cursor: pointer;
+    }
+
+    .btn-edit {
+        background: #fef3c7;
+        color: #92400e;
+    }
+
+    .btn-submit {
+        background: #2563eb;
+        color: white;
+    }
+
+        .btn-submit:hover {
+            background: #1d4ed8;
+        }
+
+    @@media (max-width: 800px) {
+
+        .info-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .options {
+            grid-template-columns: 1fr;
+        }
+
+        .header {
+            flex-direction: column;
+        }
+    }
+
+</style>
+
+
+<div class="page">
+
+    <!-- HEADER -->
+
+    <div class="header">
+
+        <div>
+
+            <h1>
+                @Model.Name
+            </h1>
+
+            <p>
+                Xem nội dung và kiểm tra các câu hỏi của kỳ thi.
+            </p>
+
+        </div>
+
+        <a asp-action="MyExams"
+           class="back-btn">
+
+            ← Quay lại
+
+        </a>
+
+    </div>
+
+
+    <!-- EXAM INFO -->
+
+    <div class="info-card">
+
+        <div class="info-grid">
+
+            <div class="info-item">
+
+                <label>
+                    Môn học
+                </label>
+
+                <strong>
+                    @Model.Subject?.Name
+                </strong>
+
+            </div>
+
+
+            <div class="info-item">
+
+                <label>
+                    Số câu hỏi
+                </label>
+
+                <strong>
+                    @(Model.ExamQuestions?.Count ?? 0) câu
+                </strong>
+
+            </div>
+
+
+            <div class="info-item">
+
+                <label>
+                    Trạng thái
+                </label>
+
+                @if (Model.Status == "Draft")
+                {
+                    <span class="status draft">
+                        Draft
+                    </span>
+                }
+                else if (Model.Status == "PendingApproval")
+                {
+                    <span class="status pending">
+                        Chờ duyệt
+                    </span>
+                }
+                else if (Model.Status == "Approved")
+                {
+                    <span class="status approved">
+                        Đã duyệt
+                    </span>
+                }
+                else if (Model.Status == "Rejected")
+                {
+                    <span class="status rejected">
+                        Từ chối
+                    </span>
+                }
+                else
+                {
+                    <span class="status draft">
+                        @Model.Status
+                    </span>
+                }
+
+            </div>
+
+        </div>
+
+
+        @if (!string.IsNullOrWhiteSpace(Model.Description))
+        {
+            <div style="margin-top:20px;">
+
+                <label style="color:#64748b;font-size:13px;">
+                    Mô tả
+                </label>
+
+                <p style="color:#334155;">
+                    @Model.Description
+                </p>
+
+            </div>
+        }
+
+
+        @if (Model.Status == "Rejected" &&
+                !string.IsNullOrWhiteSpace(Model.RejectReason))
+        {
+            <div style="
+                    margin-top:20px;
+                    padding:15px;
+                    background:#fee2e2;
+                    border-radius:8px;
+                    color:#991b1b;">
+
+                <strong>
+                    Lý do từ chối:
+                </strong>
+
+                <div style="margin-top:5px;">
+                    @Model.RejectReason
+                </div>
+
+            </div>
+        }
+
+    </div>
+
+
+    <!-- QUESTIONS -->
+
+    <div class="questions-card">
+
+        <h2>
+            Danh sách câu hỏi
+        </h2>
+
+
+        @if (Model.ExamQuestions == null ||
+                !Model.ExamQuestions.Any())
+        {
+            <div class="empty">
+
+                Kỳ thi chưa có câu hỏi.
+
+            </div>
+        }
+        else
+        {
+
+            @foreach (var examQuestion in Model.ExamQuestions)
+            {
+                <div class="question">
+
+                    <div class="question-title">
+
+                        Câu @examQuestion.QuestionOrder.
+
+                        @examQuestion.Question.Content
+
+                    </div>
+
+
+                    <div class="options">
+
+                        @foreach (var option in
+                                        examQuestion.Question.Options
+                                        .OrderBy(x => x.Id))
+                        {
+                            <div class="
+                                            option
+                                            @(option.IsCorrect ? "correct" : "")">
+
+                                @if (option.IsCorrect)
+                                {
+                                    <strong>✓ </strong>
+                                }
+
+                                @option.Content
+
+                            </div>
+                        }
+
+                    </div>
+
+                </div>
+            }
+
+        }
+
+
+        <!-- ACTIONS -->
+
+        <div class="actions">
+
+            @if (Model.Status == "Draft" ||
+                        Model.Status == "Rejected")
+            {
+                <a asp-controller="Lecturer"
+                   asp-action="EditExam"
+                   asp-route-id="@Model.Id"
+                   class="btn btn-edit">
+
+                    ✏️ Sửa đề
+
+                </a>
+
+                <form asp-controller="Lecturer"
+                      asp-action="SubmitExam"
+                      asp-route-id="@Model.Id"
+                      method="post">
+
+                    @Html.AntiForgeryToken()
+
+                    <button type="submit"
+                            class="btn btn-submit"
+                            onclick="return confirm('Bạn có chắc muốn gửi đề thi cho Admin duyệt?');">
+
+                        📤 Gửi Admin duyệt
+
+                    </button>
+
+                </form>
+            }
+
+        </div>
+
+    </div>
+
+</div>

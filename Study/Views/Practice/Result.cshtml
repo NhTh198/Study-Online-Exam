@@ -1,0 +1,308 @@
+﻿@model Study.Models.PracticeResult
+
+@{
+    ViewData["Title"] = "Kết quả tự luyện";
+
+
+var attempt = Model.Attempt;
+
+    var duration =
+        attempt.SubmittedAt.HasValue
+            ? attempt.SubmittedAt.Value - attempt.StartedAt
+            : TimeSpan.Zero;
+
+    if (duration.TotalSeconds < 0)
+    {
+        duration = TimeSpan.Zero;
+    }
+
+
+}
+
+<div class="container-fluid py-4">
+
+    ```
+    <!-- HEADER -->
+    <div class="text-center mb-4">
+
+        <h1 class="fw-bold text-primary">
+            🏆 KẾT QUẢ TỰ LUYỆN
+        </h1>
+
+        <p class="text-muted mb-0">
+            @attempt.Subject.Name
+        </p>
+
+    </div>
+
+
+    <!-- SCORE -->
+    <div class="row justify-content-center mb-4">
+
+        <div class="col-12 col-md-6 col-lg-4">
+
+            <div class="card shadow-sm border-0 text-center">
+
+                <div class="card-body p-4">
+
+                    <div class="text-muted mb-2">
+                        Điểm của bạn
+                    </div>
+
+                    <div class="display-2 fw-bold text-primary">
+                        @Model.Score.ToString("0.00")
+                    </div>
+
+                    <div class="text-muted">
+                        / 10
+                    </div>
+
+                    @if (Model.Score >= 8)
+                    {
+                        <div class="alert alert-success mt-4 mb-0">
+                            🎉 Bạn đã hoàn thành bài luyện!
+                        </div>
+                    }
+                    else if (Model.Score >= 5)
+                    {
+                        <div class="alert alert-warning mt-4 mb-0">
+                            👍 Hãy tiếp tục luyện tập để cải thiện điểm số.
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="alert alert-danger mt-4 mb-0">
+                            📚 Bạn nên xem lại các câu đã sai và luyện lại.
+                        </div>
+                    }
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- STATISTICS -->
+    <div class="row g-3 mb-4">
+
+        <div class="col-12 col-md-3">
+
+            <div class="card shadow-sm border-0 h-100">
+
+                <div class="card-body text-center">
+
+                    <div class="text-muted">
+                        Tổng câu
+                    </div>
+
+                    <div class="fs-2 fw-bold">
+                        @Model.TotalQuestions
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="col-12 col-md-3">
+
+            <div class="card shadow-sm border-0 h-100">
+
+                <div class="card-body text-center">
+
+                    <div class="text-muted">
+                        Đúng
+                    </div>
+
+                    <div class="fs-2 fw-bold text-success">
+                        @Model.CorrectAnswers
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="col-12 col-md-3">
+
+            <div class="card shadow-sm border-0 h-100">
+
+                <div class="card-body text-center">
+
+                    <div class="text-muted">
+                        Sai
+                    </div>
+
+                    <div class="fs-2 fw-bold text-danger">
+                        @Model.WrongAnswers
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="col-12 col-md-3">
+
+            <div class="card shadow-sm border-0 h-100">
+
+                <div class="card-body text-center">
+
+                    <div class="text-muted">
+                        Chưa trả lời
+                    </div>
+
+                    <div class="fs-2 fw-bold text-secondary">
+                        @Model.Unanswered
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- DETAIL -->
+    <div class="row justify-content-center mb-4">
+
+        <div class="col-12 col-lg-8">
+
+            <div class="card shadow-sm border-0">
+
+                <div class="card-body p-4">
+
+                    <h5 class="fw-bold mb-4">
+                        📊 Thông tin lượt làm bài
+                    </h5>
+
+                    <div class="row g-3">
+
+                        <div class="col-md-6">
+
+                            <div class="border rounded p-3">
+
+                                <div class="text-muted small">
+                                    Môn học
+                                </div>
+
+                                <div class="fw-semibold">
+                                    @attempt.Subject.Name
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="col-md-6">
+
+                            <div class="border rounded p-3">
+
+                                <div class="text-muted small">
+                                    Thời gian bắt đầu
+                                </div>
+
+                                <div class="fw-semibold">
+                                    @attempt.StartedAt.ToString("dd/MM/yyyy HH:mm")
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="col-md-6">
+
+                            <div class="border rounded p-3">
+
+                                <div class="text-muted small">
+                                    Thời gian nộp
+                                </div>
+
+                                <div class="fw-semibold">
+                                    @(attempt.SubmittedAt.HasValue
+                                                                        ? attempt.SubmittedAt.Value.ToString("dd/MM/yyyy HH:mm")
+                                                                        : "-")
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="col-md-6">
+
+                            <div class="border rounded p-3">
+
+                                <div class="text-muted small">
+                                    Thời gian làm bài
+                                </div>
+
+                                <div class="fw-semibold">
+                                    @((int)duration.TotalMinutes) phút
+                                    @duration.Seconds giây
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- ACTIONS -->
+    <div class="text-center">
+
+        <a asp-controller="Practice"
+           asp-action="Index"
+           class="btn btn-outline-primary btn-lg px-4 me-2">
+
+            📚 Chọn môn khác
+
+        </a>
+
+
+        <form asp-controller="Practice"
+              asp-action="Retry"
+              method="post"
+              class="d-inline">
+
+            @Html.AntiForgeryToken()
+
+            <input type="hidden"
+                   name="subjectId"
+                   value="@attempt.SubjectId" />
+
+            <button type="submit"
+                    class="btn btn-primary btn-lg px-4">
+
+                🔄 Luyện lại
+
+            </button>
+
+        </form>
+
+    </div>
+    
+
+</div>
