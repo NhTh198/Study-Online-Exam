@@ -1,0 +1,354 @@
+@model List<Study.Models.Subject>
+
+@{
+    ViewData["Title"] = "Phân công môn học";
+
+    var lecturer = ViewBag.Lecturer as Study.Models.User;
+
+    var assignedSubjectIds =
+        ViewBag.AssignedSubjectIds as List<int>
+        ?? new List<int>();
+}
+
+<style>
+    .assignment-page {
+        width: 100%;
+        min-height: calc(100vh - 150px);
+        padding: 40px 5%;
+        background: #f8fafc;
+        box-sizing: border-box;
+    }
+
+    .assignment-card {
+        max-width: 1000px;
+        margin: 0 auto;
+    }
+
+    .top-card {
+        background: white;
+        border-radius: 16px;
+        padding: 25px;
+        margin-bottom: 20px;
+        box-shadow: 0 4px 15px rgba(15, 23, 42, 0.06);
+    }
+
+        .top-card h1 {
+            margin: 0;
+            color: #0f172a;
+            font-size: 28px;
+        }
+
+    .lecturer-info {
+        margin-top: 15px;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 15px;
+        color: #475569;
+    }
+
+        .lecturer-info strong {
+            color: #0f172a;
+        }
+
+    .alert {
+        padding: 14px 18px;
+        border-radius: 10px;
+        margin-bottom: 20px;
+        font-weight: 500;
+    }
+
+    .alert-success {
+        background: #dcfce7;
+        color: #166534;
+    }
+
+    .alert-error {
+        background: #fee2e2;
+        color: #991b1b;
+    }
+
+    .subject-card {
+        background: white;
+        border-radius: 16px;
+        padding: 25px;
+        box-shadow: 0 4px 15px rgba(15, 23, 42, 0.06);
+    }
+
+    .section-title {
+        margin: 0 0 20px;
+        color: #0f172a;
+        font-size: 21px;
+    }
+
+    .subject-list {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 15px;
+    }
+
+    .subject-item {
+        border: 1px solid #e2e8f0;
+        border-radius: 12px;
+        padding: 17px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 15px;
+    }
+
+        .subject-item:hover {
+            border-color: #93c5fd;
+            background: #f8fbff;
+        }
+
+    .subject-info {
+        min-width: 0;
+    }
+
+    .subject-code {
+        display: inline-block;
+        background: #dbeafe;
+        color: #1d4ed8;
+        padding: 5px 9px;
+        border-radius: 6px;
+        font-size: 12px;
+        font-weight: 700;
+        margin-bottom: 6px;
+    }
+
+    .subject-name {
+        font-weight: 600;
+        color: #0f172a;
+    }
+
+    .subject-description {
+        margin-top: 5px;
+        color: #64748b;
+        font-size: 13px;
+    }
+
+    .assigned {
+        color: #166534;
+        background: #dcfce7;
+        padding: 7px 11px;
+        border-radius: 7px;
+        font-size: 13px;
+        font-weight: 600;
+        white-space: nowrap;
+    }
+
+    .btn-assign {
+        border: none;
+        background: #2563eb;
+        color: white;
+        padding: 9px 13px;
+        border-radius: 7px;
+        font-weight: 600;
+        cursor: pointer;
+        white-space: nowrap;
+    }
+
+        .btn-assign:hover {
+            background: #1d4ed8;
+        }
+
+    .btn-remove {
+        border: none;
+        background: #fee2e2;
+        color: #b91c1c;
+        padding: 9px 13px;
+        border-radius: 7px;
+        font-weight: 600;
+        cursor: pointer;
+        white-space: nowrap;
+    }
+
+        .btn-remove:hover {
+            background: #fecaca;
+        }
+
+    .bottom-actions {
+        margin-top: 20px;
+    }
+
+    .btn-back {
+        display: inline-block;
+        padding: 11px 18px;
+        background: #e2e8f0;
+        color: #334155;
+        border-radius: 9px;
+        text-decoration: none;
+        font-weight: 600;
+    }
+
+    @@media (max-width: 750px) {
+        .assignment-page {
+            padding: 25px 15px;
+        }
+
+        .subject-list {
+            grid-template-columns: 1fr;
+        }
+
+        .subject-item {
+            align-items: flex-start;
+        }
+    }
+</style>
+
+<div class="assignment-page">
+
+    <div class="assignment-card">
+
+        <div class="top-card">
+
+            <h1>Phân công môn học</h1>
+
+            @if (lecturer != null)
+            {
+                <div class="lecturer-info">
+
+                    <div>
+                        Lecturer:
+                        <strong>@lecturer.FullName</strong>
+                    </div>
+
+                    <div>
+                        Email:
+                        <strong>@lecturer.Email</strong>
+                    </div>
+
+                </div>
+            }
+
+        </div>
+
+
+        @if (TempData["Success"] != null)
+        {
+            <div class="alert alert-success">
+                @TempData["Success"]
+            </div>
+        }
+
+        @if (TempData["Error"] != null)
+        {
+            <div class="alert alert-error">
+                @TempData["Error"]
+            </div>
+        }
+
+
+        <div class="subject-card">
+
+            <h2 class="section-title">
+                Danh sách môn học
+            </h2>
+
+            @if (Model == null || !Model.Any())
+            {
+                <p style="color:#64748b;">
+                    Hiện chưa có môn học đang hoạt động.
+                </p>
+            }
+            else
+            {
+                <div class="subject-list">
+
+                    @foreach (var subject in Model)
+                    {
+                        bool isAssigned =
+                        assignedSubjectIds.Contains(subject.Id);
+
+                        <div class="subject-item">
+
+                            <div class="subject-info">
+
+                                <span class="subject-code">
+                                    @subject.Code
+                                </span>
+
+                                <div class="subject-name">
+                                    @subject.Name
+                                </div>
+
+                                @if (!string.IsNullOrWhiteSpace(subject.Description))
+                                {
+                                    <div class="subject-description">
+                                        @subject.Description
+                                    </div>
+                                }
+
+                            </div>
+
+
+                            @if (isAssigned)
+                            {
+                                <form asp-controller="AdminSubject"
+                                      asp-action="RemoveSubjectAssignment"
+                                      method="post">
+
+                                    @Html.AntiForgeryToken()
+
+                                    <input type="hidden"
+                                           name="lecturerId"
+                                           value="@lecturer.Id" />
+
+                                    <input type="hidden"
+                                           name="subjectId"
+                                           value="@subject.Id" />
+
+                                    <button type="submit"
+                                            class="btn-remove"
+                                            onclick="return confirm('Bạn có chắc muốn bỏ phân công môn này?');">
+                                        Bỏ phân công
+                                    </button>
+
+                                </form>
+                            }
+                            else
+                            {
+                                <form asp-controller="AdminSubject"
+                                      asp-action="AssignSubject"
+                                      method="post">
+
+                                    @Html.AntiForgeryToken()
+
+                                    <input type="hidden"
+                                           name="LecturerId"
+                                           value="@lecturer.Id" />
+
+                                    <input type="hidden"
+                                           name="SubjectId"
+                                           value="@subject.Id" />
+
+                                    <button type="submit"
+                                            class="btn-assign">
+                                        + Phân công
+                                    </button>
+
+                                </form>
+                            }
+
+                        </div>
+                    }
+
+                </div>
+            }
+
+        </div>
+
+
+        <div class="bottom-actions">
+
+            <a asp-controller="AdminSubject"
+               asp-action="Lecturers"
+               class="btn-back">
+                ← Quay lại Lecturer
+            </a>
+
+        </div>
+
+    </div>
+
+</div>

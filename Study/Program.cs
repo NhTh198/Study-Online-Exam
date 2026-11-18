@@ -42,9 +42,9 @@ app.UseSession();
 
 app.UseAuthorization();
 
-// Route m?c ï¿½?nh
+// Route m?c ð?nh
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Account}/{action=Login}/{id?}");
+    pattern: "{controller=Home}/{action=Index}/{id?}");
 
 app.Run();

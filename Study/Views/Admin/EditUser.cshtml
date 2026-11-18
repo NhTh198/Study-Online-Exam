@@ -1,0 +1,298 @@
+﻿@model Study.ViewModels.AdminEditUserViewModel
+
+@{
+    ViewData["Title"] = "Sửa tài khoản";
+
+    var roles =
+        ViewBag.Roles as List<Study.Models.Role>;
+}
+
+<style>
+
+    .edit-page {
+        width: 100%;
+        padding: 40px 5%;
+        background: #f8fafc;
+        min-height: calc(100vh - 150px);
+        box-sizing: border-box;
+    }
+
+    .edit-header {
+        margin-bottom: 30px;
+    }
+
+    .edit-title {
+        margin: 0;
+        color: #1d4ed8;
+        font-size: 32px;
+        font-weight: 800;
+    }
+
+    .edit-subtitle {
+        margin-top: 8px;
+        color: #64748b;
+    }
+
+    .edit-card {
+        max-width: 700px;
+        background: #ffffff;
+        border: 1px solid #e2e8f0;
+        border-radius: 12px;
+        padding: 30px;
+        box-sizing: border-box;
+    }
+
+    .form-group {
+        margin-bottom: 20px;
+    }
+
+    .form-label {
+        display: block;
+        margin-bottom: 8px;
+        color: #334155;
+        font-size: 14px;
+        font-weight: 700;
+    }
+
+    .form-control {
+        width: 100%;
+        padding: 12px 14px;
+        border: 1px solid #cbd5e1;
+        border-radius: 8px;
+        box-sizing: border-box;
+        font-size: 14px;
+        outline: none;
+    }
+
+        .form-control:focus {
+            border-color: #2563eb;
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+
+    .text-danger {
+        display: block;
+        margin-top: 5px;
+        color: #dc2626;
+        font-size: 13px;
+    }
+
+    .button-group {
+        display: flex;
+        gap: 10px;
+        margin-top: 25px;
+    }
+
+    .btn-save {
+        border: none;
+        padding: 11px 20px;
+        background: #2563eb;
+        color: white;
+        border-radius: 8px;
+        font-weight: 700;
+        cursor: pointer;
+    }
+
+        .btn-save:hover {
+            background: #1d4ed8;
+        }
+
+    .btn-cancel {
+        display: inline-block;
+        padding: 10px 20px;
+        background: white;
+        border: 1px solid #cbd5e1;
+        color: #475569;
+        border-radius: 8px;
+        text-decoration: none;
+        font-weight: 600;
+    }
+
+        .btn-cancel:hover {
+            background: #f1f5f9;
+        }
+
+    @@media (max-width: 600px) {
+
+        .edit-page {
+            padding: 25px 15px;
+        }
+
+        .edit-card {
+            padding: 20px;
+        }
+
+        .edit-title {
+            font-size: 26px;
+        }
+
+        .button-group {
+            flex-direction: column;
+        }
+
+        .btn-save,
+        .btn-cancel {
+            width: 100%;
+            text-align: center;
+            box-sizing: border-box;
+        }
+    }
+
+</style>
+
+
+<div class="edit-page">
+
+    <div class="edit-header">
+
+        <h1 class="edit-title">
+            SỬA TÀI KHOẢN
+        </h1>
+
+        <p class="edit-subtitle">
+            Cập nhật thông tin Lecturer hoặc Student
+        </p>
+
+    </div>
+
+
+    <div class="edit-card">
+
+        <form asp-controller="Admin"
+              asp-action="EditUser"
+              method="post">
+
+            @Html.AntiForgeryToken()
+
+            <input type="hidden"
+                   asp-for="Id" />
+
+
+            <div asp-validation-summary="ModelOnly"
+                 class="text-danger">
+            </div>
+
+
+            <!-- HỌ TÊN -->
+
+            <div class="form-group">
+
+                <label asp-for="FullName"
+                       class="form-label">
+                    Họ và tên
+                </label>
+
+                <input asp-for="FullName"
+                       class="form-control"
+                       placeholder="Nhập họ và tên" />
+
+                <span asp-validation-for="FullName"
+                      class="text-danger">
+                </span>
+
+            </div>
+
+
+            <!-- EMAIL -->
+
+            <div class="form-group">
+
+                <label asp-for="Email"
+                       class="form-label">
+                    Email
+                </label>
+
+                <input asp-for="Email"
+                       class="form-control"
+                       placeholder="example@gmail.com" />
+
+                <span asp-validation-for="Email"
+                      class="text-danger">
+                </span>
+
+            </div>
+
+
+            <!-- MÃ SINH VIÊN -->
+
+            <div class="form-group">
+
+                <label asp-for="StudentCode"
+                       class="form-label">
+                    Mã sinh viên
+                </label>
+
+                <input asp-for="StudentCode"
+                       class="form-control"
+                       placeholder="Ví dụ: SE180001" />
+
+                <span asp-validation-for="StudentCode"
+                      class="text-danger">
+                </span>
+
+            </div>
+
+
+            <!-- ROLE -->
+
+            <div class="form-group">
+
+                <label asp-for="RoleId"
+                       class="form-label">
+                    Vai trò
+                </label>
+
+                <select asp-for="RoleId"
+                        class="form-control">
+
+                    <option value="">
+                        -- Chọn vai trò --
+                    </option>
+
+                    @if (roles != null)
+                    {
+                        foreach (var role in roles)
+                        {
+                            <option value="@role.Id">
+                                @role.Name
+                            </option>
+                        }
+                    }
+
+                </select>
+
+                <span asp-validation-for="RoleId"
+                      class="text-danger">
+                </span>
+
+            </div>
+
+
+            <!-- BUTTON -->
+
+            <div class="button-group">
+
+                <button type="submit"
+                        class="btn-save">
+                    Lưu thay đổi
+                </button>
+
+                <a asp-controller="Admin"
+                   asp-action="Index"
+                   class="btn-cancel">
+                    Hủy
+                </a>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+
+@section Scripts {
+
+    <partial name="_ValidationScriptsPartial" />
+
+}
