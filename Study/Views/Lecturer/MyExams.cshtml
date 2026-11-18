@@ -1,0 +1,416 @@
+﻿
+@model List<Study.Models.Exam>
+
+@{
+    ViewData["Title"] = "Kỳ thi của tôi";
+}
+
+<style>
+
+    .exam-page {
+        width: 100%;
+        min-height: calc(100vh - 150px);
+        padding: 40px 5%;
+        background: #f8fafc;
+        box-sizing: border-box;
+    }
+
+    .page-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 25px;
+        gap: 20px;
+    }
+
+        .page-header h1 {
+            margin: 0;
+            color: #0f172a;
+            font-size: 30px;
+        }
+
+        .page-header p {
+            margin-top: 8px;
+            color: #64748b;
+        }
+
+    .btn-create {
+        padding: 11px 18px;
+        background: #2563eb;
+        color: white;
+        text-decoration: none;
+        border-radius: 8px;
+        font-weight: 600;
+    }
+
+        .btn-create:hover {
+            background: #1d4ed8;
+        }
+
+    .alert {
+        padding: 14px 18px;
+        border-radius: 8px;
+        margin-bottom: 20px;
+    }
+
+    .alert-success {
+        background: #dcfce7;
+        color: #166534;
+    }
+
+    .alert-error {
+        background: #fee2e2;
+        color: #991b1b;
+    }
+
+    .table-card {
+        background: white;
+        border-radius: 16px;
+        box-shadow: 0 4px 15px rgba(15, 23, 42, .06);
+        overflow-x: auto;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        min-width: 900px;
+    }
+
+    th {
+        background: #eff6ff;
+        color: #1e3a8a;
+        text-align: left;
+        padding: 15px;
+        font-size: 14px;
+    }
+
+    td {
+        padding: 15px;
+        border-top: 1px solid #e2e8f0;
+        color: #334155;
+        vertical-align: middle;
+    }
+
+    tr:hover td {
+        background: #f8fbff;
+    }
+
+    .exam-name {
+        font-weight: 700;
+        color: #0f172a;
+    }
+
+    .question-count {
+        display: inline-block;
+        padding: 5px 9px;
+        border-radius: 6px;
+        background: #dbeafe;
+        color: #1d4ed8;
+        font-size: 12px;
+        font-weight: 700;
+    }
+
+    .status {
+        display: inline-block;
+        padding: 6px 10px;
+        border-radius: 20px;
+        font-size: 12px;
+        font-weight: 700;
+    }
+
+    .status-draft {
+        background: #f1f5f9;
+        color: #475569;
+    }
+
+    .status-pending {
+        background: #fef3c7;
+        color: #92400e;
+    }
+
+    .status-approved {
+        background: #dcfce7;
+        color: #166534;
+    }
+
+    .status-rejected {
+        background: #fee2e2;
+        color: #991b1b;
+    }
+
+    .status-scheduled {
+        background: #e0e7ff;
+        color: #3730a3;
+    }
+
+    .status-published {
+        background: #dbeafe;
+        color: #1d4ed8;
+    }
+
+    .empty {
+        padding: 60px 20px;
+        text-align: center;
+        color: #64748b;
+    }
+
+        .empty h3 {
+            color: #334155;
+            margin-bottom: 8px;
+        }
+
+    .actions {
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+    }
+
+    .action-btn {
+        display: inline-block;
+        padding: 7px 11px;
+        border-radius: 6px;
+        text-decoration: none;
+        border: none;
+        font-size: 12px;
+        font-weight: 600;
+        cursor: pointer;
+    }
+
+    .btn-view {
+        background: #e0f2fe;
+        color: #0369a1;
+    }
+
+    .btn-edit {
+        background: #fef3c7;
+        color: #92400e;
+    }
+
+</style>
+
+
+<div class="exam-page">
+
+    <div class="page-header">
+
+        <div>
+
+            <h1>
+                Kỳ thi của tôi
+            </h1>
+
+            <p>
+                Quản lý các kỳ thi do bạn tạo.
+            </p>
+
+        </div>
+
+        <a asp-controller="Lecturer"
+           asp-action="CreateExam"
+           class="btn-create">
+
+            + Tạo kỳ thi
+
+        </a>
+
+    </div>
+
+
+    @if (TempData["Success"] != null)
+    {
+        <div class="alert alert-success">
+            @TempData["Success"]
+        </div>
+    }
+
+
+    @if (TempData["Error"] != null)
+    {
+        <div class="alert alert-error">
+            @TempData["Error"]
+        </div>
+    }
+
+
+    @if (!Model.Any())
+    {
+        <div class="table-card">
+
+            <div class="empty">
+
+                <h3>
+                    Chưa có kỳ thi
+                </h3>
+
+                <p>
+                    Bạn chưa tạo kỳ thi nào.
+                </p>
+
+            </div>
+
+        </div>
+    }
+    else
+    {
+        <div class="table-card">
+
+            <table>
+
+                <thead>
+
+                    <tr>
+
+                        <th>ID</th>
+
+                        <th>Tên kỳ thi</th>
+
+                        <th>Môn học</th>
+
+                        <th>Số câu</th>
+
+                        <th>Trạng thái</th>
+
+                        <th>Ngày tạo</th>
+
+                        <th>Thao tác</th>
+
+                    </tr>
+
+                </thead>
+
+
+                <tbody>
+
+                    @foreach (var exam in Model)
+                    {
+                        <tr>
+
+                            <td>
+                                @exam.Id
+                            </td>
+
+
+                            <td>
+
+                                <div class="exam-name">
+                                    @exam.Name
+                                </div>
+
+                            </td>
+
+
+                            <td>
+
+                                @exam.Subject?.Name
+
+                            </td>
+
+
+                            <td>
+
+                                <span class="question-count">
+
+                                    @(exam.ExamQuestions?.Count ?? 0) câu
+
+                                </span>
+
+                            </td>
+
+
+                            <td>
+
+                                @if (exam.Status == "Draft")
+                                {
+                                    <span class="status status-draft">
+                                        Draft
+                                    </span>
+                                }
+                                else if (exam.Status == "PendingApproval")
+                                {
+                                    <span class="status status-pending">
+                                        Chờ duyệt
+                                    </span>
+                                }
+                                else if (exam.Status == "Approved")
+                                {
+                                    <span class="status status-approved">
+                                        Đã duyệt
+                                    </span>
+                                }
+                                else if (exam.Status == "Rejected")
+                                {
+                                    <span class="status status-rejected">
+                                        Từ chối
+                                    </span>
+                                }
+                                else if (exam.Status == "Scheduled")
+                                {
+                                    <span class="status status-scheduled">
+                                        Đã xếp lịch
+                                    </span>
+                                }
+                                else if (exam.Status == "Published")
+                                {
+                                    <span class="status status-published">
+                                        Đã công bố
+                                    </span>
+                                }
+                                else
+                                {
+                                    <span class="status status-draft">
+                                        @exam.Status
+                                    </span>
+                                }
+
+                            </td>
+
+
+                            <td>
+
+                                @exam.CreatedAt.ToString("dd/MM/yyyy HH:mm")
+
+                            </td>
+
+
+                            <td>
+
+                                <div class="actions">
+
+                                    <a asp-controller="Lecturer"
+                                       asp-action="ReviewExam"
+                                       asp-route-id="@exam.Id"
+                                       class="action-btn btn-view">
+
+                                        Xem
+
+                                    </a>
+
+
+                                    @if (exam.Status == "Draft" ||
+                                                                exam.Status == "Rejected")
+                                    {
+                                        <a asp-controller="Lecturer"
+                                           asp-action="EditExam"
+                                           asp-route-id="@exam.Id"
+                                           class="action-btn btn-edit">
+
+                                            ✏️ Sửa
+
+                                        </a>
+                                    }
+
+                                </div>
+
+                            </td>
+
+                        </tr>
+                    }
+
+                </tbody>
+
+            </table>
+
+        </div>
+    }
+
+</div>

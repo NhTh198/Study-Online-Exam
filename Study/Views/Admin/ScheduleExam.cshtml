@@ -1,0 +1,314 @@
+﻿@model Study.ViewModels.AdminScheduleExamViewModel
+
+@{
+    ViewData["Title"] = "Xếp lịch thi";
+}
+
+<div class="admin-page">
+
+    <div class="page-header">
+        <div>
+            <h1>📅 Xếp lịch thi</h1>
+            <p>Thiết lập thời gian và Exam Key cho kỳ thi.</p>
+        </div>
+
+        <a asp-controller="Admin"
+           asp-action="Exams"
+           class="btn-back">
+            ← Quay lại
+        </a>
+    </div>
+
+    @if (TempData["Error"] != null)
+    {
+        <div class="alert alert-danger">
+            @TempData["Error"]
+        </div>
+    }
+
+    <div class="schedule-card">
+
+        <div class="exam-info">
+            <h2>@Model.ExamName</h2>
+
+            <p>
+                <strong>Môn học:</strong>
+                @Model.SubjectName
+            </p>
+        </div>
+
+        <form asp-action="ScheduleExam"
+              method="post">
+
+            @Html.AntiForgeryToken()
+
+            <input type="hidden"
+                   asp-for="ExamId" />
+
+            <div asp-validation-summary="ModelOnly"
+                 class="text-danger">
+            </div>
+
+            <div class="form-group">
+                <label asp-for="StartTime">
+                    Thời gian bắt đầu
+                </label>
+
+                <input asp-for="StartTime"
+                       type="datetime-local"
+                       class="form-control" />
+
+                <span asp-validation-for="StartTime"
+                      class="text-danger">
+                </span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="EndTime">
+                    Thời gian kết thúc
+                </label>
+
+                <input asp-for="EndTime"
+                       type="datetime-local"
+                       class="form-control" />
+
+                <span asp-validation-for="EndTime"
+                      class="text-danger">
+                </span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="DurationMinutes">
+                    Thời lượng làm bài
+                </label>
+
+                <input asp-for="DurationMinutes"
+                       type="number"
+                       min="1"
+                       max="600"
+                       class="form-control" />
+
+                <small>
+                    Ví dụ: 60 phút.
+                </small>
+
+                <span asp-validation-for="DurationMinutes"
+                      class="text-danger">
+                </span>
+            </div>
+
+            <div class="form-group">
+
+                <label>Grace Period</label>
+
+                <input type="text"
+                       value="15 phút"
+                       class="form-control"
+                       readonly />
+
+                <small>
+                    Sinh viên được phép bắt đầu trong
+                    15 phút sau giờ chính thức.
+                </small>
+
+            </div>
+
+            <div class="form-group">
+
+                <label asp-for="ExamKey">
+                    Exam Key
+                </label>
+
+                <input asp-for="ExamKey"
+                       class="form-control"
+                       maxlength="20"
+                       placeholder="Để trống để hệ thống tự tạo" />
+
+                <small>
+                    Key sẽ được mở cho Admin trước giờ thi 10 phút.
+                </small>
+
+                <span asp-validation-for="ExamKey"
+                      class="text-danger">
+                </span>
+
+            </div>
+
+            <div class="schedule-note">
+
+                <strong>Quy tắc:</strong>
+
+                <ul>
+                    <li>Exam Key được tạo riêng cho kỳ thi.</li>
+                    <li>Key hiển thị trước giờ bắt đầu 10 phút.</li>
+                    <li>Grace Period là 15 phút.</li>
+                    <li>Sinh viên bắt đầu muộn vẫn có đủ thời lượng.</li>
+                    <li>Đề chỉ được công bố sau khi đã xếp lịch.</li>
+                </ul>
+
+            </div>
+
+            <div class="form-actions">
+
+                <a asp-action="Exams"
+                   class="btn-cancel">
+                    Hủy
+                </a>
+
+                <button type="submit"
+                        class="btn-save">
+                    💾 Lưu lịch thi
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
+
+<style>
+
+    .admin-page {
+        width: 100%;
+        padding: 30px 5%;
+        background: #f5f9ff;
+        min-height: calc(100vh - 100px);
+    }
+
+    .page-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 25px;
+    }
+
+        .page-header h1 {
+            margin: 0;
+            color: #0d47a1;
+        }
+
+        .page-header p {
+            margin-top: 8px;
+            color: #666;
+        }
+
+    .btn-back {
+        text-decoration: none;
+        padding: 10px 18px;
+        border-radius: 8px;
+        background: #e3f2fd;
+        color: #1565c0;
+    }
+
+    .schedule-card {
+        max-width: 800px;
+        background: white;
+        padding: 30px;
+        border-radius: 14px;
+        box-shadow: 0 5px 20px rgba(0,0,0,.08);
+    }
+
+    .exam-info {
+        border-bottom: 1px solid #eee;
+        margin-bottom: 25px;
+        padding-bottom: 20px;
+    }
+
+        .exam-info h2 {
+            margin-bottom: 10px;
+            color: #1565c0;
+        }
+
+    .form-group {
+        margin-bottom: 20px;
+    }
+
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+    .form-control {
+        width: 100%;
+        padding: 11px 12px;
+        border: 1px solid #ccc;
+        border-radius: 8px;
+        font-size: 15px;
+        box-sizing: border-box;
+    }
+
+        .form-control:focus {
+            outline: none;
+            border-color: #1976d2;
+        }
+
+    .form-group small {
+        display: block;
+        margin-top: 5px;
+        color: #777;
+    }
+
+    .schedule-note {
+        background: #e3f2fd;
+        border-left: 4px solid #1976d2;
+        padding: 15px;
+        margin-top: 20px;
+        border-radius: 6px;
+    }
+
+        .schedule-note ul {
+            margin-bottom: 0;
+        }
+
+    .form-actions {
+        display: flex;
+        justify-content: flex-end;
+        gap: 10px;
+        margin-top: 25px;
+    }
+
+    .btn-save,
+    .btn-cancel {
+        border: none;
+        padding: 11px 20px;
+        border-radius: 8px;
+        cursor: pointer;
+        text-decoration: none;
+    }
+
+    .btn-save {
+        background: #1976d2;
+        color: white;
+    }
+
+    .btn-cancel {
+        background: #eee;
+        color: #333;
+    }
+
+    .text-danger {
+        color: #d32f2f;
+        font-size: 14px;
+    }
+
+    .alert {
+        padding: 12px 15px;
+        border-radius: 8px;
+        margin-bottom: 20px;
+    }
+
+    .alert-danger {
+        background: #ffebee;
+        color: #c62828;
+    }
+
+</style>

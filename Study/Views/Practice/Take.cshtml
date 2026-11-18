@@ -1,0 +1,381 @@
+﻿
+@model Study.ViewModels.PracticeTakeViewModel
+
+@{
+    ViewData["Title"] = "Làm bài tự luyện";
+}
+
+<div class="container-fluid py-3">
+
+    <!-- HEADER -->
+    <div class="card shadow-sm border-0 mb-3">
+        <div class="card-body">
+
+            <div class="row align-items-center">
+
+                <div class="col-md-8">
+
+                    <h4 class="fw-bold text-primary mb-1">
+                        📝 Tự luyện - @Model.SubjectName
+                    </h4>
+
+                    <div class="text-muted">
+                        @Model.TotalQuestions câu hỏi
+                        • Trang @Model.CurrentPage / @Model.TotalPages
+                    </div>
+
+                </div>
+
+                <div class="col-md-4 text-md-end mt-3 mt-md-0">
+
+                    <div class="fw-bold text-danger fs-4"
+                         id="timer">
+                        60:00
+                    </div>
+
+                    <div class="small text-muted">
+                        Thời gian còn lại
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+
+    <!-- PROGRESS -->
+    <div class="card shadow-sm border-0 mb-3">
+
+        <div class="card-body">
+
+            <div class="d-flex justify-content-between mb-2">
+
+                <span class="fw-semibold">
+                    Tiến độ
+                </span>
+
+                <span>
+                    Trang @Model.CurrentPage / @Model.TotalPages
+                </span>
+
+            </div>
+
+            <div class="progress"
+                 style="height: 10px;">
+
+                <div class="progress-bar"
+                     role="progressbar"
+                     style="width: @((double)Model.CurrentPage / Model.TotalPages * 100)%">
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- QUESTIONS -->
+    @foreach (var question in Model.Questions)
+    {
+        <div class="card shadow-sm border-0 mb-4">
+
+            <div class="card-body p-4">
+
+                <!-- QUESTION HEADER -->
+                <div class="d-flex justify-content-between align-items-start mb-3">
+
+                    <div>
+
+                        <span class="badge bg-primary">
+                            Câu @question.QuestionOrder
+                        </span>
+
+                        @if (!string.IsNullOrWhiteSpace(question.Topic))
+                        {
+                            <span class="badge bg-secondary ms-1">
+                                @question.Topic
+                            </span>
+                        }
+
+                        <span class="badge bg-light text-dark ms-1">
+                            @question.Difficulty
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+                <!-- QUESTION CONTENT -->
+                <h5 class="fw-semibold mb-4"
+                    style="line-height: 1.6;">
+
+                    @question.Content
+
+                </h5>
+
+
+                <!-- OPTIONS -->
+                <form asp-controller="Practice"
+                      asp-action="SaveAnswer"
+                      method="post">
+
+                    @Html.AntiForgeryToken()
+
+                    <input type="hidden"
+                           name="attemptId"
+                           value="@Model.AttemptId" />
+
+                    <input type="hidden"
+                           name="questionId"
+                           value="@question.QuestionId" />
+
+                    <input type="hidden"
+                           name="page"
+                           value="@Model.CurrentPage" />
+
+
+                    @foreach (var option in question.Options)
+                    {
+                        <div class="form-check border rounded p-3 mb-2">
+
+                            <input class="form-check-input ms-0 me-2"
+                                   type="radio"
+                                   name="selectedOptionId"
+                                   value="@option.OptionId"
+                                   id="option_@option.OptionId"
+                                   @(question.SelectedOptionId == option.OptionId
+                                                              ? "checked"
+                                                              : null)
+                           onchange="this.form.submit();" />
+
+                            <label class="form-check-label w-100"
+                                   for="option_@option.OptionId"
+                                   style="cursor:pointer;">
+
+                                <strong>
+                                    @option.Letter.
+                                </strong>
+
+                                @option.Content
+
+                            </label>
+
+                        </div>
+                                }
+
+
+                    <!-- MARK -->
+                    <div class="mt-3">
+
+                        <input type="hidden"
+                               name="isMarked"
+                               value="false" />
+
+                        <div class="form-check">
+
+                            <input class="form-check-input"
+                                   type="checkbox"
+                                   name="isMarked"
+                                   value="true"
+                                   id="mark_@question.QuestionId"
+                                   @(question.IsMarked ? "checked" : null)
+                                   onchange="this.form.submit();" />
+
+                            <label class="form-check-label"
+                                   for="mark_@question.QuestionId">
+
+                                🔖 Đánh dấu câu này
+
+                            </label>
+
+                        </div>
+
+                    </div>
+
+                </form>
+
+            </div>
+
+        </div>
+    }
+
+
+    <!-- NAVIGATION -->
+    <div class="card shadow-sm border-0 mb-4">
+
+        <div class="card-body">
+
+            <div class="d-flex justify-content-between align-items-center">
+
+                <!-- PREVIOUS -->
+                <div>
+
+                    @if (Model.CurrentPage > 1)
+                    {
+                        <a asp-controller="Practice"
+                           asp-action="Take"
+                           asp-route-id="@Model.AttemptId"
+                           asp-route-page="@(Model.CurrentPage - 1)"
+                           class="btn btn-outline-primary">
+
+                            ← Trang trước
+
+                        </a>
+                    }
+
+                </div>
+
+
+                <!-- PAGE NUMBERS -->
+                <div class="d-none d-md-flex gap-1">
+
+                    @for (int i = 1; i <= Model.TotalPages; i++)
+                    {
+                        if (i == Model.CurrentPage)
+                        {
+                            <a asp-controller="Practice"
+                               asp-action="Take"
+                               asp-route-id="@Model.AttemptId"
+                               asp-route-page="@i"
+                               class="btn btn-primary">
+
+                                @i
+
+                            </a>
+                        }
+                        else
+                        {
+                            <a asp-controller="Practice"
+                               asp-action="Take"
+                               asp-route-id="@Model.AttemptId"
+                               asp-route-page="@i"
+                               class="btn btn-outline-secondary">
+
+                                @i
+
+                            </a>
+                        }
+                    }
+
+                </div>
+
+
+                <!-- NEXT -->
+                <div>
+
+                    @if (Model.CurrentPage < Model.TotalPages)
+                    {
+                        <a asp-controller="Practice"
+                           asp-action="Take"
+                           asp-route-id="@Model.AttemptId"
+                           asp-route-page="@(Model.CurrentPage + 1)"
+                           class="btn btn-primary">
+
+                            Trang sau →
+
+                        </a>
+                    }
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- SUBMIT -->
+    <div class="text-center mb-5">
+
+        <form asp-controller="Practice"
+              asp-action="Submit"
+              method="post"
+              id="submitForm">
+
+            @Html.AntiForgeryToken()
+
+            <input type="hidden"
+                   name="id"
+                   value="@Model.AttemptId" />
+
+            <button type="submit"
+                    class="btn btn-success btn-lg px-5"
+                    onclick="return confirm('Bạn chắc chắn muốn nộp bài?');">
+
+                ✅ Nộp bài
+
+            </button>
+
+        </form>
+
+    </div>
+
+</div>
+
+
+@section Scripts
+{
+    <script>
+
+        // ==============================================
+        // TIMER
+        // ==============================================
+
+        const forcedSubmitTime =
+            new Date(
+                "@Model.ForcedSubmitTime.ToString("yyyy-MM-ddTHH:mm:ss")"
+            );
+
+        const timerElement =
+            document.getElementById("timer");
+
+
+        function updateTimer()
+        {
+            const now =
+                new Date();
+
+            let remaining =
+                Math.floor(
+                    (forcedSubmitTime - now) / 1000
+                );
+
+
+            if (remaining <= 0)
+            {
+                timerElement.innerText = "00:00";
+
+                document.getElementById("submitForm").submit();
+
+                return;
+            }
+
+
+            const minutes =
+                Math.floor(remaining / 60);
+
+            const seconds =
+                remaining % 60;
+
+
+            timerElement.innerText =
+                String(minutes).padStart(2, "0")
+                + ":"
+                + String(seconds).padStart(2, "0");
+        }
+
+
+        updateTimer();
+
+        setInterval(
+            updateTimer,
+            1000
+        );
+
+    </script>
+}
