@@ -1,8 +1,16 @@
+<<<<<<< Updated upstream
 ﻿
 @model List<Study.Models.Question>
 
 @{
     ViewData["Title"] = "Question Bank";
+=======
+
+@model List<Study.Models.Question>
+
+@{
+    ViewData["Title"] = "Ngân hàng câu hỏi";
+>>>>>>> Stashed changes
 
     var subjects = ViewBag.Subjects
         as List<Study.Models.Subject>
@@ -389,7 +397,11 @@
         <div>
 
             <h1>
+<<<<<<< Updated upstream
                 Question Bank
+=======
+                Ngân hàng câu hỏi
+>>>>>>> Stashed changes
             </h1>
 
             <p>
@@ -401,6 +413,7 @@
 
         @if (subjects.Any())
         {
+<<<<<<< Updated upstream
             <a asp-controller="Lecturer"
                asp-action="CreateQuestion"
                asp-route-subjectId="@(selectedSubjectId ?? subjects.First().Id)"
@@ -409,6 +422,17 @@
                 + Thêm câu hỏi
 
             </a>
+=======
+            <div class="d-flex flex-wrap gap-2">
+                <a asp-controller="Lecturer" asp-action="ImportQuestions" class="btn btn-outline-success">
+                    <i class="bi bi-file-earmark-excel"></i> Nhập từ Excel
+                </a>
+                <a asp-controller="Lecturer"
+                   asp-action="CreateQuestion"
+                   asp-route-subjectId="@(selectedSubjectId ?? subjects.First().Id)"
+                   class="btn-add">+ Thêm thủ công</a>
+            </div>
+>>>>>>> Stashed changes
         }
 
     </div>
@@ -497,6 +521,13 @@
             </div>
 
 
+<<<<<<< Updated upstream
+=======
+            <div class="filter-group">
+                <label>Tìm câu hỏi</label>
+                <input type="text" name="search" value="@ViewBag.Search" placeholder="Nội dung hoặc chủ đề" />
+            </div>
+>>>>>>> Stashed changes
             <button type="submit"
                     class="btn-filter">
 
@@ -757,6 +788,16 @@
         }
 
     </div>
+<<<<<<< Updated upstream
 
+=======
+    @if ((int)(ViewBag.TotalPages ?? 1) > 1)
+    {
+        <nav class="d-flex justify-content-center gap-2 my-4">
+            @for (int p = 1; p <= (int)ViewBag.TotalPages; p++)
+            { <a class="btn @(p == (int)ViewBag.Page ? "btn-primary" : "btn-outline-primary")" asp-action="Questions" asp-route-page="@p" asp-route-subjectId="@selectedSubjectId" asp-route-search="@ViewBag.Search">@p</a> }
+        </nav>
+    }
+>>>>>>> Stashed changes
 
 </div>

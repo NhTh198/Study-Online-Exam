@@ -1,3 +1,4 @@
+<<<<<<< Updated upstream
 ﻿
 @model List<Study.Models.Subject>
 
@@ -249,3 +250,14 @@
     </div>
 
 </div>
+=======
+@model List<Study.Models.Subject>
+@{ ViewData["Title"] = "Tổng quan giảng viên"; var fullName = Context.Session.GetString("FullName") ?? "Giảng viên"; }
+<div class="workspace">
+    <section class="page-intro"><div><span class="eyebrow">KHÔNG GIAN GIẢNG VIÊN</span><h1>Chào mừng, @fullName</h1><p>Quản lý ngân hàng câu hỏi và xây dựng các kỳ thi của bạn.</p></div><a class="btn btn-primary" asp-controller="Lecturer" asp-action="CreateExam">+ Tạo kỳ thi</a></section>
+    <section class="quick-actions"><a class="action-tile" asp-controller="Lecturer" asp-action="Questions"><span class="tile-icon tile-purple">▤</span><span><strong>Ngân hàng câu hỏi</strong><small>Tạo, chỉnh sửa và nhập câu hỏi</small></span><b>→</b></a><a class="action-tile" asp-controller="Lecturer" asp-action="CreateExam"><span class="tile-icon tile-blue">＋</span><span><strong>Tạo kỳ thi</strong><small>Thiết lập đề thi từ ngân hàng câu hỏi</small></span><b>→</b></a><a class="action-tile" asp-controller="Lecturer" asp-action="GenerateExam"><span class="tile-icon tile-amber">✧</span><span><strong>Tạo đề tự động</strong><small>Chọn số câu và mức độ</small></span><b>→</b></a><a class="action-tile" asp-controller="Lecturer" asp-action="MyExams"><span class="tile-icon tile-green">▣</span><span><strong>Kỳ thi của tôi</strong><small>Theo dõi trạng thái các đề đã tạo</small></span><b>→</b></a></section>
+    <section class="content-panel"><div class="panel-heading"><div><span class="eyebrow">PHÂN CÔNG</span><h2>Môn học phụ trách</h2></div><span class="count-pill">@(Model?.Count ?? 0) môn học</span></div>
+    @if (Model == null || !Model.Any()) { <div class="empty-inline">Bạn chưa được phân công môn học nào. Vui lòng liên hệ quản trị viên.</div> } else { <div class="subject-grid">@foreach (var subject in Model) { <div class="subject-tile"><span class="subject-monogram">@(!string.IsNullOrWhiteSpace(subject.Code) ? subject.Code.Substring(0,1).ToUpper() : "M")</span><div><strong>@subject.Name</strong><small>@subject.Code</small></div></div> }</div> }
+    </section>
+</div>
+>>>>>>> Stashed changes

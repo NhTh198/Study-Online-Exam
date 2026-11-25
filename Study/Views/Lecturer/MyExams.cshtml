@@ -205,6 +205,7 @@
 
         </div>
 
+<<<<<<< Updated upstream
         <a asp-controller="Lecturer"
            asp-action="CreateExam"
            class="btn-create">
@@ -212,6 +213,14 @@
             + Tạo kỳ thi
 
         </a>
+=======
+        <div class="d-flex flex-wrap gap-2">
+            <a asp-controller="Lecturer" asp-action="GenerateExam" class="btn-create" style="background:#0f766e">Tạo đề tự động</a>
+            <a asp-controller="Management" asp-action="ExportResults" class="btn-create" style="background:#15803d">Xuất Excel</a>
+            <a asp-controller="Management" asp-action="ExportResultsPdf" class="btn-create" style="background:#475569">PDF</a>
+            <a asp-controller="Lecturer" asp-action="CreateExam" class="btn-create">+ Tạo kỳ thi</a>
+        </div>
+>>>>>>> Stashed changes
 
     </div>
 

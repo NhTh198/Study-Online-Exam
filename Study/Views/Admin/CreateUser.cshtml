@@ -1,3 +1,4 @@
+<<<<<<< Updated upstream
 ﻿@model Study.ViewModels.AdminCreateUserViewModel
 
 @{
@@ -128,6 +129,56 @@
     <partial name="_ValidationScriptsPartial" />
 }
 
+=======
+@model Study.ViewModels.AdminCreateUserViewModel
+@{
+    ViewData["Title"] = "Tạo tài khoản";
+    var roles = ViewBag.Roles as List<Study.Models.Role>;
+    var excelTab = Context.Request.Query["tab"] == "excel";
+}
+<div class="admin-page">
+    <div class="admin-header">
+        <div><h1>Tạo tài khoản</h1></div>
+        <a asp-action="Index" class="btn-back">← Quay lại</a>
+    </div>
+    <div class="form-card">
+        @if (TempData["Success"] != null) { <div class="alert alert-success">@TempData["Success"]</div> }
+        @if (TempData["Error"] != null) { <div class="alert alert-danger">@TempData["Error"]</div> }
+        @if (TempData["ImportErrors"] != null) { <div class="alert alert-warning text-wrap">@TempData["ImportErrors"]</div> }
+        <ul class="nav nav-pills account-tabs mb-4" role="tablist">
+            <li class="nav-item" role="presentation"><button class="nav-link @(!excelTab ? "active" : "")" id="manual-tab" data-bs-toggle="pill" data-bs-target="#manual-pane" type="button" role="tab" aria-controls="manual-pane">Tạo thủ công</button></li>
+            <li class="nav-item" role="presentation"><button class="nav-link @(excelTab ? "active" : "")" id="excel-tab" data-bs-toggle="pill" data-bs-target="#excel-pane" type="button" role="tab" aria-controls="excel-pane">Nhập từ Excel</button></li>
+        </ul>
+        <div class="tab-content">
+            <div class="tab-pane fade @(!excelTab ? "show active" : "")" id="manual-pane" role="tabpanel" aria-labelledby="manual-tab">
+                <h2 class="h5 fw-bold mb-1">Tạo một tài khoản</h2>
+                <form asp-action="CreateUser" method="post">
+                    @Html.AntiForgeryToken()
+                    <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+                    <div class="form-group"><label asp-for="FullName">Họ và tên</label><input asp-for="FullName" class="form-control" placeholder="Nhập họ và tên" /><span asp-validation-for="FullName" class="text-danger"></span></div>
+                    <div class="form-group"><label asp-for="Email">Email</label><input asp-for="Email" class="form-control" placeholder="example@gmail.com" /><span asp-validation-for="Email" class="text-danger"></span></div>
+                    <div class="form-group"><label asp-for="Password">Mật khẩu</label><input asp-for="Password" class="form-control" placeholder="Tối thiểu 6 ký tự" /><span asp-validation-for="Password" class="text-danger"></span></div>
+                    <div class="form-group"><label asp-for="RoleId">Vai trò</label><select asp-for="RoleId" class="form-control"><option value="">-- Chọn vai trò --</option>@if (roles != null) { foreach (var role in roles) { <option value="@role.Id">@role.Name</option> } }</select><span asp-validation-for="RoleId" class="text-danger"></span></div>
+                    <div class="form-group"><label asp-for="StudentCode">Mã sinh viên</label><input asp-for="StudentCode" class="form-control" placeholder="Ví dụ: SV001 (chỉ dành cho sinh viên)" /><span asp-validation-for="StudentCode" class="text-danger"></span></div>
+                    <button type="submit" class="btn-create">Tạo tài khoản</button>
+                </form>
+            </div>
+            <div class="tab-pane fade @(excelTab ? "show active" : "")" id="excel-pane" role="tabpanel" aria-labelledby="excel-tab">
+                <h2 class="h5 fw-bold mb-1">Nhập nhiều tài khoản từ Excel</h2><p class="text-muted mb-3">Dùng khi cần tạo danh sách lớn sinh viên hoặc giảng viên. Mật khẩu được BCrypt hash trước khi lưu.</p>
+                <div class="table-responsive mb-3"><table class="table table-sm table-bordered align-middle"><thead><tr><th>FullName</th><th>Email</th><th>Password</th><th>Role</th><th>StudentCode</th></tr></thead><tbody><tr><td>Nguyen Van A</td><td>a@example.com</td><td>Matkhau123</td><td>Student</td><td>SV001</td></tr></tbody></table></div>
+                <p class="small text-muted">Dòng đầu là tiêu đề. Role chỉ nhận <code>Student</code> hoặc <code>Lecturer</code>; mật khẩu tối thiểu 8 ký tự; email trùng sẽ được bỏ qua. Tối đa 1.000 tài khoản mỗi file.</p>
+                <p><a class="btn btn-outline-success" asp-controller="AdminTools" asp-action="DownloadTemplate" asp-route-type="users">Tải file Excel mẫu</a></p>
+                <form asp-controller="AdminTools" asp-action="ImportUsers" method="post" enctype="multipart/form-data">
+                    @Html.AntiForgeryToken()
+                    <div class="form-group"><label for="userExcelFile">Chọn file Excel (.xlsx)</label><input class="form-control" id="userExcelFile" type="file" name="file" accept=".xlsx" required /></div>
+                    <button class="btn-create" type="submit">Nhập danh sách tài khoản</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts { <partial name="_ValidationScriptsPartial" /> }
+>>>>>>> Stashed changes
 <style>
 
     .admin-page {

@@ -1,4 +1,8 @@
+<<<<<<< Updated upstream
 ﻿@model Study.Models.PracticeResult
+=======
+@model Study.Models.PracticeResult
+>>>>>>> Stashed changes
 
 @{
     ViewData["Title"] = "Kết quả tự luyện";
@@ -270,6 +274,37 @@ var attempt = Model.Attempt;
     </div>
 
 
+<<<<<<< Updated upstream
+=======
+    @{
+        var wrongQuestions = ViewBag.WrongQuestions as List<Study.ViewModels.PracticeWrongQuestionViewModel>
+            ?? new List<Study.ViewModels.PracticeWrongQuestionViewModel>();
+    }
+    <div class="card border-0 shadow-sm mb-4">
+        <div class="card-body p-4">
+            <h4 class="fw-bold mb-3">Ôn lại câu trả lời sai / chưa trả lời (@wrongQuestions.Count)</h4>
+            @if (wrongQuestions.Count == 0)
+            {
+                <div class="alert alert-success mb-0">Tuyệt vời! Bạn không có câu sai hoặc bỏ trống.</div>
+            }
+            else
+            {
+                @foreach (var item in wrongQuestions)
+                {
+                    <div class="border rounded-3 p-3 mb-3">
+                        <div class="fw-bold mb-2">Câu @item.QuestionOrder. @item.Content</div>
+                        <div class="text-danger small mb-1">Bạn chọn: @(item.SelectedAnswer ?? "Chưa trả lời")</div>
+                        <div class="text-success fw-semibold mb-2">Đáp án đúng: @item.CorrectAnswer</div>
+                        <ul class="mb-0 small">
+                            @foreach (var option in item.Options) { <li>@option</li> }
+                        </ul>
+                    </div>
+                }
+            }
+        </div>
+    </div>
+
+>>>>>>> Stashed changes
     <!-- ACTIONS -->
     <div class="text-center">
 

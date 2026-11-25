@@ -1,4 +1,8 @@
+<<<<<<< Updated upstream
 ﻿using Microsoft.AspNetCore.Mvc;
+=======
+using Microsoft.AspNetCore.Mvc;
+>>>>>>> Stashed changes
 using Microsoft.EntityFrameworkCore;
 using Study.Models;
 using Study.ViewModels;
@@ -18,18 +22,45 @@ public class AdminController : Controller
     // DANH SÁCH TÀI KHOẢN
     // =========================
     [HttpGet]
+<<<<<<< Updated upstream
     public async Task<IActionResult> Index()
+=======
+    public async Task<IActionResult> Index(string? search, int? roleId, int page = 1)
+>>>>>>> Stashed changes
     {
         if (!IsAdmin())
         {
             return RedirectToAction("Login", "Account");
         }
 
+<<<<<<< Updated upstream
         var users = await _context.Users
             .Include(u => u.Role)
             .OrderByDescending(u => u.CreatedAt)
             .ToListAsync();
 
+=======
+        const int pageSize = 20;
+        var query = _context.Users.Include(u => u.Role).AsQueryable();
+        if (!string.IsNullOrWhiteSpace(search))
+        {
+            var term = search.Trim();
+            query = query.Where(u => u.FullName.Contains(term) ||
+                                     u.Email.Contains(term) ||
+                                     (u.StudentCode != null && u.StudentCode.Contains(term)));
+        }
+        if (roleId.HasValue) query = query.Where(u => u.RoleId == roleId.Value);
+        var totalCount = await query.CountAsync();
+        page = Math.Max(1, page);
+        var users = await query.OrderByDescending(u => u.CreatedAt)
+            .Skip((page - 1) * pageSize).Take(pageSize).ToListAsync();
+        ViewBag.Search = search;
+        ViewBag.RoleId = roleId;
+        ViewBag.Page = page;
+        ViewBag.TotalPages = (int)Math.Ceiling(totalCount / (double)pageSize);
+        ViewBag.TotalCount = totalCount;
+        ViewBag.Roles = await _context.Roles.OrderBy(r => r.Name).ToListAsync();
+>>>>>>> Stashed changes
         return View(users);
     }
 
@@ -273,6 +304,10 @@ public class AdminController : Controller
 
         return role == "Admin";
     }
+<<<<<<< Updated upstream
+=======
+
+>>>>>>> Stashed changes
     // =========================
     // SỬA TÀI KHOẢN - GET
     // =========================
@@ -899,19 +934,34 @@ public class AdminController : Controller
     // =====================================================
 
     [HttpGet]
+<<<<<<< Updated upstream
     public async Task<IActionResult> Exams()
+=======
+    public async Task<IActionResult> Exams(string? search, string? status, int page = 1)
+>>>>>>> Stashed changes
     {
         if (!IsAdmin())
         {
             return RedirectToAction("Login", "Account");
         }
 
+<<<<<<< Updated upstream
         var exams = await _context.Exams
             .Include(e => e.Subject)
             .Include(e => e.Creator)
             .Include(e => e.ExamQuestions)
             .OrderByDescending(e => e.CreatedAt)
             .ToListAsync();
+=======
+        const int pageSize = 10;
+        var query = _context.Exams.Include(e => e.Subject).Include(e => e.Creator).Include(e => e.ExamQuestions).AsQueryable();
+        if (!string.IsNullOrWhiteSpace(search)) query = query.Where(e => e.Name.Contains(search) || e.Subject.Name.Contains(search) || e.Creator.FullName.Contains(search));
+        if (!string.IsNullOrWhiteSpace(status)) query = query.Where(e => e.Status == status);
+        var totalCount = await query.CountAsync();
+        page = Math.Max(1, page);
+        var exams = await query.OrderByDescending(e => e.CreatedAt).Skip((page - 1) * pageSize).Take(pageSize).ToListAsync();
+        ViewBag.Search = search; ViewBag.Status = status; ViewBag.Page = page; ViewBag.TotalPages = (int)Math.Ceiling(totalCount / (double)pageSize);
+>>>>>>> Stashed changes
 
         var result = exams.Select(e => new AdminReviewExamViewModel
         {
@@ -981,6 +1031,10 @@ public class AdminController : Controller
         exam.Status = "Approved";
         exam.ReviewedAt = DateTime.Now;
         exam.RejectReason = null;
+<<<<<<< Updated upstream
+=======
+        _context.Notifications.Add(new Notifications { UserId = exam.CreatedBy, ExamId = exam.Id, Title = "Đề thi đã được duyệt", Message = $"Đề thi '{exam.Name}' đã được Admin duyệt.", Type = "ExamReview", IsRead = false, CreatedAt = DateTime.Now });
+>>>>>>> Stashed changes
 
         await _context.SaveChangesAsync();
 
@@ -1028,6 +1082,10 @@ public class AdminController : Controller
         exam.Status = "Rejected";
         exam.RejectReason = model.RejectReason.Trim();
         exam.ReviewedAt = DateTime.Now;
+<<<<<<< Updated upstream
+=======
+        _context.Notifications.Add(new Notifications { UserId = exam.CreatedBy, ExamId = exam.Id, Title = "Đề thi bị từ chối", Message = $"Đề thi '{exam.Name}' bị từ chối: {exam.RejectReason}", Type = "ExamReview", IsRead = false, CreatedAt = DateTime.Now });
+>>>>>>> Stashed changes
 
         await _context.SaveChangesAsync();
 
@@ -1037,6 +1095,25 @@ public class AdminController : Controller
         return RedirectToAction(nameof(Exams));
     }
     [HttpGet]
+<<<<<<< Updated upstream
+=======
+    public async Task<IActionResult> ScheduleList()
+    {
+        if (!IsAdmin()) return RedirectToAction("Login", "Account");
+
+        var exams = await _context.Exams
+            .Include(e => e.Subject)
+            .Include(e => e.Creator)
+            .Include(e => e.Schedule)
+            .Where(e => (e.Status == "Scheduled" || e.Status == "Published") && e.Schedule != null)
+            .OrderBy(e => e.Schedule!.StartTime)
+            .ToListAsync();
+
+        return View(exams);
+    }
+
+    [HttpGet]
+>>>>>>> Stashed changes
     public async Task<IActionResult> ScheduleExam(int id)
     {
         if (!IsAdmin())
@@ -1053,11 +1130,18 @@ public class AdminController : Controller
             return NotFound();
         }
 
+<<<<<<< Updated upstream
         // Cho phép xếp lịch lần đầu hoặc mở lại lịch đã xếp để chỉnh sửa.
         if (exam.Status != "Approved" && exam.Status != "Scheduled")
         {
             TempData["Error"] =
                 "Chỉ có thể xếp lịch cho đề thi đã được Admin duyệt hoặc đã xếp lịch.";
+=======
+        if (exam.Status != "Approved" && exam.Status != "Scheduled")
+        {
+            TempData["Error"] =
+                "Chỉ có thể xếp lịch hoặc chỉnh lịch cho đề thi đã được duyệt.";
+>>>>>>> Stashed changes
 
             return RedirectToAction(nameof(Exams));
         }
@@ -1107,6 +1191,7 @@ public class AdminController : Controller
             return RedirectToAction(nameof(Exams));
         }
 
+<<<<<<< Updated upstream
         if (model.StartTime <= DateTime.Now)
         {
             ModelState.AddModelError(
@@ -1114,12 +1199,15 @@ public class AdminController : Controller
                 "Thời gian bắt đầu phải nằm trong tương lai.");
         }
 
+=======
+>>>>>>> Stashed changes
         if (model.StartTime >= model.EndTime)
         {
             ModelState.AddModelError(
                 "EndTime",
                 "Thời gian kết thúc phải sau thời gian bắt đầu.");
         }
+<<<<<<< Updated upstream
         else if (model.DurationMinutes > (model.EndTime - model.StartTime).TotalMinutes)
         {
             ModelState.AddModelError(
@@ -1132,6 +1220,14 @@ public class AdminController : Controller
             ModelState.AddModelError(
                 "DurationMinutes",
                 "Thời lượng phải từ 1 đến 600 phút.");
+=======
+
+        if (model.DurationMinutes <= 0)
+        {
+            ModelState.AddModelError(
+                "DurationMinutes",
+                "Thời lượng phải lớn hơn 0 phút.");
+>>>>>>> Stashed changes
         }
 
         if (!ModelState.IsValid)
@@ -1252,6 +1348,28 @@ public class AdminController : Controller
         schedule.IsPublished = true;
 
         exam.Status = "Published";
+<<<<<<< Updated upstream
+=======
+        // Study giữ cơ chế gốc: mọi sinh viên đang hoạt động đều nhận thông báo
+        // và có thể xem kỳ thi đã công bố; không quản lý lớp hoặc danh sách ghi danh.
+        var studentIds = await _context.Users
+            .Where(u => u.IsActive && u.Role.Name == "Student")
+            .Select(u => u.Id)
+            .ToListAsync();
+        foreach (var studentId in studentIds)
+        {
+            _context.Notifications.Add(new Notifications
+            {
+                UserId = studentId,
+                ExamId = exam.Id,
+                Title = "Kỳ thi mới đã được công bố",
+                Message = $"Kỳ thi '{exam.Name}' đã được công bố. Thời gian bắt đầu: {schedule.StartTime:dd/MM/yyyy HH:mm}.",
+                Type = "ExamPublished",
+                IsRead = false,
+                CreatedAt = DateTime.Now
+            });
+        }
+>>>>>>> Stashed changes
 
         await _context.SaveChangesAsync();
 
@@ -1261,4 +1379,30 @@ public class AdminController : Controller
         return RedirectToAction(nameof(Exams));
     }
 
+<<<<<<< Updated upstream
+=======
+
+    [HttpPost, ValidateAntiForgeryToken]
+    public async Task<IActionResult> BulkReviewExams(List<int> selectedIds, string decision, string? rejectReason)
+    {
+        if (!IsAdmin()) return Forbid();
+        var ids = (selectedIds ?? new List<int>()).Distinct().Take(200).ToList();
+        if (ids.Count == 0 || (decision != "Approve" && decision != "Reject"))
+        { TempData["Error"] = "Vui lòng chọn đề thi và thao tác hợp lệ."; return RedirectToAction(nameof(Exams)); }
+        if (decision == "Reject" && string.IsNullOrWhiteSpace(rejectReason))
+        { TempData["Error"] = "Cần nhập lý do từ chối khi thao tác hàng loạt."; return RedirectToAction(nameof(Exams)); }
+        var exams = await _context.Exams.Where(e => ids.Contains(e.Id) && e.Status == "PendingApproval").ToListAsync();
+        foreach (var exam in exams)
+        {
+            exam.Status = decision == "Approve" ? "Approved" : "Rejected";
+            exam.RejectReason = decision == "Reject" ? rejectReason!.Trim() : null;
+            exam.ReviewedAt = DateTime.Now;
+            _context.Notifications.Add(new Notifications { UserId = exam.CreatedBy, ExamId = exam.Id, Title = decision == "Approve" ? "Đề thi đã được duyệt" : "Đề thi bị từ chối", Message = decision == "Approve" ? $"Đề thi '{exam.Name}' đã được Admin duyệt." : $"Đề thi '{exam.Name}' bị từ chối: {rejectReason!.Trim()}", Type = "ExamReview", IsRead = false, CreatedAt = DateTime.Now });
+        }
+        await _context.SaveChangesAsync();
+        TempData["Success"] = $"Đã xử lý {exams.Count} đề thi đang chờ duyệt.";
+        return RedirectToAction(nameof(Exams));
+    }
+
+>>>>>>> Stashed changes
 }

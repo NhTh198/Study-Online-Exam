@@ -1,0 +1,30 @@
+@{
+    ViewData["Title"] = "Nhập câu hỏi Excel";
+}
+<div class="container py-4" style="max-width:850px">
+    <div class="card p-4">
+        <h2 class="fw-bold">Nhập câu hỏi hàng loạt</h2>
+        <p class="text-muted">Chỉ nhập được câu hỏi thuộc môn học đã được Admin phân công cho bạn. Mỗi câu hỏi phải có đúng 4 đáp án và 1 đáp án đúng.</p>
+        @if (TempData["Error"] != null) { <div class="alert alert-danger">@TempData["Error"]</div> }
+        <a asp-action="DownloadQuestionTemplate" class="d-inline-block mb-3">Tải file Excel mẫu</a>
+        <div class="table-responsive mb-3">
+            <table class="table table-sm table-bordered">
+                <thead><tr><th>Cột</th><th>Nội dung</th></tr></thead>
+                <tbody>
+                    <tr><td>A–D</td><td>SubjectCode, Topic, Content, Difficulty</td></tr>
+                    <tr><td>E–H</td><td>OptionA, OptionB, OptionC, OptionD</td></tr>
+                    <tr><td>I</td><td>CorrectOption: A, B, C hoặc D</td></tr>
+                </tbody>
+            </table>
+        </div>
+        <p class="small text-muted">Difficulty nhận: Easy, Medium, Hard hoặc Dễ, Trung bình, Khó. Tối đa 1.000 câu hỏi/file, dung lượng 8 MB.</p>
+        <form asp-action="ImportQuestions" method="post" enctype="multipart/form-data">
+            @Html.AntiForgeryToken()
+            <input class="form-control mb-3" type="file" name="file" accept=".xlsx" required />
+            <div class="d-flex gap-2">
+                <button class="btn btn-primary" type="submit">Nhập câu hỏi</button>
+                <a class="btn btn-outline-secondary" asp-action="Questions">Quay lại</a>
+            </div>
+        </form>
+    </div>
+</div>

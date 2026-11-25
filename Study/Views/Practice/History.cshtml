@@ -1,10 +1,18 @@
+<<<<<<< Updated upstream
 ﻿@model List<Study.ViewModels.PracticeHistoryViewModel>
+=======
+@model List<Study.ViewModels.PracticeHistoryViewModel>
+>>>>>>> Stashed changes
 
 @{
     ViewData["Title"] = "Lịch sử tự luyện";
 }
 
+<<<<<<< Updated upstream
 <div class="container-fluid py-4">
+=======
+<div class="workspace practice-history-page">
+>>>>>>> Stashed changes
 
     <!-- HEADER -->
     <div class="d-flex justify-content-between align-items-center mb-4">
@@ -29,6 +37,10 @@
     </div>
 
 
+<<<<<<< Updated upstream
+=======
+    <div class="mb-3 text-end"><a asp-controller="Management" asp-action="ExportPracticeHistory" class="btn btn-outline-success">Xuất lịch sử luyện tập Excel</a></div>
+>>>>>>> Stashed changes
     @if (Model == null || !Model.Any())
     {
         <!-- CHƯA CÓ LỊCH SỬ -->

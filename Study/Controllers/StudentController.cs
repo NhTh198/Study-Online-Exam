@@ -1,4 +1,8 @@
+<<<<<<< Updated upstream
 ﻿using Microsoft.AspNetCore.Mvc;
+=======
+using Microsoft.AspNetCore.Mvc;
+>>>>>>> Stashed changes
 using Microsoft.EntityFrameworkCore;
 using Study.Models;
 using Study.ViewModels;
@@ -43,6 +47,7 @@ public StudentController(ApplicationDbContext context)
             return RedirectToAction("Login", "Account");
         }
 
+<<<<<<< Updated upstream
         var exams = await _context.Exams
             .Where(e =>
                 e.Status == "Published" &&
@@ -53,6 +58,13 @@ public StudentController(ApplicationDbContext context)
             .Include(e => e.ExamQuestions)
             .OrderBy(e => e.Schedule!.StartTime)
             .ToListAsync();
+=======
+        var examQuery = _context.Exams.Where(e =>
+            e.Status == "Published" && e.Schedule != null && e.Schedule.IsPublished);
+        var exams = await examQuery
+            .Include(e => e.Subject).Include(e => e.Schedule).Include(e => e.ExamQuestions)
+            .OrderBy(e => e.Schedule!.StartTime).ToListAsync();
+>>>>>>> Stashed changes
 
         return View(exams);
     }
@@ -72,6 +84,7 @@ int studentId = GetStudentId();
             return RedirectToAction("Login", "Account");
         }
 
+<<<<<<< Updated upstream
         var exam = await _context.Exams
             .Include(e => e.Subject)
             .Include(e => e.Schedule)
@@ -80,6 +93,11 @@ int studentId = GetStudentId();
                 e.Status == "Published" &&
                 e.Schedule != null &&
                 e.Schedule.IsPublished);
+=======
+        var examQuery = _context.Exams.Include(e => e.Subject).Include(e => e.Schedule)
+            .Where(e => e.Id == id && e.Status == "Published" && e.Schedule != null && e.Schedule.IsPublished);
+        var exam = await examQuery.FirstOrDefaultAsync();
+>>>>>>> Stashed changes
 
         if (exam == null)
         {
@@ -144,6 +162,7 @@ int studentId = GetStudentId();
             return RedirectToAction("Login", "Account");
         }
 
+<<<<<<< Updated upstream
         var exam = await _context.Exams
             .Include(e => e.Subject)
             .Include(e => e.Schedule)
@@ -153,6 +172,11 @@ int studentId = GetStudentId();
                 e.Status == "Published" &&
                 e.Schedule != null &&
                 e.Schedule.IsPublished);
+=======
+        var examQuery = _context.Exams.Include(e => e.Subject).Include(e => e.Schedule).Include(e => e.ExamQuestions)
+            .Where(e => e.Id == model.ExamId && e.Status == "Published" && e.Schedule != null && e.Schedule.IsPublished);
+        var exam = await examQuery.FirstOrDefaultAsync();
+>>>>>>> Stashed changes
 
         if (exam == null)
         {
@@ -561,11 +585,22 @@ public async Task<IActionResult> TakeExam(int id, int page = 1)
 
         if (attempt.Status == "Submitted")
         {
+<<<<<<< Updated upstream
             return RedirectToAction(
                 nameof(Result),
                 new { id = attempt.Id });
         }
 
+=======
+            if (Request.Headers["X-Requested-With"] == "XMLHttpRequest") return Conflict(new { saved = false, message = "Bài thi đã nộp." });
+            return RedirectToAction(nameof(Result), new { id = attempt.Id });
+        }
+
+        bool questionBelongsToAttempt = await _context.ExamAttemptQuestions.AnyAsync(x => x.AttemptId == attemptId && x.QuestionId == questionId);
+        if (!questionBelongsToAttempt) return BadRequest("Câu hỏi không thuộc lần thi này.");
+        if (selectedOptionId.HasValue && !await _context.QuestionOptions.AnyAsync(x => x.Id == selectedOptionId.Value && x.QuestionId == questionId)) return BadRequest("Đáp án không hợp lệ.");
+
+>>>>>>> Stashed changes
         if (DateTime.Now >= attempt.ForcedSubmitTime)
         {
             await SubmitExamInternal(attempt);
@@ -608,6 +643,7 @@ public async Task<IActionResult> TakeExam(int id, int page = 1)
         }
 
         await _context.SaveChangesAsync();
+<<<<<<< Updated upstream
 
         return RedirectToAction(
             nameof(TakeExam),
@@ -616,6 +652,10 @@ public async Task<IActionResult> TakeExam(int id, int page = 1)
                 id = attemptId,
                 page
             });
+=======
+        if (Request.Headers["X-Requested-With"] == "XMLHttpRequest") return Json(new { saved = true, savedAt = DateTime.Now });
+        return RedirectToAction(nameof(TakeExam), new { id = attemptId, page });
+>>>>>>> Stashed changes
     }
 
 

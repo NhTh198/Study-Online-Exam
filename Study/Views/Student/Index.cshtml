@@ -1,3 +1,4 @@
+<<<<<<< Updated upstream
 ﻿@model List<Study.Models.Exam>
 
 @{
@@ -215,3 +216,13 @@
     
 
 </div>
+=======
+@model List<Study.Models.Exam>
+@{ ViewData["Title"] = "Kỳ thi dành cho sinh viên"; var fullName = Context.Session.GetString("FullName") ?? "bạn"; }
+<div class="workspace student-workspace">
+    <section class="welcome-panel student-welcome"><div><span class="eyebrow">KHÔNG GIAN HỌC TẬP</span><h1>Xin chào, @fullName</h1><p>Sẵn sàng cho bài kiểm tra tiếp theo? Chọn kỳ thi đã công bố hoặc bắt đầu một phiên luyện tập.</p><div class="welcome-actions"><a class="btn btn-primary" asp-controller="Practice" asp-action="Index">Bắt đầu luyện tập <span>→</span></a><a class="btn btn-outline-light" asp-controller="Practice" asp-action="History">Xem lịch sử</a></div></div><div class="welcome-illustration" aria-hidden="true"><div class="welcome-circle">S</div><div class="welcome-mini-card">✦ Học tập mỗi ngày</div></div></section>
+    <div class="section-toolbar"><div><span class="eyebrow">DANH SÁCH MỞ</span><h2>Kỳ thi đã công bố</h2><p>Các kỳ thi bạn có thể tham gia bằng mã đề thi.</p></div><span class="count-pill">@(Model?.Count ?? 0) kỳ thi</span></div>
+    @if (Model == null || !Model.Any()) { <div class="empty-state"><div class="empty-symbol">▤</div><h3>Chưa có kỳ thi nào</h3><p>Khi có kỳ thi được công bố, thông tin sẽ xuất hiện tại đây.</p><a class="btn btn-primary" asp-controller="Practice" asp-action="Index">Luyện tập trong lúc chờ</a></div> }
+    else { <div class="exam-grid redesigned-exam-grid">@foreach (var exam in Model) { <article class="redesigned-exam-card"><div class="exam-card-top"><span class="status-pill status-live"><i></i> Đã công bố</span><span class="exam-code">#@exam.Id.ToString("D3")</span></div><h3>@exam.Name</h3><p class="exam-subject">@exam.Subject.Name</p><div class="exam-details"><div><small>Thời gian</small><strong>@exam.Schedule!.StartTime.ToString("dd/MM/yyyy · HH:mm")</strong></div><div><small>Thời lượng</small><strong>@exam.Schedule.DurationMinutes phút</strong></div><div><small>Số câu hỏi</small><strong>@exam.ExamQuestions.Count câu</strong></div></div><a asp-controller="Student" asp-action="StartExam" asp-route-id="@exam.Id" class="btn btn-primary exam-enter">Vào thi <span>→</span></a></article> }</div> }
+</div>
+>>>>>>> Stashed changes

@@ -1,0 +1,20 @@
+@model Study.ViewModels.AdminExamStudentListViewModel
+@{ ViewData["Title"] = "Danh sách sinh viên"; }
+<div class="workspace admin-student-list">
+    <section class="page-intro">
+        <div><span class="eyebrow">QUẢN LÝ KỲ THI</span><h1>Danh sách sinh viên</h1><p>@Model.ExamName · @Model.SubjectName</p></div>
+        <a class="btn btn-outline-primary" asp-controller="Admin" asp-action="Exams">← Quay lại quản lý kỳ thi</a>
+    </section>
+    <section class="content-panel">
+        <div class="panel-heading"><div><h2>Sinh viên đã tham gia</h2><p class="text-muted mb-0">Danh sách được ghi nhận từ các lượt vào thi.</p></div><span class="count-pill">@Model.Students.Count lượt thi</span></div>
+        @if (!Model.Students.Any()) {
+            <div class="empty-state"><div class="empty-symbol">◎</div><h3>Chưa có sinh viên tham gia</h3><p>Danh sách sẽ xuất hiện khi có sinh viên bắt đầu kỳ thi.</p></div>
+        } else {
+            <div class="table-responsive"><table class="table table-hover align-middle mb-0"><thead><tr><th>#</th><th>Họ và tên</th><th>Mã sinh viên</th><th>Email</th><th>Trạng thái</th><th>Điểm</th><th>Nộp bài lúc</th></tr></thead><tbody>
+            @for (var i = 0; i < Model.Students.Count; i++) { var student = Model.Students[i];
+                <tr><td>@(i + 1)</td><td class="fw-semibold">@student.FullName</td><td>@student.StudentCode</td><td>@student.Email</td><td><span class="status-pill @(student.Status == "Submitted" ? "status-live" : "status-pending")">@(student.Status == "Submitted" ? "Đã nộp" : student.Status == "InProgress" ? "Đang làm" : student.Status)</span></td><td>@(student.Score.HasValue ? student.Score.Value.ToString("0.00") : "—")</td><td>@(student.SubmittedAt?.ToString("dd/MM/yyyy HH:mm") ?? "—")</td></tr>
+            }
+            </tbody></table></div>
+        }
+    </section>
+</div>

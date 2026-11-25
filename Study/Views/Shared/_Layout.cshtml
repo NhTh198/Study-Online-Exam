@@ -1,3 +1,4 @@
+<<<<<<< Updated upstream
 ﻿
 <!DOCTYPE html>
 <html lang="vi">
@@ -991,4 +992,83 @@
 
 </body>
 
+=======
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Study</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/Study.styles.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/study-redesign.css" asp-append-version="true" />
+</head>
+<body>
+@{
+    var fullName = Context.Session.GetString("FullName");
+    var role = Context.Session.GetString("Role");
+    var controller = ViewContext.RouteData.Values["controller"]?.ToString() ?? "";
+    var action = ViewContext.RouteData.Values["action"]?.ToString() ?? "";
+}
+<header class="app-header">
+    <nav class="app-nav">
+        <a class="brand" asp-controller="Home" asp-action="Index" aria-label="Study - Trang chủ"><span class="brand-mark">S</span><span>STUDY</span></a>
+        <button class="nav-toggle" type="button" aria-label="Mở menu" aria-expanded="false" aria-controls="primaryNav"><span></span><span></span><span></span></button>
+        <div class="nav-content" id="primaryNav">
+            <div class="nav-links">
+                @if (string.IsNullOrEmpty(role)) {
+                    <a class="@(controller == "Home" ? "active" : "")" asp-controller="Home" asp-action="Index">Trang chủ</a>
+                }
+                else if (role == "Admin") {
+                    <a class="@(controller == "Admin" && action == "Index" ? "active" : "")" asp-controller="Admin" asp-action="Index">Tài khoản</a>
+                    <a class="@(controller == "Admin" && action == "Subject" ? "active" : "")" asp-controller="Admin" asp-action="Subject">Môn học</a>
+                    <a class="@(controller == "Admin" && action == "Exams" && Context.Request.Query["status"] != "Scheduled" ? "active" : "")" asp-controller="Admin" asp-action="Exams">Kỳ thi</a>
+                    <a class="@(controller == "Admin" && action == "ScheduleList" ? "active" : "")" asp-controller="Admin" asp-action="ScheduleList">Lịch thi</a>
+                }
+                else if (role == "Lecturer") {
+                    <a class="@(controller == "Lecturer" && action == "Index" ? "active" : "")" asp-controller="Lecturer" asp-action="Index">Tổng quan</a>
+                    <a class="@(controller == "Lecturer" && (action == "Questions" || action == "CreateQuestion" || action == "EditQuestion" || action == "ImportQuestions") ? "active" : "")" asp-controller="Lecturer" asp-action="Questions">Ngân hàng câu hỏi</a>
+                    <a class="@(controller == "Lecturer" && (action == "MyExams" || action == "CreateExam" || action == "GenerateExam") ? "active" : "")" asp-controller="Lecturer" asp-action="MyExams">Đề thi</a>
+                }
+                else if (role == "Student") {
+                    <a class="@(controller == "Student" ? "active" : "")" asp-controller="Student" asp-action="Index">Kỳ thi</a>
+                    <a class="@(controller == "Practice" && action != "History" ? "active" : "")" asp-controller="Practice" asp-action="Index">Luyện tập</a>
+                    <a class="@(action == "History" ? "active" : "")" asp-controller="Practice" asp-action="History">Lịch sử</a>
+                }
+            </div>
+            <div class="nav-account">
+                @if (!string.IsNullOrEmpty(fullName)) {
+                    <a class="notification-link" asp-controller="Notifications" asp-action="Index" title="Thông báo" aria-label="Thông báo">🔔</a>
+                    <div class="account-chip"><span class="avatar">@(string.IsNullOrWhiteSpace(fullName) ? "U" : fullName.Trim().Substring(0,1).ToUpper())</span><span class="account-meta"><strong>@fullName</strong><small>@(role == "Admin" ? "Quản trị viên" : role == "Lecturer" ? "Giảng viên" : "Sinh viên")</small></span></div>
+                    <a class="logout-link" asp-controller="Account" asp-action="Logout" onclick="return confirm('Bạn có chắc muốn đăng xuất?');">Đăng xuất</a>
+                } else {
+                    <a class="login-link" asp-controller="Account" asp-action="Login">Đăng nhập</a>
+                }
+            </div>
+        </div>
+    </nav>
+</header>
+<main class="app-main">@RenderBody()</main>
+<footer class="app-footer">
+    <div class="footer-inner footer-columns">
+        <div class="footer-about"><a class="footer-brand" asp-controller="Home" asp-action="Index"><span class="brand-mark">S</span> STUDY</a><p>Hệ thống thi trực tuyến hỗ trợ tổ chức, quản lý và tham gia các kỳ thi một cách thuận tiện, hiệu quả.</p></div>
+        <div class="footer-links"><strong>Liên kết</strong><a asp-controller="Home" asp-action="Index">Trang chủ</a>
+            @if (role == "Admin") { <a asp-controller="Admin" asp-action="Exams">Quản lý kỳ thi</a><a asp-controller="Admin" asp-action="ScheduleList">Lịch thi</a> }
+            else if (role == "Lecturer") { <a asp-controller="Lecturer" asp-action="Questions">Ngân hàng câu hỏi</a><a asp-controller="Lecturer" asp-action="MyExams">Kỳ thi của tôi</a> }
+            else if (role == "Student") { <a asp-controller="Student" asp-action="Index">Kỳ thi</a><a asp-controller="Practice" asp-action="Index">Luyện tập</a> }
+        </div>
+        <div class="footer-links"><strong>Thông tin</strong><span>Thi trực tuyến</span><span>Luyện tập và theo dõi kết quả</span></div>
+        <div class="footer-links"><strong>Tài khoản</strong>@if (!string.IsNullOrEmpty(fullName)) { <a asp-controller="Account" asp-action="Logout">Đăng xuất</a> } else { <a asp-controller="Account" asp-action="Login">Đăng nhập</a> }<span>© @DateTime.Now.Year STUDY</span></div>
+    </div>
+</footer>
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+<script src="~/js/site.js" asp-append-version="true"></script>
+<script>
+(() => { const button=document.querySelector('.nav-toggle'); const nav=document.querySelector('.nav-content'); if(!button||!nav)return; button.addEventListener('click',()=>{const open=button.getAttribute('aria-expanded')==='true';button.setAttribute('aria-expanded',String(!open));nav.classList.toggle('is-open',!open);}); })();
+</script>
+@await RenderSectionAsync("Scripts", required: false)
+</body>
+>>>>>>> Stashed changes
 </html>

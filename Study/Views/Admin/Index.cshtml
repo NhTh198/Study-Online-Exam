@@ -1,7 +1,14 @@
+<<<<<<< Updated upstream
 ﻿@model List<Study.Models.User>
 
 @{
     ViewData["Title"] = "Admin Dashboard";
+=======
+@model List<Study.Models.User>
+
+@{
+    ViewData["Title"] = "Tổng quan quản trị";
+>>>>>>> Stashed changes
 }
 
 <style>
@@ -402,11 +409,19 @@
     <div class="admin-header">
 
         <h1 class="admin-title">
+<<<<<<< Updated upstream
             ADMIN DASHBOARD
         </h1>
 
         <p class="admin-subtitle">
             Quản lý tài khoản Lecturer và Student
+=======
+            TỔNG QUAN QUẢN TRỊ
+        </h1>
+
+        <p class="admin-subtitle">
+            Quản lý tài khoản giảng viên và sinh viên
+>>>>>>> Stashed changes
         </p>
 
     </div>
@@ -428,6 +443,28 @@
     }
 
 
+<<<<<<< Updated upstream
+=======
+    <form method="get" asp-controller="Admin" asp-action="Index" class="card p-3 mb-3 d-flex flex-row flex-wrap gap-2 align-items-end">
+        <div class="flex-grow-1">
+            <label class="form-label">Tìm kiếm tài khoản</label>
+            <input class="form-control" name="search" value="@ViewBag.Search" placeholder="Họ tên, email hoặc mã sinh viên" />
+        </div>
+        <div style="min-width:180px">
+            <label class="form-label">Vai trò</label>
+            <select class="form-select" name="roleId">
+                <option value="">Tất cả vai trò</option>
+                @foreach (var role in (ViewBag.Roles as List<Study.Models.Role> ?? new List<Study.Models.Role>()))
+                {
+                    <option value="@role.Id" selected="@(ViewBag.RoleId != null && (int)ViewBag.RoleId == role.Id)">@role.Name</option>
+                }
+            </select>
+        </div>
+        <button class="btn btn-primary" type="submit">Lọc</button>
+        <a asp-action="Index" class="btn btn-outline-secondary">Xóa lọc</a>
+    </form>
+
+>>>>>>> Stashed changes
     <!-- ACCOUNT CARD -->
 
     <div class="admin-card">
@@ -441,7 +478,11 @@
                 </h2>
 
                 <span class="account-count">
+<<<<<<< Updated upstream
                     @Model.Count tài khoản
+=======
+                    @ViewBag.TotalCount tài khoản
+>>>>>>> Stashed changes
                 </span>
 
             </div>
@@ -459,7 +500,11 @@
             <a asp-controller="Admin"
                asp-action="Lecturers"
                class="btn-create">
+<<<<<<< Updated upstream
                 👨‍🏫 Quản lý Lecturer
+=======
+                👨‍🏫 Quản lý giảng viên
+>>>>>>> Stashed changes
             </a>
             <a asp-controller="Admin"
                asp-action="Exams"
@@ -493,7 +538,11 @@
 
                             <th>Mã sinh viên</th>
 
+<<<<<<< Updated upstream
                             <th>Role</th>
+=======
+                            <th>Vai trò</th>
+>>>>>>> Stashed changes
 
                             <th>Trạng thái</th>
 
@@ -555,13 +604,21 @@
                                     else if (user.Role.Name == "Lecturer")
                                     {
                                         <span class="role-badge role-lecturer">
+<<<<<<< Updated upstream
                                             Lecturer
+=======
+                                            Giảng viên
+>>>>>>> Stashed changes
                                         </span>
                                     }
                                     else
                                     {
                                         <span class="role-badge role-student">
+<<<<<<< Updated upstream
                                             Student
+=======
+                                            Sinh viên
+>>>>>>> Stashed changes
                                         </span>
                                     }
 
@@ -696,6 +753,22 @@
 
     </div>
 
+<<<<<<< Updated upstream
+=======
+    @if ((int?)ViewBag.TotalPages > 1)
+    {
+        <nav class="mt-4" aria-label="Phân trang tài khoản">
+            <ul class="pagination justify-content-center flex-wrap">
+                @for (int p = 1; p <= (int)ViewBag.TotalPages; p++)
+                {
+                    <li class="page-item @(p == (int)ViewBag.Page ? "active" : "")">
+                        <a class="page-link" asp-action="Index" asp-route-page="@p" asp-route-search="@ViewBag.Search" asp-route-roleId="@ViewBag.RoleId">@p</a>
+                    </li>
+                }
+            </ul>
+        </nav>
+    }
+>>>>>>> Stashed changes
 </div>
 
 

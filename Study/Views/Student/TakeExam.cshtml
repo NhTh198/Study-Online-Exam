@@ -1,4 +1,8 @@
+<<<<<<< Updated upstream
 ﻿
+=======
+
+>>>>>>> Stashed changes
 @model Study.ViewModels.StudentTakeExamViewModel
 
 @{
@@ -235,7 +239,11 @@
         <form asp-controller="Student"
               asp-action="SaveAnswer"
               method="post"
+<<<<<<< Updated upstream
               class="question-card">
+=======
+              class="question-card autosave-question">
+>>>>>>> Stashed changes
 
             @Html.AntiForgeryToken()
 
@@ -361,7 +369,11 @@
 
     <div style="text-align: center; margin-top: 25px;">
 
+<<<<<<< Updated upstream
         <form asp-controller="Student"
+=======
+        <form id="examSubmitForm" asp-controller="Student"
+>>>>>>> Stashed changes
               asp-action="SubmitExam"
               asp-route-id="@Model.AttemptId"
               method="post"
@@ -399,7 +411,11 @@
             document.getElementById("countdown")
                 .innerText = "00:00";
 
+<<<<<<< Updated upstream
             location.reload();
+=======
+            document.getElementById("examSubmitForm").requestSubmit();
+>>>>>>> Stashed changes
 
             return;
         }
@@ -420,8 +436,61 @@
             + String(seconds).padStart(2, "0");
     }
 
+<<<<<<< Updated upstream
     updateCountdown();
 
+=======
+    // Save answers in the background. The submit flow waits for in-flight
+    // autosaves so the last changed answer is not lost at the deadline.
+    let pendingSaves = [];
+    let submitting = false;
+    const saveQueues = new WeakMap();
+    document.querySelectorAll('.autosave-question input').forEach(input => {
+        input.addEventListener('change', () => {
+            const form = input.closest('form');
+            const badge = document.getElementById('saveStatus');
+            if (badge) badge.textContent = 'Đang lưu...';
+            const payload = new FormData(form);
+            const previous = saveQueues.get(form) || Promise.resolve();
+            let task;
+            task = previous.catch(() => {}).then(async () => {
+                try {
+                    const response = await fetch(form.action, {
+                        method: 'POST',
+                        body: payload,
+                        headers: { 'X-Requested-With': 'XMLHttpRequest' }
+                    });
+                    if (!response.ok) throw new Error('save failed');
+                    if (badge) badge.textContent = 'Đã lưu tự động';
+                } catch {
+                    if (badge) badge.textContent = 'Chưa lưu được - vui lòng kiểm tra kết nối';
+                }
+            }).finally(() => {
+                pendingSaves = pendingSaves.filter(item => item !== task);
+            });
+            saveQueues.set(form, task);
+            pendingSaves.push(task);
+        });
+    });
+    const status = document.createElement('div');
+    status.id = 'saveStatus';
+    status.className = 'small text-success text-center my-2';
+    status.textContent = 'Tự động lưu đang bật';
+    document.querySelector('.status-box')?.after(status);
+
+    const submitForm = document.getElementById('examSubmitForm');
+    submitForm?.addEventListener('submit', async event => {
+        if (submitting) return;
+        event.preventDefault();
+        submitting = true;
+        const submitButton = submitForm.querySelector('button[type="submit"]');
+        if (submitButton) submitButton.disabled = true;
+        await Promise.all([...pendingSaves]);
+        HTMLFormElement.prototype.submit.call(submitForm);
+    });
+
+    updateCountdown();
+>>>>>>> Stashed changes
     setInterval(updateCountdown, 1000);
 
 </script>
