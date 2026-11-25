@@ -1,4 +1,4 @@
-﻿
+
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Study.Models;
@@ -998,11 +998,30 @@ public class PracticeController : Controller
                 });
         }
 
-        // -----------------------------------------------------
-        // ĐÚNG:
-        // View Result.cshtml cần PracticeResult
-        // -----------------------------------------------------
-
+        // Tạo phần ôn tập câu sai/chưa trả lời cho đúng lần luyện hiện tại.
+        var attemptQuestions = await _context.PracticeAttemptQuestions
+            .Where(x => x.AttemptId == id)
+            .Include(x => x.Question).ThenInclude(q => q.Options)
+            .OrderBy(x => x.QuestionOrder).ToListAsync();
+        var answers = await _context.PracticeAnswers
+            .Where(x => x.AttemptId == id)
+            .Include(x => x.SelectedOption).ToListAsync();
+        var wrongQuestions = new List<PracticeWrongQuestionViewModel>();
+        foreach (var item in attemptQuestions)
+        {
+            var answer = answers.FirstOrDefault(a => a.QuestionId == item.QuestionId);
+            var correct = item.Question.Options.FirstOrDefault(o => o.IsCorrect);
+            if (correct == null || (answer?.SelectedOptionId == correct.Id)) continue;
+            wrongQuestions.Add(new PracticeWrongQuestionViewModel
+            {
+                QuestionOrder = item.QuestionOrder,
+                Content = item.Question.Content,
+                SelectedAnswer = answer?.SelectedOption?.Content,
+                CorrectAnswer = correct.Content,
+                Options = item.Question.Options.Select(o => o.Content).ToList()
+            });
+        }
+        ViewBag.WrongQuestions = wrongQuestions;
         return View(result);
     }
 
@@ -1138,5 +1157,8 @@ public async Task<IActionResult> History()
 
         return View(history);
     }
+
+
+
 
 }

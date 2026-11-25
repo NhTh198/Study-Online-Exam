@@ -18,6 +18,8 @@ builder.Services.AddSession(options =>
     options.IdleTimeout = TimeSpan.FromHours(2);
     options.Cookie.HttpOnly = true;
     options.Cookie.IsEssential = true;
+    options.Cookie.SameSite = SameSiteMode.Lax;
+    options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
 });
 
 // HttpContext
@@ -42,7 +44,7 @@ app.UseSession();
 
 app.UseAuthorization();
 
-// Route m?c ð?nh
+// Route m?c ï¿½?nh
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");

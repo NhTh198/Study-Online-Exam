@@ -9,169 +9,201 @@ build_property.EnforceExtendedAnalyzerRules =
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = Study
 build_property.RootNamespace = Study
-build_property.ProjectDir = C:\Users\nguyên khang\Downloads\Study_Sprint1_Issue_1_5_6_Only\Study_Sprint1_Issues_1_5_6_Only\Study\
+build_property.ProjectDir = C:\Users\pc\Downloads\study-cnpmnc\Study\
 build_property.EnableComHosting = 
 build_property.EnableGeneratedComInterfaceComImportInterop = 
 build_property.RazorLangVersion = 8.0
 build_property.SupportLocalizedComponentNames = 
 build_property.GenerateRazorMetadataSourceChecksumAttributes = 
-build_property.MSBuildProjectDirectory = C:\Users\nguyên khang\Downloads\Study_Sprint1_Issue_1_5_6_Only\Study_Sprint1_Issues_1_5_6_Only\Study
+build_property.MSBuildProjectDirectory = C:\Users\pc\Downloads\study-cnpmnc\Study
 build_property._RazorSourceGeneratorDebug = 
 build_property.EffectiveAnalysisLevelStyle = 8.0
 build_property.EnableCodeStyleSeverity = 
 
-[C:/Users/nguyên khang/Downloads/Study_Sprint1_Issue_1_5_6_Only/Study_Sprint1_Issues_1_5_6_Only/Study/Views/Account/Login.cshtml]
+[C:/Users/pc/Downloads/study-cnpmnc/Study/Views/Account/Login.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWNjb3VudFxMb2dpbi5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/nguyên khang/Downloads/Study_Sprint1_Issue_1_5_6_Only/Study_Sprint1_Issues_1_5_6_Only/Study/Views/Account/Register.cshtml]
+[C:/Users/pc/Downloads/study-cnpmnc/Study/Views/Account/Register.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWNjb3VudFxSZWdpc3Rlci5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/nguyên khang/Downloads/Study_Sprint1_Issue_1_5_6_Only/Study_Sprint1_Issues_1_5_6_Only/Study/Views/Admin/AssignSubjects.cshtml]
+[C:/Users/pc/Downloads/study-cnpmnc/Study/Views/AdminTools/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5Ub29sc1xJbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/pc/Downloads/study-cnpmnc/Study/Views/AdminTools/StudentList.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5Ub29sc1xTdHVkZW50TGlzdC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/pc/Downloads/study-cnpmnc/Study/Views/Admin/AssignSubjects.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cQXNzaWduU3ViamVjdHMuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/nguyên khang/Downloads/Study_Sprint1_Issue_1_5_6_Only/Study_Sprint1_Issues_1_5_6_Only/Study/Views/Admin/CreateSubject.cshtml]
+[C:/Users/pc/Downloads/study-cnpmnc/Study/Views/Admin/CreateSubject.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cQ3JlYXRlU3ViamVjdC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/nguyên khang/Downloads/Study_Sprint1_Issue_1_5_6_Only/Study_Sprint1_Issues_1_5_6_Only/Study/Views/Admin/CreateUser.cshtml]
+[C:/Users/pc/Downloads/study-cnpmnc/Study/Views/Admin/CreateUser.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cQ3JlYXRlVXNlci5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/nguyên khang/Downloads/Study_Sprint1_Issue_1_5_6_Only/Study_Sprint1_Issues_1_5_6_Only/Study/Views/Admin/EditSubject.cshtml]
+[C:/Users/pc/Downloads/study-cnpmnc/Study/Views/Admin/EditSubject.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cRWRpdFN1YmplY3QuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/nguyên khang/Downloads/Study_Sprint1_Issue_1_5_6_Only/Study_Sprint1_Issues_1_5_6_Only/Study/Views/Admin/EditUser.cshtml]
+[C:/Users/pc/Downloads/study-cnpmnc/Study/Views/Admin/EditUser.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cRWRpdFVzZXIuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/nguyên khang/Downloads/Study_Sprint1_Issue_1_5_6_Only/Study_Sprint1_Issues_1_5_6_Only/Study/Views/Admin/Exams.cshtml]
+[C:/Users/pc/Downloads/study-cnpmnc/Study/Views/Admin/Exams.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cRXhhbXMuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/nguyên khang/Downloads/Study_Sprint1_Issue_1_5_6_Only/Study_Sprint1_Issues_1_5_6_Only/Study/Views/Admin/Index.cshtml]
+[C:/Users/pc/Downloads/study-cnpmnc/Study/Views/Admin/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cSW5kZXguY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/nguyên khang/Downloads/Study_Sprint1_Issue_1_5_6_Only/Study_Sprint1_Issues_1_5_6_Only/Study/Views/Admin/LecturerAssignments.cshtml]
+[C:/Users/pc/Downloads/study-cnpmnc/Study/Views/Admin/LecturerAssignments.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cTGVjdHVyZXJBc3NpZ25tZW50cy5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/nguyên khang/Downloads/Study_Sprint1_Issue_1_5_6_Only/Study_Sprint1_Issues_1_5_6_Only/Study/Views/Admin/Lecturers.cshtml]
+[C:/Users/pc/Downloads/study-cnpmnc/Study/Views/Admin/Lecturers.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cTGVjdHVyZXJzLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/nguyên khang/Downloads/Study_Sprint1_Issue_1_5_6_Only/Study_Sprint1_Issues_1_5_6_Only/Study/Views/Admin/ReviewExam.cshtml]
+[C:/Users/pc/Downloads/study-cnpmnc/Study/Views/Admin/ReviewExam.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cUmV2aWV3RXhhbS5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/nguyên khang/Downloads/Study_Sprint1_Issue_1_5_6_Only/Study_Sprint1_Issues_1_5_6_Only/Study/Views/Admin/ScheduleExam.cshtml]
+[C:/Users/pc/Downloads/study-cnpmnc/Study/Views/Admin/ScheduleExam.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cU2NoZWR1bGVFeGFtLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/nguyên khang/Downloads/Study_Sprint1_Issue_1_5_6_Only/Study_Sprint1_Issues_1_5_6_Only/Study/Views/Admin/Subject.cshtml]
+[C:/Users/pc/Downloads/study-cnpmnc/Study/Views/Admin/ScheduleList.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cU2NoZWR1bGVMaXN0LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/pc/Downloads/study-cnpmnc/Study/Views/Admin/Subject.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cU3ViamVjdC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/nguyên khang/Downloads/Study_Sprint1_Issue_1_5_6_Only/Study_Sprint1_Issues_1_5_6_Only/Study/Views/Home/Index.cshtml]
+[C:/Users/pc/Downloads/study-cnpmnc/Study/Views/Home/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/nguyên khang/Downloads/Study_Sprint1_Issue_1_5_6_Only/Study_Sprint1_Issues_1_5_6_Only/Study/Views/Home/Privacy.cshtml]
+[C:/Users/pc/Downloads/study-cnpmnc/Study/Views/Home/Privacy.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxQcml2YWN5LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/nguyên khang/Downloads/Study_Sprint1_Issue_1_5_6_Only/Study_Sprint1_Issues_1_5_6_Only/Study/Views/Lecturer/CreateExam.cshtml]
+[C:/Users/pc/Downloads/study-cnpmnc/Study/Views/Lecturer/CreateExam.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTGVjdHVyZXJcQ3JlYXRlRXhhbS5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/nguyên khang/Downloads/Study_Sprint1_Issue_1_5_6_Only/Study_Sprint1_Issues_1_5_6_Only/Study/Views/Lecturer/CreateQuestion.cshtml]
+[C:/Users/pc/Downloads/study-cnpmnc/Study/Views/Lecturer/CreateQuestion.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTGVjdHVyZXJcQ3JlYXRlUXVlc3Rpb24uY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/nguyên khang/Downloads/Study_Sprint1_Issue_1_5_6_Only/Study_Sprint1_Issues_1_5_6_Only/Study/Views/Lecturer/EditQuestion.cshtml]
+[C:/Users/pc/Downloads/study-cnpmnc/Study/Views/Lecturer/EditQuestion.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTGVjdHVyZXJcRWRpdFF1ZXN0aW9uLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/nguyên khang/Downloads/Study_Sprint1_Issue_1_5_6_Only/Study_Sprint1_Issues_1_5_6_Only/Study/Views/Lecturer/Index.cshtml]
+[C:/Users/pc/Downloads/study-cnpmnc/Study/Views/Lecturer/GenerateExam.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTGVjdHVyZXJcR2VuZXJhdGVFeGFtLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/pc/Downloads/study-cnpmnc/Study/Views/Lecturer/ImportQuestions.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTGVjdHVyZXJcSW1wb3J0UXVlc3Rpb25zLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/pc/Downloads/study-cnpmnc/Study/Views/Lecturer/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTGVjdHVyZXJcSW5kZXguY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/nguyên khang/Downloads/Study_Sprint1_Issue_1_5_6_Only/Study_Sprint1_Issues_1_5_6_Only/Study/Views/Lecturer/MyExams.cshtml]
+[C:/Users/pc/Downloads/study-cnpmnc/Study/Views/Lecturer/MyExams.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTGVjdHVyZXJcTXlFeGFtcy5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/nguyên khang/Downloads/Study_Sprint1_Issue_1_5_6_Only/Study_Sprint1_Issues_1_5_6_Only/Study/Views/Lecturer/Questions.cshtml]
+[C:/Users/pc/Downloads/study-cnpmnc/Study/Views/Lecturer/Questions.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTGVjdHVyZXJcUXVlc3Rpb25zLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/nguyên khang/Downloads/Study_Sprint1_Issue_1_5_6_Only/Study_Sprint1_Issues_1_5_6_Only/Study/Views/Lecturer/ReviewExam.cshtml]
+[C:/Users/pc/Downloads/study-cnpmnc/Study/Views/Lecturer/ReviewExam.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTGVjdHVyZXJcUmV2aWV3RXhhbS5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/nguyên khang/Downloads/Study_Sprint1_Issue_1_5_6_Only/Study_Sprint1_Issues_1_5_6_Only/Study/Views/Practice/History.cshtml]
+[C:/Users/pc/Downloads/study-cnpmnc/Study/Views/Management/ImportQuestions.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTWFuYWdlbWVudFxJbXBvcnRRdWVzdGlvbnMuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/pc/Downloads/study-cnpmnc/Study/Views/Management/ImportUsers.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTWFuYWdlbWVudFxJbXBvcnRVc2Vycy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/pc/Downloads/study-cnpmnc/Study/Views/Notifications/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTm90aWZpY2F0aW9uc1xJbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/pc/Downloads/study-cnpmnc/Study/Views/Practice/History.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHJhY3RpY2VcSGlzdG9yeS5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/nguyên khang/Downloads/Study_Sprint1_Issue_1_5_6_Only/Study_Sprint1_Issues_1_5_6_Only/Study/Views/Practice/Index.cshtml]
+[C:/Users/pc/Downloads/study-cnpmnc/Study/Views/Practice/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHJhY3RpY2VcSW5kZXguY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/nguyên khang/Downloads/Study_Sprint1_Issue_1_5_6_Only/Study_Sprint1_Issues_1_5_6_Only/Study/Views/Practice/Result.cshtml]
+[C:/Users/pc/Downloads/study-cnpmnc/Study/Views/Practice/Result.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHJhY3RpY2VcUmVzdWx0LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/nguyên khang/Downloads/Study_Sprint1_Issue_1_5_6_Only/Study_Sprint1_Issues_1_5_6_Only/Study/Views/Practice/Take.cshtml]
+[C:/Users/pc/Downloads/study-cnpmnc/Study/Views/Practice/Take.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHJhY3RpY2VcVGFrZS5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/nguyên khang/Downloads/Study_Sprint1_Issue_1_5_6_Only/Study_Sprint1_Issues_1_5_6_Only/Study/Views/Question/Create.cshtml]
+[C:/Users/pc/Downloads/study-cnpmnc/Study/Views/Question/Create.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUXVlc3Rpb25cQ3JlYXRlLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/nguyên khang/Downloads/Study_Sprint1_Issue_1_5_6_Only/Study_Sprint1_Issues_1_5_6_Only/Study/Views/Question/Delete.cshtml]
+[C:/Users/pc/Downloads/study-cnpmnc/Study/Views/Question/Delete.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUXVlc3Rpb25cRGVsZXRlLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/nguyên khang/Downloads/Study_Sprint1_Issue_1_5_6_Only/Study_Sprint1_Issues_1_5_6_Only/Study/Views/Question/Edit.cshtml]
+[C:/Users/pc/Downloads/study-cnpmnc/Study/Views/Question/Edit.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUXVlc3Rpb25cRWRpdC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/nguyên khang/Downloads/Study_Sprint1_Issue_1_5_6_Only/Study_Sprint1_Issues_1_5_6_Only/Study/Views/Question/Index.cshtml]
+[C:/Users/pc/Downloads/study-cnpmnc/Study/Views/Question/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUXVlc3Rpb25cSW5kZXguY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/nguyên khang/Downloads/Study_Sprint1_Issue_1_5_6_Only/Study_Sprint1_Issues_1_5_6_Only/Study/Views/Shared/_ValidationScriptsPartial.cshtml]
+[C:/Users/pc/Downloads/study-cnpmnc/Study/Views/Shared/_ValidationScriptsPartial.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9WYWxpZGF0aW9uU2NyaXB0c1BhcnRpYWwuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/nguyên khang/Downloads/Study_Sprint1_Issue_1_5_6_Only/Study_Sprint1_Issues_1_5_6_Only/Study/Views/Student/Index.cshtml]
+[C:/Users/pc/Downloads/study-cnpmnc/Study/Views/Student/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU3R1ZGVudFxJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/nguyên khang/Downloads/Study_Sprint1_Issue_1_5_6_Only/Study_Sprint1_Issues_1_5_6_Only/Study/Views/Student/Result.cshtml]
+[C:/Users/pc/Downloads/study-cnpmnc/Study/Views/Student/Result.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU3R1ZGVudFxSZXN1bHQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/nguyên khang/Downloads/Study_Sprint1_Issue_1_5_6_Only/Study_Sprint1_Issues_1_5_6_Only/Study/Views/Student/StartExam.cshtml]
+[C:/Users/pc/Downloads/study-cnpmnc/Study/Views/Student/StartExam.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU3R1ZGVudFxTdGFydEV4YW0uY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/nguyên khang/Downloads/Study_Sprint1_Issue_1_5_6_Only/Study_Sprint1_Issues_1_5_6_Only/Study/Views/Student/TakeExam.cshtml]
+[C:/Users/pc/Downloads/study-cnpmnc/Study/Views/Student/TakeExam.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU3R1ZGVudFxUYWtlRXhhbS5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/nguyên khang/Downloads/Study_Sprint1_Issue_1_5_6_Only/Study_Sprint1_Issues_1_5_6_Only/Study/Views/_ViewImports.cshtml]
+[C:/Users/pc/Downloads/study-cnpmnc/Study/Views/_ViewImports.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdJbXBvcnRzLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/nguyên khang/Downloads/Study_Sprint1_Issue_1_5_6_Only/Study_Sprint1_Issues_1_5_6_Only/Study/Views/_ViewStart.cshtml]
+[C:/Users/pc/Downloads/study-cnpmnc/Study/Views/_ViewStart.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdTdGFydC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/nguyên khang/Downloads/Study_Sprint1_Issue_1_5_6_Only/Study_Sprint1_Issues_1_5_6_Only/Study/Views/Shared/_Layout.cshtml]
+[C:/Users/pc/Downloads/study-cnpmnc/Study/Views/Shared/_Layout.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9MYXlvdXQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = b-ihdfwibojw

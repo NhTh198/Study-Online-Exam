@@ -1,23 +1,23 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\nguyên khang\\Downloads\\Study_Sprint1_Issue_1_5_6_Only\\Study_Sprint1_Issues_1_5_6_Only\\Study\\Study.csproj": {}
+    "C:\\Users\\pc\\Downloads\\study-cnpmnc\\Study\\Study.csproj": {}
   },
   "projects": {
-    "C:\\Users\\nguyên khang\\Downloads\\Study_Sprint1_Issue_1_5_6_Only\\Study_Sprint1_Issues_1_5_6_Only\\Study\\Study.csproj": {
+    "C:\\Users\\pc\\Downloads\\study-cnpmnc\\Study\\Study.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\nguyên khang\\Downloads\\Study_Sprint1_Issue_1_5_6_Only\\Study_Sprint1_Issues_1_5_6_Only\\Study\\Study.csproj",
+        "projectUniqueName": "C:\\Users\\pc\\Downloads\\study-cnpmnc\\Study\\Study.csproj",
         "projectName": "Study",
-        "projectPath": "C:\\Users\\nguyên khang\\Downloads\\Study_Sprint1_Issue_1_5_6_Only\\Study_Sprint1_Issues_1_5_6_Only\\Study\\Study.csproj",
-        "packagesPath": "C:\\Users\\nguyên khang\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\nguyên khang\\Downloads\\Study_Sprint1_Issue_1_5_6_Only\\Study_Sprint1_Issues_1_5_6_Only\\Study\\obj\\",
+        "projectPath": "C:\\Users\\pc\\Downloads\\study-cnpmnc\\Study\\Study.csproj",
+        "packagesPath": "C:\\Users\\pc\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\pc\\Downloads\\study-cnpmnc\\Study\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\nguyên khang\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\pc\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -26,6 +26,7 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -54,6 +55,10 @@
               "target": "Package",
               "version": "[4.2.0, )"
             },
+            "ClosedXML": {
+              "target": "Package",
+              "version": "[0.104.2, )"
+            },
             "Microsoft.EntityFrameworkCore.Design": {
               "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
               "suppressParent": "All",
@@ -69,6 +74,10 @@
               "suppressParent": "All",
               "target": "Package",
               "version": "[8.0.20, )"
+            },
+            "QuestPDF": {
+              "target": "Package",
+              "version": "[2024.12.3, )"
             }
           },
           "imports": [
@@ -90,7 +99,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.313/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.315/PortableRuntimeIdentifierGraph.json"
         }
       }
     }

@@ -1,4 +1,4 @@
-﻿@model List<Study.ViewModels.AdminReviewExamViewModel>
+@model List<Study.ViewModels.AdminReviewExamViewModel>
 
 @{
     ViewData["Title"] = "Quản lý kỳ thi";
@@ -187,6 +187,10 @@
     }
 </style>
 
+<style>
+.exam-selection-checkbox { appearance:auto !important; -webkit-appearance:checkbox !important; width:18px !important; height:18px !important; min-height:18px !important; margin:0 !important; display:inline-block !important; accent-color:#3457d5; vertical-align:middle; cursor:pointer; }
+.exam-selection-checkbox:disabled { cursor:not-allowed; opacity:.45; }
+</style>
 <div class="exam-page">
 
     <div class="page-header">
@@ -213,6 +217,27 @@
     }
 
 
+    <form method="get" asp-action="Exams" class="card border-0 shadow-sm rounded-3 p-3 mb-3">
+        <div class="row g-2 align-items-end">
+            <div class="col-md-6"><label class="form-label">Tìm kiếm</label><input class="form-control" name="search" value="@ViewBag.Search" placeholder="Tên đề, môn học hoặc giảng viên" /></div>
+            <div class="col-md-3"><label class="form-label">Trạng thái</label><select class="form-select" name="status"><option value="">Tất cả</option>@foreach (var st in new[] { "Draft", "PendingApproval", "Rejected", "Approved", "Scheduled", "Published", "Finished" }) { var label = st switch { "Draft" => "Nháp", "PendingApproval" => "Chờ duyệt", "Rejected" => "Đã từ chối", "Approved" => "Đã duyệt", "Scheduled" => "Đã xếp lịch", "Published" => "Đã công bố", "Finished" => "Đã kết thúc", _ => st }; <option value="@st" selected="@(ViewBag.Status == st)">@label</option> }</select></div>
+            <div class="col-md-3"><button class="btn btn-primary" type="submit">Tìm / Lọc</button> <a asp-action="Exams" class="btn btn-light">Xóa lọc</a></div>
+        </div>
+    </form>
+
+    <div class="d-flex flex-wrap gap-2 mb-3">
+        <a asp-controller="AdminTools" asp-action="ExportResultsExcel" class="btn btn-outline-success">Xuất kết quả Excel</a>
+        <a asp-controller="AdminTools" asp-action="ExportResultsPdf" class="btn btn-outline-secondary">Xuất báo cáo PDF</a>
+    </div>
+    <form id="bulkReviewForm" asp-action="BulkReviewExams" method="post" class="card border-0 shadow-sm rounded-3 p-3 mb-3">
+        @Html.AntiForgeryToken()
+        <div class="d-flex flex-wrap align-items-center gap-2">
+            <strong class="me-2">Thao tác hàng loạt:</strong>
+            <input class="form-control" style="max-width:260px" name="rejectReason" maxlength="1000" placeholder="Lý do nếu từ chối" />
+            <button class="btn btn-success" name="decision" value="Approve" type="submit" onclick="return confirm('Duyệt tất cả đề đã chọn?')">Duyệt đã chọn</button>
+            <button class="btn btn-danger" name="decision" value="Reject" type="submit" onclick="return confirm('Từ chối tất cả đề đã chọn?')">Từ chối đã chọn</button>
+        </div>
+    </form>
     <div class="table-card">
 
         @if (Model == null || !Model.Any())
@@ -235,10 +260,11 @@
 
                     <thead>
                         <tr>
+                            <th class="text-center"><input type="checkbox" class="exam-selection-checkbox" id="selectAllExams" aria-label="Chọn tất cả đề đang chờ duyệt" title="Chọn tất cả đề đang chờ duyệt" /></th>
                             <th>ID</th>
                             <th>Kỳ thi</th>
                             <th>Môn</th>
-                            <th>Lecturer</th>
+                            <th>Giảng viên</th>
                             <th>Số câu</th>
                             <th>Trạng thái</th>
                             <th>Ngày tạo</th>
@@ -252,6 +278,12 @@
                         {
                             <tr>
 
+                                <td class="text-center">
+                                    <input type="checkbox" form="bulkReviewForm" name="selectedIds" value="@exam.Id"
+                                           class="exam-selection-checkbox exam-select" aria-label="Chọn đề @exam.Id"
+                                           title="@(exam.Status == "PendingApproval" ? "Chọn đề để duyệt/từ chối hàng loạt" : "Chỉ đề đang chờ duyệt mới chọn được")"
+                                           @(exam.Status == "PendingApproval" ? null : "disabled") />
+                                </td>
                                 <td>
                                     @exam.Id
                                 </td>
@@ -416,6 +448,7 @@
                                             </form>
                                         }
 
+                                        <a asp-controller="AdminTools" asp-action="StudentList" asp-route-examId="@exam.Id" class="action-btn btn-view">Danh sách SV</a>
                                     </div>
                                 </td>
 
@@ -564,4 +597,17 @@
         }
 
     });
+</script>
+<script>
+document.getElementById('selectAllExams')?.addEventListener('change', function () {
+    document.querySelectorAll('.exam-select:not(:disabled)').forEach(x => x.checked = this.checked);
+});
+document.querySelectorAll('.exam-select').forEach(x => x.addEventListener('change', function () {
+    const selectable = [...document.querySelectorAll('.exam-select:not(:disabled)')];
+    const header = document.getElementById('selectAllExams');
+    if (header) {
+        header.checked = selectable.length > 0 && selectable.every(item => item.checked);
+        header.indeterminate = selectable.some(item => item.checked) && !header.checked;
+    }
+}));
 </script>

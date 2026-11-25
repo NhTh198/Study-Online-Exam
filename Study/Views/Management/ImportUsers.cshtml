@@ -1,0 +1,14 @@
+@{ ViewData["Title"] = "Nhập tài khoản từ Excel"; }
+<div class="container py-5" style="max-width:850px">
+    <div class="mb-4"><span class="text-primary fw-semibold">QUẢN TRỊ HỆ THỐNG</span><h1 class="h2 fw-bold mt-2">Nhập tài khoản hàng loạt</h1><p class="text-secondary">Tạo tài khoản sinh viên và giảng viên từ tệp Excel .xlsx.</p></div>
+    @if (TempData["Success"] != null) { <div class="alert alert-success">@TempData["Success"]</div> }
+    @if (TempData["Error"] != null) { <div class="alert alert-danger">@TempData["Error"]</div> }
+    @if (TempData["ImportErrors"] != null) { <div class="alert alert-warning">@TempData["ImportErrors"]</div> }
+    <div class="card border-0 shadow-sm rounded-4"><div class="card-body p-4 p-md-5">
+        <h2 class="h5 fw-bold">Cấu trúc Excel (dòng đầu là tiêu đề)</h2>
+        <div class="table-responsive"><table class="table table-sm"><thead><tr><th>Họ tên</th><th>Email</th><th>Mật khẩu</th><th>Role</th><th>Mã SV (có thể trống)</th></tr></thead><tbody><tr><td>Nguyễn Văn A</td><td>a@example.com</td><td>Matkhau123</td><td>Student</td><td>SV001</td></tr></tbody></table></div>
+        <p class="small text-secondary">Mật khẩu phải có ít nhất 8 ký tự; mật khẩu sẽ được băm BCrypt trước khi lưu. Role chỉ nhận Student hoặc Lecturer. Email trùng sẽ bị bỏ qua.</p>
+        <p><a asp-action="UserTemplate" class="link-primary">Tải tệp Excel mẫu</a></p>
+        <form asp-action="ImportUsers" method="post" enctype="multipart/form-data"><div class="mb-3"><label class="form-label fw-semibold">Tệp Excel .xlsx</label><input class="form-control" type="file" name="file" accept=".xlsx" required /></div><button class="btn btn-primary px-4" type="submit">Nhập tài khoản</button> <a asp-controller="Admin" asp-action="Index" class="btn btn-light">Quay lại</a></form>
+    </div></div>
+</div>

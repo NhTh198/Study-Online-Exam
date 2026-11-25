@@ -1,7 +1,7 @@
-﻿@model List<Study.Models.User>
+@model List<Study.Models.User>
 
 @{
-    ViewData["Title"] = "Admin Dashboard";
+    ViewData["Title"] = "Tổng quan quản trị";
 }
 
 <style>
@@ -402,11 +402,11 @@
     <div class="admin-header">
 
         <h1 class="admin-title">
-            ADMIN DASHBOARD
+            TỔNG QUAN QUẢN TRỊ
         </h1>
 
         <p class="admin-subtitle">
-            Quản lý tài khoản Lecturer và Student
+            Quản lý tài khoản giảng viên và sinh viên
         </p>
 
     </div>
@@ -428,6 +428,25 @@
     }
 
 
+    <form method="get" asp-controller="Admin" asp-action="Index" class="card p-3 mb-3 d-flex flex-row flex-wrap gap-2 align-items-end">
+        <div class="flex-grow-1">
+            <label class="form-label">Tìm kiếm tài khoản</label>
+            <input class="form-control" name="search" value="@ViewBag.Search" placeholder="Họ tên, email hoặc mã sinh viên" />
+        </div>
+        <div style="min-width:180px">
+            <label class="form-label">Vai trò</label>
+            <select class="form-select" name="roleId">
+                <option value="">Tất cả vai trò</option>
+                @foreach (var role in (ViewBag.Roles as List<Study.Models.Role> ?? new List<Study.Models.Role>()))
+                {
+                    <option value="@role.Id" selected="@(ViewBag.RoleId != null && (int)ViewBag.RoleId == role.Id)">@role.Name</option>
+                }
+            </select>
+        </div>
+        <button class="btn btn-primary" type="submit">Lọc</button>
+        <a asp-action="Index" class="btn btn-outline-secondary">Xóa lọc</a>
+    </form>
+
     <!-- ACCOUNT CARD -->
 
     <div class="admin-card">
@@ -441,7 +460,7 @@
                 </h2>
 
                 <span class="account-count">
-                    @Model.Count tài khoản
+                    @ViewBag.TotalCount tài khoản
                 </span>
 
             </div>
@@ -459,17 +478,12 @@
             <a asp-controller="Admin"
                asp-action="Lecturers"
                class="btn-create">
-                👨‍🏫 Quản lý Lecturer
+                👨‍🏫 Quản lý giảng viên
             </a>
             <a asp-controller="Admin"
                asp-action="Exams"
                class="btn-create">
                 📝 Quản lý kỳ thi
-            </a>
-            <a asp-controller="Question"
-               asp-action="Index"
-               class="btn-create">
-                📖 Quản lý ngân hàng câu hỏi
             </a>
         </div>
 
@@ -498,7 +512,7 @@
 
                             <th>Mã sinh viên</th>
 
-                            <th>Role</th>
+                            <th>Vai trò</th>
 
                             <th>Trạng thái</th>
 
@@ -560,13 +574,13 @@
                                     else if (user.Role.Name == "Lecturer")
                                     {
                                         <span class="role-badge role-lecturer">
-                                            Lecturer
+                                            Giảng viên
                                         </span>
                                     }
                                     else
                                     {
                                         <span class="role-badge role-student">
-                                            Student
+                                            Sinh viên
                                         </span>
                                     }
 
@@ -701,6 +715,19 @@
 
     </div>
 
+    @if ((int?)ViewBag.TotalPages > 1)
+    {
+        <nav class="mt-4" aria-label="Phân trang tài khoản">
+            <ul class="pagination justify-content-center flex-wrap">
+                @for (int p = 1; p <= (int)ViewBag.TotalPages; p++)
+                {
+                    <li class="page-item @(p == (int)ViewBag.Page ? "active" : "")">
+                        <a class="page-link" asp-action="Index" asp-route-page="@p" asp-route-search="@ViewBag.Search" asp-route-roleId="@ViewBag.RoleId">@p</a>
+                    </li>
+                }
+            </ul>
+        </nav>
+    }
 </div>
 
 

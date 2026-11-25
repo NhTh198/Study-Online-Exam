@@ -1,4 +1,4 @@
-﻿
+
 @model Study.ViewModels.LecturerQuestionViewModel
 
 @{
@@ -185,10 +185,10 @@
 <style>
 
     .question-form-page {
-        width: 100%;
+        width: min(1120px, 100%);
         min-height: calc(100vh - 150px);
-        padding: 40px 5%;
-        background: #f8fafc;
+        margin: 0 auto;
+        padding: 40px 30px;
         box-sizing: border-box;
     }
 
@@ -230,7 +230,9 @@
 
 
     .form-card {
-        max-width: 900px;
+        width: 100%;
+        max-width: 960px;
+        margin: 0 auto;
         background: white;
         padding: 30px;
         border-radius: 16px;

@@ -1,0 +1,7 @@
+@{ ViewData["Title"] = "Xuất báo cáo"; }
+<div class="workspace">
+    <section class="page-intro"><div><span class="eyebrow">BÁO CÁO HỆ THỐNG</span><h1>Xuất báo cáo</h1><p>Tải dữ liệu kết quả thi để lưu trữ và tổng hợp.</p></div></section>
+    @if (TempData["Success"] != null) { <div class="alert alert-success">@TempData["Success"]</div> }
+    @if (TempData["Error"] != null) { <div class="alert alert-danger">@TempData["Error"]</div> }
+    <section class="export-panel"><div class="export-icon">⇩</div><div class="export-copy"><h2>Báo cáo kết quả thi</h2><p>Bao gồm thông tin sinh viên, đề thi, môn học, điểm số và số câu trả lời đúng/sai.</p></div><div class="export-actions"><a class="btn btn-primary" asp-action="ExportResultsExcel">Xuất Excel (.xlsx)</a><a class="btn btn-outline-primary" asp-action="ExportResultsPdf">Xuất PDF</a></div></section>
+</div>
